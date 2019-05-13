@@ -106,6 +106,7 @@ class File(models.Model):
         return self.filename
 
 
+
 class Member(models.Model):
     memberid = models.CharField(primary_key=True, max_length=45)
     membername = models.CharField(max_length=45)
@@ -125,10 +126,20 @@ class Permission(models.Model):
     contentid = models.ForeignKey(Content, models.DO_NOTHING, db_column='contentid')
     fileaddress = models.ForeignKey(File, models.DO_NOTHING, db_column='fileaddress')
     permissionid = models.AutoField(primary_key=True)
+    perstate = models.ForeignKey('Permissionstate', models.DO_NOTHING, db_column='perstate')
 
     class Meta:
         managed = False
         db_table = 'Permission'
+
+
+class Permissionstate(models.Model):
+    perstatenumber = models.IntegerField(primary_key=True)
+    perstatename = models.CharField(max_length=45)
+
+    class Meta:
+        managed = False
+        db_table = 'Permissionstate'
 
 
 class Section(models.Model):
