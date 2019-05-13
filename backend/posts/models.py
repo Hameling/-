@@ -27,6 +27,8 @@ class Calender(models.Model):
     class Meta:
         managed = False
         db_table = 'Calender'
+    def __str__(self):
+        return '[{}] ~ [{}] {}'.format(self.starttime, self.duetime, self.contentid)
 
 
 class Checklist(models.Model):
