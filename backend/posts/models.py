@@ -130,6 +130,8 @@ class Permission(models.Model):
     class Meta:
         managed = False
         db_table = 'Permission'
+    def __str__(self):
+        return '<{}>[{}] {}'.format(self.priority,self.contentid, self.memberid)
 
 
 class Permissionstate(models.Model):
