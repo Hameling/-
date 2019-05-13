@@ -6,11 +6,12 @@ from django.db import models
 class Assign(models.Model):
     memberid = models.ForeignKey('Member', models.DO_NOTHING, db_column='memberid')
     contentid = models.ForeignKey('Content', models.DO_NOTHING, db_column='contentid')
-    assignid = models.AutoField(primary_key=True)
+    assignid = models.AutoField(primary_key = True)
 
     class Meta:
         managed = False
-        db_table = 'assign'
+        db_table = 'Assign'
+        unique_together = (('memberid', 'contentid'),)
 
 
 class Calender(models.Model):
@@ -57,7 +58,7 @@ class Content(models.Model):
     ischecklist = models.IntegerField(blank=True, null=True)
     contentpos = models.IntegerField(blank=True, null=True)
     contentheight = models.IntegerField(blank=True, null=True)
-    contentstate = models.ForeignKey('Contentstate', models.DO_NOTHING, db_column='contentstate', blank=True, null=True)
+    contentstate = models.ForeignKey('Contentstate', models.DO_NOTHING, db_column='contentstate', blank=True)
     sectionid = models.ForeignKey('Section', models.DO_NOTHING, db_column='sectionid', blank=True, null=True)
 
     class Meta:
@@ -80,12 +81,14 @@ class Contentstate(models.Model):
 class Enroll(models.Model):
     memberid = models.ForeignKey('Member', models.DO_NOTHING, db_column='memberid')
     titleid = models.ForeignKey('Title', models.DO_NOTHING, db_column='titleid')
-    enrollid = models.AutoField(primary_key=True)
+    enrollid = models.AutoField(primary_key = True)
 
     class Meta:
         managed = False
-        db_table = 'enroll'
+        db_table = 'Enroll'
         unique_together = (('memberid', 'titleid'),)
+    def __str__(self):
+        return '[{}] {}'.format(self.titleid, self.memberid)
 
 class File(models.Model):
     fileaddress = models.CharField(primary_key=True, max_length=45)
@@ -124,8 +127,8 @@ class Permission(models.Model):
 
 
 class Section(models.Model):
-    sectionid = models.CharField(db_column='sectionId', primary_key=True, max_length=45)  # Field name made lowercase.
-    titleid = models.ForeignKey('Title', models.DO_NOTHING, db_column='titleId', blank=True, null=True)  # Field name made lowercase.
+    sectionid = models.CharField(primary_key=True, max_length=45)
+    titleid = models.ForeignKey('Title', models.DO_NOTHING, db_column='titleid')
 
     class Meta:
         managed = False
@@ -133,9 +136,9 @@ class Section(models.Model):
 
 
 class Title(models.Model):
-    titleid = models.CharField(db_column='titleId', primary_key=True, max_length=45)  # Field name made lowercase.
-    titlename = models.CharField(db_column='titleName', max_length=45)  # Field name made lowercase.
-    titleinfo = models.CharField(db_column='titleInfo', max_length=100)  # Field name made lowercase.
+    titleid = models.CharField(primary_key=True, max_length=45)
+    titlename = models.CharField(max_length=45)
+    titleinfo = models.CharField(max_length=100)
 
     class Meta:
         managed = False
