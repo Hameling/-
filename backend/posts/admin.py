@@ -11,6 +11,7 @@ from . models import Enroll
 from . models import File
 from . models import Permission
 from . models import Section
+from . models import Permissionstate
 
 # Register your models here.
 
@@ -26,3 +27,4 @@ admin.site.register(Enroll)
 admin.site.register(File)
 admin.site.register(Permission)
 admin.site.register(Section)
+admin.site.register(Permissionstate)

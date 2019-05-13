@@ -121,12 +121,11 @@ class Member(models.Model):
 
 
 class Permission(models.Model):
-    priority = models.IntegerField()
-    memberid = models.ForeignKey(Member, models.DO_NOTHING, db_column='memberid')
-    contentid = models.ForeignKey(Content, models.DO_NOTHING, db_column='contentid')
-    fileaddress = models.ForeignKey(File, models.DO_NOTHING, db_column='fileaddress')
+    priority = models.ForeignKey('Permissionstate', models.DO_NOTHING, db_column='priority')
+    memberid = models.CharField(max_length=45)
+    contentid = models.CharField(max_length=45)
+    fileaddress = models.CharField(max_length=45)
     permissionid = models.AutoField(primary_key=True)
-    perstate = models.ForeignKey('Permissionstate', models.DO_NOTHING, db_column='perstate')
 
     class Meta:
         managed = False
@@ -140,6 +139,8 @@ class Permissionstate(models.Model):
     class Meta:
         managed = False
         db_table = 'Permissionstate'
+    def __str__(self):
+        return self.perstatename
 
 
 class Section(models.Model):

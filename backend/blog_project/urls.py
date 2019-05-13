@@ -30,4 +30,5 @@ urlpatterns = [
     path('permission/', include('posts.urlsPermission')),
     path('section/', include('posts.urlsSection')),
     path('title/', include('posts.urlsTitle')),
+    path('permissionstate/', include('posts.urlsPermissionstate')),
 ]

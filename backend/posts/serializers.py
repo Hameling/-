@@ -56,6 +56,12 @@ class MemberSerializer(serializers.ModelSerializer):
         model = models.Member
 
 #Permission
+class PermissionstateSerializer(serializers.ModelSerializer):
+    class Meta:
+        fields = ('perstatenumber','perstatename',)
+        model = models.Permissionstate
+
+#Permission
 class PermissionSerializer(serializers.ModelSerializer):
     class Meta:
         fields = ('priority','memberid','contentid','fileaddress','permissionid',)

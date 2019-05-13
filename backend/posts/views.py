@@ -2,8 +2,8 @@ from django.shortcuts import render
 from rest_framework import generics, permissions
 from django.views.generic import DetailView
 
-from .models import Assign,Checklist,Calender,Comment,Content,Contentstate,Enroll,File,Member,Permission,Section,Title
-from .serializers import AssignSerializer,ChecklistSerializer,CalenderSerializer,CommentSerializer,ContentSerializer,ContentstateSerializer,EnrollSerializer,FileSerializer,MemberSerializer,PermissionSerializer,SectionSerializer,TitleSerializer
+from .models import Assign,Checklist,Calender,Comment,Content,Contentstate,Enroll,File,Member,Permission,Section,Title, Permissionstate
+from .serializers import AssignSerializer,ChecklistSerializer,CalenderSerializer,CommentSerializer,ContentSerializer,ContentstateSerializer,EnrollSerializer,FileSerializer,MemberSerializer,PermissionSerializer,SectionSerializer,TitleSerializer,PermissionstateSerializer
 
 # Create your views here.
 #Assign
@@ -126,6 +126,19 @@ class MemberCreate(generics.CreateAPIView):
 class MemberSearch(generics.RetrieveAPIView):
     queryset = Member.objects.all()
     serializer_class = MemberSerializer
+
+#Permissionstate
+class PermissionstateList(generics.ListAPIView):
+    queryset = Permissionstate.objects.all()
+    serializer_class =PermissionstateSerializer
+
+class PermissionstateDetail(generics.RetrieveAPIView):
+    queryset = Permissionstate.objects.all()
+    serializer_class = PermissionstateSerializer
+
+class PermissionstateCreate(generics.CreateAPIView):
+    queryset = Permissionstate.objects.all()
+    serializer_class = PermissionstateSerializer
 
 #Permission
 class PermissionList(generics.ListAPIView):
