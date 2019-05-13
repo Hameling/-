@@ -102,6 +102,8 @@ class File(models.Model):
     class Meta:
         managed = False
         db_table = 'File'
+    def __str__(self):
+        return self.filename
 
 
 class Member(models.Model):
