@@ -12,7 +12,8 @@ class Assign(models.Model):
         managed = False
         db_table = 'Assign'
         unique_together = (('memberid', 'contentid'),)
-
+    def __str__(self):
+        return '[{}] {}'.format(self.contentid, self.memberid)
 
 class Calender(models.Model):
     indexnumber = models.AutoField(primary_key=True)
@@ -36,6 +37,8 @@ class Checklist(models.Model):
     class Meta:
         managed = False
         db_table = 'Checklist'
+    def __str__(self):
+        return self.listname
 
 
 class Comment(models.Model):

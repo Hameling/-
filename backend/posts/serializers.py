@@ -46,7 +46,7 @@ class EnrollSerializer(serializers.ModelSerializer):
 #File
 class FileSerializer(serializers.ModelSerializer):
     class Meta:
-        fields = ('fileaddress','filename','fileformat','contentid','fileid')
+        fields = ('fileaddress','filename','fileformat','contentid',)
         model = models.File
 
 #Member
