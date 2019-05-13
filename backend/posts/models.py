@@ -119,7 +119,7 @@ class Member(models.Model):
 
 class Permission(models.Model):
     priority = models.IntegerField()
-    memberid = models.ForeignKey(Assign, models.DO_NOTHING, db_column='memberid')
+    memberid = models.ForeignKey(Member, models.DO_NOTHING, db_column='memberid')
     contentid = models.ForeignKey(Content, models.DO_NOTHING, db_column='contentid')
     fileaddress = models.ForeignKey(File, models.DO_NOTHING, db_column='fileaddress')
     permissionid = models.AutoField(primary_key=True)
