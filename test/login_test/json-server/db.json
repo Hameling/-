@@ -1,0 +1,34 @@
+{
+  "User": [
+    {
+      "email": "asdasdas",
+      "pwd": "asdasdasd",
+      "id": 1
+    },
+    {
+      "email": "sibalsae@naver.com",
+      "pwd": "1q2w3e4r1!",
+      "id": 2
+    },
+    {
+      "email": "ㅁㄴㅇㅁㄴㅇㅁㄴㅇ",
+      "pwd": "dasdasdasda",
+      "id": 3
+    },
+    {
+      "email": "sujoonduck@naver.com",
+      "pwd": "a1s2d3f4f4",
+      "id": 4
+    },
+    {
+      "email": "asdasd",
+      "pwd": "asdasdasd",
+      "id": 5
+    },
+    {
+      "email": "asdasd",
+      "pwd": "asdasdas",
+      "id": 6
+    }
+  ]
+}
