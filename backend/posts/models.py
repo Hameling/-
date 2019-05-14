@@ -6,7 +6,7 @@ from django.db import models
 class Assign(models.Model):
     memberid = models.ForeignKey('Member', models.DO_NOTHING, db_column='memberid')
     contentid = models.ForeignKey('Content', models.DO_NOTHING, db_column='contentid')
-    assignid = models.AutoField(primary_key = True)
+    assignid = models.AutoField(primary_key=True)
 
     class Meta:
         managed = False
@@ -61,7 +61,7 @@ class Content(models.Model):
     ischecklist = models.IntegerField(blank=True, null=True)
     contentpos = models.IntegerField(blank=True, null=True)
     contentheight = models.IntegerField(blank=True, null=True)
-    contentstate = models.ForeignKey('Contentstate', models.DO_NOTHING, db_column='contentstate', blank=True)
+    contentstate = models.ForeignKey('Contentstate', models.DO_NOTHING, db_column='contentstate')
     sectionid = models.ForeignKey('Section', models.DO_NOTHING, db_column='sectionid', blank=True, null=True)
 
     class Meta:
@@ -84,7 +84,7 @@ class Contentstate(models.Model):
 class Enroll(models.Model):
     memberid = models.ForeignKey('Member', models.DO_NOTHING, db_column='memberid')
     titleid = models.ForeignKey('Title', models.DO_NOTHING, db_column='titleid')
-    enrollid = models.AutoField(primary_key = True)
+    enrollid = models.AutoField(primary_key=True)
 
     class Meta:
         managed = False
@@ -122,9 +122,9 @@ class Member(models.Model):
 
 class Permission(models.Model):
     priority = models.ForeignKey('Permissionstate', models.DO_NOTHING, db_column='priority')
-    memberid = models.CharField(max_length=45)
-    contentid = models.CharField(max_length=45)
-    fileaddress = models.CharField(max_length=45)
+    memberid = models.ForeignKey(Member, models.DO_NOTHING, db_column='memberid')
+    contentid = models.ForeignKey(Content, models.DO_NOTHING, db_column='contentid')
+    fileaddress = models.ForeignKey(File, models.DO_NOTHING, db_column='fileaddress')
     permissionid = models.AutoField(primary_key=True)
 
     class Meta:
