@@ -4,6 +4,6 @@ from . import views
 
 urlpatterns = [
     path('', views.FileList.as_view()),
-    path('<pk>/', views.FileDetail.as_view()),
-    path(r'^create-file/$', views.FileCreate.as_view()),
+    path('create-file/', views.FileCreate.as_view()),
+    path('search-file/<pk>/', views.FileSearch.as_view()),
 ]

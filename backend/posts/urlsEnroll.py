@@ -4,6 +4,6 @@ from . import views
 
 urlpatterns = [
     path('', views.EnrollList.as_view()),
-    path('<pk>/', views.EnrollDetail.as_view()),
-    path(r'^create-enroll/$', views.EnrollCreate.as_view()),
+    path('create-enroll/', views.EnrollCreate.as_view()),
+    path('search-enroll/<pk>/', views.EnrollSearch.as_view()),
 ]

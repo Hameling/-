@@ -17,9 +17,7 @@ class Assign(models.Model):
 
 class Calender(models.Model):
     indexnumber = models.AutoField(primary_key=True)
-    startdate = models.DateField()
     starttime = models.DateTimeField()
-    duedate = models.DateField()
     duetime = models.DateTimeField()
     contentid = models.ForeignKey('Content', models.DO_NOTHING, db_column='contentid')
     isoverlap = models.IntegerField()

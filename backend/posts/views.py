@@ -11,11 +11,11 @@ class AssignList(generics.ListAPIView):
     queryset = Assign.objects.all()
     serializer_class = AssignSerializer
 
-class AssignDetail(generics.RetrieveAPIView):
+class AssignCreate(generics.CreateAPIView):
     queryset = Assign.objects.all()
     serializer_class = AssignSerializer
 
-class AssignCreate(generics.CreateAPIView):
+class AssignSearch(generics.RetrieveAPIView):
     queryset = Assign.objects.all()
     serializer_class = AssignSerializer
 
@@ -24,11 +24,11 @@ class ChecklistList(generics.ListAPIView):
     queryset = Checklist.objects.all()
     serializer_class = ChecklistSerializer
 
-class ChecklistDetail(generics.RetrieveAPIView):
+class ChecklistCreate(generics.CreateAPIView):
     queryset = Checklist.objects.all()
     serializer_class = ChecklistSerializer
 
-class ChecklistCreate(generics.CreateAPIView):
+class ChecklistSearch(generics.RetrieveAPIView):
     queryset = Checklist.objects.all()
     serializer_class = ChecklistSerializer
 
@@ -37,11 +37,11 @@ class CalenderList(generics.ListAPIView):
     queryset = Calender.objects.all()
     serializer_class = CalenderSerializer
 
-class CalenderDetail(generics.RetrieveAPIView):
+class CalenderCreate(generics.CreateAPIView):
     queryset = Calender.objects.all()
     serializer_class = CalenderSerializer
 
-class CalenderCreate(generics.CreateAPIView):
+class CalenderSearch(generics.RetrieveAPIView):
     queryset = Calender.objects.all()
     serializer_class = CalenderSerializer
 
@@ -50,11 +50,11 @@ class CommentList(generics.ListAPIView):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
 
-class CommentDetail(generics.RetrieveAPIView):
+class CommentCreate(generics.CreateAPIView):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
 
-class CommentCreate(generics.CreateAPIView):
+class CommentSearch(generics.RetrieveAPIView):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
 
@@ -63,11 +63,11 @@ class ContentList(generics.ListAPIView):
     queryset = Content.objects.all()
     serializer_class = ContentSerializer
 
-class ContentDetail(generics.RetrieveAPIView):
+class ContentCreate(generics.CreateAPIView):
     queryset = Content.objects.all()
     serializer_class = ContentSerializer
-
-class ContentCreate(generics.CreateAPIView):
+    
+class ContentSearch(generics.RetrieveAPIView):
     queryset = Content.objects.all()
     serializer_class = ContentSerializer
 
@@ -76,11 +76,11 @@ class ContentstateList(generics.ListAPIView):
     queryset = Contentstate.objects.all()
     serializer_class = ContentstateSerializer
 
-class ContentstateDetail(generics.RetrieveAPIView):
+class ContentstateCreate(generics.CreateAPIView):
     queryset = Contentstate.objects.all()
     serializer_class = ContentstateSerializer
 
-class ContentstateCreate(generics.CreateAPIView):
+class ContentstateSearch(generics.RetrieveAPIView):
     queryset = Contentstate.objects.all()
     serializer_class = ContentstateSerializer
 
@@ -89,11 +89,11 @@ class EnrollList(generics.ListAPIView):
     queryset = Enroll.objects.all()
     serializer_class = EnrollSerializer
 
-class EnrollDetail(generics.RetrieveAPIView):
+class EnrollCreate(generics.CreateAPIView):
     queryset = Enroll.objects.all()
     serializer_class = EnrollSerializer
 
-class EnrollCreate(generics.CreateAPIView):
+class EnrollSearch(generics.RetrieveAPIView):
     queryset = Enroll.objects.all()
     serializer_class = EnrollSerializer
 
@@ -102,20 +102,16 @@ class FileList(generics.ListAPIView):
     queryset = File.objects.all()
     serializer_class = FileSerializer
 
-class FileDetail(generics.RetrieveAPIView):
+class FileCreate(generics.CreateAPIView):
     queryset = File.objects.all()
     serializer_class = FileSerializer
 
-class FileCreate(generics.CreateAPIView):
+class FileSearch(generics.RetrieveAPIView):
     queryset = File.objects.all()
     serializer_class = FileSerializer
 
 #Member
 class MemberList(generics.ListAPIView):
-    queryset = Member.objects.all()
-    serializer_class = MemberSerializer
-
-class MemberDetail(generics.RetrieveAPIView):
     queryset = Member.objects.all()
     serializer_class = MemberSerializer
 
@@ -132,11 +128,11 @@ class PermissionstateList(generics.ListAPIView):
     queryset = Permissionstate.objects.all()
     serializer_class =PermissionstateSerializer
 
-class PermissionstateDetail(generics.RetrieveAPIView):
+class PermissionstateCreate(generics.CreateAPIView):
     queryset = Permissionstate.objects.all()
     serializer_class = PermissionstateSerializer
 
-class PermissionstateCreate(generics.CreateAPIView):
+class PermissionstateSearch(generics.RetrieveAPIView):
     queryset = Permissionstate.objects.all()
     serializer_class = PermissionstateSerializer
 
@@ -145,11 +141,11 @@ class PermissionList(generics.ListAPIView):
     queryset = Permission.objects.all()
     serializer_class = PermissionSerializer
 
-class PermissionDetail(generics.RetrieveAPIView):
+class PermissionCreate(generics.CreateAPIView):
     queryset = Permission.objects.all()
     serializer_class = PermissionSerializer
 
-class PermissionCreate(generics.CreateAPIView):
+class PermissionSearch(generics.RetrieveAPIView):
     queryset = Permission.objects.all()
     serializer_class = PermissionSerializer
 
@@ -158,11 +154,11 @@ class SectionList(generics.ListAPIView):
     queryset = Section.objects.all()
     serializer_class = SectionSerializer
 
-class SectionDetail(generics.RetrieveAPIView):
+class SectionCreate(generics.CreateAPIView):
     queryset = Section.objects.all()
     serializer_class = SectionSerializer
 
-class SectionCreate(generics.CreateAPIView):
+class SectionSearch(generics.RetrieveAPIView):
     queryset = Section.objects.all()
     serializer_class = SectionSerializer
 
@@ -171,10 +167,10 @@ class TitleList(generics.ListAPIView):
     queryset = Title.objects.all()
     serializer_class = TitleSerializer
 
-class TitleDetail(generics.RetrieveAPIView):
+class TitleCreate(generics.CreateAPIView):
     queryset = Title.objects.all()
     serializer_class = TitleSerializer
 
-class TitleCreate(generics.CreateAPIView):
+class TitleSearch(generics.RetrieveAPIView):
     queryset = Title.objects.all()
     serializer_class = TitleSerializer

@@ -5,6 +5,6 @@ import requests
 
 urlpatterns = [
     path('', views.SectionList.as_view()),
-    path('<pk>/', views.SectionDetail.as_view()),
-    path(r'^create-section/$', views.SectionCreate.as_view()),
+    path('create-section/', views.SectionCreate.as_view()),
+    path('search-section/<pk>/', views.SectionSearch.as_view()),
 ]

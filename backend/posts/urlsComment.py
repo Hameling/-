@@ -4,6 +4,6 @@ from . import views
 
 urlpatterns = [
     path('', views.CommentList.as_view()),
-    path('<pk>/', views.CommentDetail.as_view()),
-    path(r'^create-comment/$', views.CommentCreate.as_view()),
+    path('create-comment/', views.CommentCreate.as_view()),
+    path('search-comment/<pk>/', views.CommentSearch.as_view()),
 ]

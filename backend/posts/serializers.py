@@ -16,7 +16,7 @@ class ChecklistSerializer(serializers.ModelSerializer):
 #Calender
 class CalenderSerializer(serializers.ModelSerializer):
     class Meta:
-        fields = ('indexnumber','startdate','starttime','duedate','duetime','contentid','isoverlap')
+        fields = ('indexnumber','starttime','duetime','contentid','isoverlap')
         model = models.Calender
 
 #Comment
