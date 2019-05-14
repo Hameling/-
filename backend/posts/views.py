@@ -19,6 +19,14 @@ class AssignSearch(generics.RetrieveAPIView):
     queryset = Assign.objects.all()
     serializer_class = AssignSerializer
 
+class AssignDelete(generics.DestroyAPIView):
+    queryset = Assign.objects.all()
+    serializer_class = AssignSerializer
+
+class AssignUpdate(generics.UpdateAPIView):
+    queryset = Assign.objects.all()
+    serializer_class = AssignSerializer
+
 #Checklist
 class ChecklistList(generics.ListAPIView):
     queryset = Checklist.objects.all()
@@ -29,6 +37,14 @@ class ChecklistCreate(generics.CreateAPIView):
     serializer_class = ChecklistSerializer
 
 class ChecklistSearch(generics.RetrieveAPIView):
+    queryset = Checklist.objects.all()
+    serializer_class = ChecklistSerializer
+
+class ChecklistDelete(generics.DestroyAPIView):
+    queryset = Checklist.objects.all()
+    serializer_class = ChecklistSerializer
+
+class ChecklistUpdate(generics.UpdateAPIView):
     queryset = Checklist.objects.all()
     serializer_class = ChecklistSerializer
 
@@ -45,6 +61,14 @@ class CalenderSearch(generics.RetrieveAPIView):
     queryset = Calender.objects.all()
     serializer_class = CalenderSerializer
 
+class CalenderDelete(generics.DestroyAPIView):
+    queryset = Calender.objects.all()
+    serializer_class = CalenderSerializer
+
+class CalenderUpdate(generics.UpdateAPIView):
+    queryset = Calender.objects.all()
+    serializer_class = CalenderSerializer
+
 #Comment
 class CommentList(generics.ListAPIView):
     queryset = Comment.objects.all()
@@ -55,6 +79,14 @@ class CommentCreate(generics.CreateAPIView):
     serializer_class = CommentSerializer
 
 class CommentSearch(generics.RetrieveAPIView):
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
+
+class CommentDelete(generics.DestroyAPIView):
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
+
+class CommentUpdate(generics.UpdateAPIView):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
 
@@ -71,6 +103,14 @@ class ContentSearch(generics.RetrieveAPIView):
     queryset = Content.objects.all()
     serializer_class = ContentSerializer
 
+class ContentDelete(generics.DestroyAPIView):
+    queryset = Content.objects.all()
+    serializer_class = ContentSerializer
+
+class ContentUpdate(generics.UpdateAPIView):
+    queryset = Content.objects.all()
+    serializer_class = ContentSerializer
+
 #Contentstate
 class ContentstateList(generics.ListAPIView):
     queryset = Contentstate.objects.all()
@@ -81,6 +121,14 @@ class ContentstateCreate(generics.CreateAPIView):
     serializer_class = ContentstateSerializer
 
 class ContentstateSearch(generics.RetrieveAPIView):
+    queryset = Contentstate.objects.all()
+    serializer_class = ContentstateSerializer
+
+class ContentstateDelete(generics.DestroyAPIView):
+    queryset = Contentstate.objects.all()
+    serializer_class = ContentstateSerializer
+
+class ContentstateUpdate(generics.UpdateAPIView):
     queryset = Contentstate.objects.all()
     serializer_class = ContentstateSerializer
 
@@ -97,6 +145,14 @@ class EnrollSearch(generics.RetrieveAPIView):
     queryset = Enroll.objects.all()
     serializer_class = EnrollSerializer
 
+class EnrollDelete(generics.DestroyAPIView):
+    queryset = Enroll.objects.all()
+    serializer_class = EnrollSerializer
+
+class EnrollUpdate(generics.UpdateAPIView):
+    queryset = Enroll.objects.all()
+    serializer_class = EnrollSerializer
+
 #File
 class FileList(generics.ListAPIView):
     queryset = File.objects.all()
@@ -107,6 +163,14 @@ class FileCreate(generics.CreateAPIView):
     serializer_class = FileSerializer
 
 class FileSearch(generics.RetrieveAPIView):
+    queryset = File.objects.all()
+    serializer_class = FileSerializer
+
+class FileDelete(generics.DestroyAPIView):
+    queryset = File.objects.all()
+    serializer_class = FileSerializer
+
+class FileUpdate(generics.UpdateAPIView):
     queryset = File.objects.all()
     serializer_class = FileSerializer
 
@@ -123,18 +187,13 @@ class MemberSearch(generics.RetrieveAPIView):
     queryset = Member.objects.all()
     serializer_class = MemberSerializer
 
-#Permissionstate
-class PermissionstateList(generics.ListAPIView):
-    queryset = Permissionstate.objects.all()
-    serializer_class =PermissionstateSerializer
+class MemberDelete(generics.DestroyAPIView):
+    queryset = Member.objects.all()
+    serializer_class = MemberSerializer
 
-class PermissionstateCreate(generics.CreateAPIView):
-    queryset = Permissionstate.objects.all()
-    serializer_class = PermissionstateSerializer
-
-class PermissionstateSearch(generics.RetrieveAPIView):
-    queryset = Permissionstate.objects.all()
-    serializer_class = PermissionstateSerializer
+class MemberUpdate(generics.UpdateAPIView):
+    queryset = Member.objects.all()
+    serializer_class = MemberSerializer
 
 #Permission
 class PermissionList(generics.ListAPIView):
@@ -149,6 +208,35 @@ class PermissionSearch(generics.RetrieveAPIView):
     queryset = Permission.objects.all()
     serializer_class = PermissionSerializer
 
+class PermissionDelete(generics.DestroyAPIView):
+    queryset = Permission.objects.all()
+    serializer_class = PermissionSerializer
+
+class PermissionUpdate(generics.UpdateAPIView):
+    queryset = Permission.objects.all()
+    serializer_class = PermissionSerializer
+
+#Permissionstate
+class PermissionstateList(generics.ListAPIView):
+    queryset = Permissionstate.objects.all()
+    serializer_class =PermissionstateSerializer
+
+class PermissionstateCreate(generics.CreateAPIView):
+    queryset = Permissionstate.objects.all()
+    serializer_class = PermissionstateSerializer
+
+class PermissionstateSearch(generics.RetrieveAPIView):
+    queryset = Permissionstate.objects.all()
+    serializer_class = PermissionstateSerializer
+
+class PermissionstateDelete(generics.DestroyAPIView):
+    queryset = Permissionstate.objects.all()
+    serializer_class = PermissionstateSerializer
+
+class PermissionstateUpdate(generics.UpdateAPIView):
+    queryset = Permissionstate.objects.all()
+    serializer_class = PermissionstateSerializer
+
 #Section
 class SectionList(generics.ListAPIView):
     queryset = Section.objects.all()
@@ -162,6 +250,14 @@ class SectionSearch(generics.RetrieveAPIView):
     queryset = Section.objects.all()
     serializer_class = SectionSerializer
 
+class SectionDelete(generics.DestroyAPIView):
+    queryset = Section.objects.all()
+    serializer_class = SectionSerializer
+
+class SectionUpdate(generics.UpdateAPIView):
+    queryset = Section.objects.all()
+    serializer_class = SectionSerializer
+
 #Title
 class TitleList(generics.ListAPIView):
     queryset = Title.objects.all()
@@ -172,5 +268,13 @@ class TitleCreate(generics.CreateAPIView):
     serializer_class = TitleSerializer
 
 class TitleSearch(generics.RetrieveAPIView):
+    queryset = Title.objects.all()
+    serializer_class = TitleSerializer
+
+class TitleDelete(generics.DestroyAPIView):
+    queryset = Title.objects.all()
+    serializer_class = TitleSerializer
+
+class TitleUpdate(generics.UpdateAPIView):
     queryset = Title.objects.all()
     serializer_class = TitleSerializer
