@@ -11,7 +11,7 @@ class Assign(models.Model):
     class Meta:
         managed = False
         db_table = 'Assign'
-        unique_together = (('memberid', 'contentid'),)
+        unique_together = (('memberid'),)
     def __str__(self):
         return '[{}] {}'.format(self.contentid, self.memberid)
 
@@ -89,7 +89,7 @@ class Enroll(models.Model):
     class Meta:
         managed = False
         db_table = 'Enroll'
-        unique_together = (('memberid', 'titleid'),)
+        unique_together = (('memberid','titleid'),)
     def __str__(self):
         return '[{}] {}'.format(self.titleid, self.memberid)
 
@@ -146,7 +146,7 @@ class Permissionstate(models.Model):
 
 
 class Section(models.Model):
-    sectionid = models.IntegerField(primary_key=True)
+    sectionid = models.AutoField(primary_key=True)
     titleid = models.ForeignKey('Title', models.DO_NOTHING, db_column='titleid')
     sectionname = models.CharField(max_length=45)
 
@@ -166,4 +166,4 @@ class Title(models.Model):
         managed = False
         db_table = 'Title'
     def __str__(self):
-        return self.titleid
+        return self.titlename

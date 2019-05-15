@@ -60,7 +60,7 @@ class ContentstateSerializer(serializers.ModelSerializer):
 #Enroll
 class EnrollSerializer(serializers.ModelSerializer):
     class Meta:
-        fields = ('enrollid','memberid','titleid')
+        fields = ('memberid','titleid','enrollid')
         model = models.Enroll
 
 #File
@@ -106,7 +106,7 @@ class PermissionstateSerializer(serializers.ModelSerializer):
 #Section
 class SectionSerializer(serializers.ModelSerializer):
     class Meta:
-        fields = ('sectionname',)
+        fields = ('titleid','sectionname',)
         model = models.Section
 
 class SectionUpdateSerializer(serializers.ModelSerializer):
@@ -117,7 +117,7 @@ class SectionUpdateSerializer(serializers.ModelSerializer):
 #Title
 class TitleSerializer(serializers.ModelSerializer):
     class Meta:
-        fields = ('titlename','titleinfo',)
+        fields = ('titleid','titlename','titleinfo',)
         model = models.Title
 
 class TitleUpdateSerializer(serializers.ModelSerializer):
