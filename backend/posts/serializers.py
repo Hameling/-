@@ -13,10 +13,20 @@ class ChecklistSerializer(serializers.ModelSerializer):
         fields = ('listnumber','listname','contentid')
         model = models.Checklist
 
+class ChecklistUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        fields = ('listname',)
+        model = models.Checklist
+
 #Calender
 class CalenderSerializer(serializers.ModelSerializer):
     class Meta:
         fields = ('indexnumber','starttime','duetime','contentid','isoverlap')
+        model = models.Calender
+
+class CalenderUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        fields = ('starttime','duetime','isoverlap')
         model = models.Calender
 
 #Comment
@@ -25,10 +35,20 @@ class CommentSerializer(serializers.ModelSerializer):
         fields = ('comnumber','comcomment','contentid')
         model = models.Comment
 
+class CommentUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        fields = ('comcomment',)
+        model = models.Comment
+
 #Content
 class ContentSerializer(serializers.ModelSerializer):
     class Meta:
         fields = ('contentid','contentname','contentinfo','iscomment','ischecklist','contentpos','contentheight','contentstate',)
+        model = models.Content
+
+class ContentUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        fields = ('contentname','contentinfo','iscomment','ischecklist','contentpos','contentheight','contentstate',)
         model = models.Content
 
 #Contentstate
@@ -49,23 +69,39 @@ class FileSerializer(serializers.ModelSerializer):
         fields = ('fileaddress','filename','fileformat','contentid',)
         model = models.File
 
+class FileUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        fields = ('filename',)
+        model = models.File
+
 #Member
 class MemberSerializer(serializers.ModelSerializer):
     class Meta:
         fields = ('memberid','membername','memberpwd','memberemail',)
         model = models.Member
 
-#Permission
-class PermissionstateSerializer(serializers.ModelSerializer):
+#Member
+class MembeUpdaterSerializer(serializers.ModelSerializer):
     class Meta:
-        fields = ('perstatenumber','perstatename',)
-        model = models.Permissionstate
+        fields = ('membername','memberpwd','memberemail',)
+        model = models.Member
 
 #Permission
 class PermissionSerializer(serializers.ModelSerializer):
     class Meta:
         fields = ('priority','memberid','contentid','fileaddress','permissionid',)
         model = models.Permission
+
+class PermissionUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        fields = ('priority',)
+        model = models.Permission
+
+#PermissionState
+class PermissionstateSerializer(serializers.ModelSerializer):
+    class Meta:
+        fields = ('perstatenumber','perstatename',)
+        model = models.Permissionstate
 
 #Section
 class SectionSerializer(serializers.ModelSerializer):
@@ -77,4 +113,9 @@ class SectionSerializer(serializers.ModelSerializer):
 class TitleSerializer(serializers.ModelSerializer):
     class Meta:
         fields = ('titleid','titlename','titleinfo',)
+        model = models.Title
+
+class TitleUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        fields = ('titlename','titleinfo',)
         model = models.Title

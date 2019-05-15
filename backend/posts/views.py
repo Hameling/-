@@ -3,7 +3,7 @@ from rest_framework import generics, permissions
 from django.views.generic import DetailView
 
 from .models import Assign,Checklist,Calender,Comment,Content,Contentstate,Enroll,File,Member,Permission,Section,Title, Permissionstate
-from .serializers import AssignSerializer,ChecklistSerializer,CalenderSerializer,CommentSerializer,ContentSerializer,ContentstateSerializer,EnrollSerializer,FileSerializer,MemberSerializer,PermissionSerializer,SectionSerializer,TitleSerializer,PermissionstateSerializer
+from .serializers import AssignSerializer,ChecklistSerializer,CalenderSerializer,CommentSerializer,ContentSerializer,ContentstateSerializer,EnrollSerializer,FileSerializer,MemberSerializer,PermissionSerializer,SectionSerializer,TitleSerializer,PermissionstateSerializer,MembeUpdaterSerializer,ChecklistUpdateSerializer,CalenderUpdateSerializer,CommentUpdateSerializer,ContentUpdateSerializer,FileUpdateSerializer,PermissionUpdateSerializer,TitleUpdateSerializer
 
 # Create your views here.
 #Assign
@@ -46,7 +46,7 @@ class ChecklistDelete(generics.DestroyAPIView):
 
 class ChecklistUpdate(generics.UpdateAPIView):
     queryset = Checklist.objects.all()
-    serializer_class = ChecklistSerializer
+    serializer_class = ChecklistUpdateSerializer
 
 #Calender
 class CalenderList(generics.ListAPIView):
@@ -67,7 +67,7 @@ class CalenderDelete(generics.DestroyAPIView):
 
 class CalenderUpdate(generics.UpdateAPIView):
     queryset = Calender.objects.all()
-    serializer_class = CalenderSerializer
+    serializer_class = CalenderUpdateSerializer
 
 #Comment
 class CommentList(generics.ListAPIView):
@@ -109,7 +109,7 @@ class ContentDelete(generics.DestroyAPIView):
 
 class ContentUpdate(generics.UpdateAPIView):
     queryset = Content.objects.all()
-    serializer_class = ContentSerializer
+    serializer_class = ContentUpdateSerializer
 
 #Contentstate
 class ContentstateList(generics.ListAPIView):
@@ -172,7 +172,7 @@ class FileDelete(generics.DestroyAPIView):
 
 class FileUpdate(generics.UpdateAPIView):
     queryset = File.objects.all()
-    serializer_class = FileSerializer
+    serializer_class = FileUpdateSerializer
 
 #Member
 class MemberList(generics.ListAPIView):
@@ -193,7 +193,7 @@ class MemberDelete(generics.DestroyAPIView):
 
 class MemberUpdate(generics.UpdateAPIView):
     queryset = Member.objects.all()
-    serializer_class = MemberSerializer
+    serializer_class = MembeUpdaterSerializer
 
 #Permission
 class PermissionList(generics.ListAPIView):
@@ -214,7 +214,7 @@ class PermissionDelete(generics.DestroyAPIView):
 
 class PermissionUpdate(generics.UpdateAPIView):
     queryset = Permission.objects.all()
-    serializer_class = PermissionSerializer
+    serializer_class = PermissionUpdateSerializer
 
 #Permissionstate
 class PermissionstateList(generics.ListAPIView):
@@ -277,4 +277,4 @@ class TitleDelete(generics.DestroyAPIView):
 
 class TitleUpdate(generics.UpdateAPIView):
     queryset = Title.objects.all()
-    serializer_class = TitleSerializer
+    serializer_class = TitleUpdateSerializer
