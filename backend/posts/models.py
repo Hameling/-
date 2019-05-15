@@ -54,7 +54,7 @@ class Comment(models.Model):
 
 
 class Content(models.Model):
-    contentid = models.CharField(primary_key=True, max_length=45)
+    contentid = models.AutoField(primary_key=True)
     contentname = models.CharField(max_length=45, blank=True, null=True)
     contentinfo = models.CharField(max_length=200, blank=True, null=True)
     iscomment = models.IntegerField(blank=True, null=True)
@@ -146,16 +146,19 @@ class Permissionstate(models.Model):
 
 
 class Section(models.Model):
-    sectionid = models.CharField(primary_key=True, max_length=45)
+    sectionid = models.IntegerField(primary_key=True)
     titleid = models.ForeignKey('Title', models.DO_NOTHING, db_column='titleid')
+    sectionname = models.CharField(max_length=45)
 
     class Meta:
         managed = False
         db_table = 'Section'
+    def __str__(self):
+        return self.sectionname
 
 
 class Title(models.Model):
-    titleid = models.CharField(primary_key=True, max_length=45)
+    titleid = models.AutoField(primary_key=True)
     titlename = models.CharField(max_length=45)
     titleinfo = models.CharField(max_length=100)
 

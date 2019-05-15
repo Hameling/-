@@ -3,7 +3,7 @@ from rest_framework import generics, permissions
 from django.views.generic import DetailView
 
 from .models import Assign,Checklist,Calender,Comment,Content,Contentstate,Enroll,File,Member,Permission,Section,Title, Permissionstate
-from .serializers import AssignSerializer,ChecklistSerializer,CalenderSerializer,CommentSerializer,ContentSerializer,ContentstateSerializer,EnrollSerializer,FileSerializer,MemberSerializer,PermissionSerializer,SectionSerializer,TitleSerializer,PermissionstateSerializer,MembeUpdaterSerializer,ChecklistUpdateSerializer,CalenderUpdateSerializer,CommentUpdateSerializer,ContentUpdateSerializer,FileUpdateSerializer,PermissionUpdateSerializer,TitleUpdateSerializer
+from .serializers import AssignSerializer,ChecklistSerializer,CalenderSerializer,CommentSerializer,ContentSerializer,ContentstateSerializer,EnrollSerializer,FileSerializer,MemberSerializer,PermissionSerializer,SectionSerializer,TitleSerializer,PermissionstateSerializer,MembeUpdaterSerializer,ChecklistUpdateSerializer,CalenderUpdateSerializer,CommentUpdateSerializer,ContentUpdateSerializer,FileUpdateSerializer,PermissionUpdateSerializer,SectionUpdateSerializer,TitleUpdateSerializer
 
 # Create your views here.
 #Assign
@@ -256,7 +256,7 @@ class SectionDelete(generics.DestroyAPIView):
 
 class SectionUpdate(generics.UpdateAPIView):
     queryset = Section.objects.all()
-    serializer_class = SectionSerializer
+    serializer_class = SectionUpdateSerializer
 
 #Title
 class TitleList(generics.ListAPIView):
