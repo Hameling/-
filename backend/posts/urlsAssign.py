@@ -8,4 +8,5 @@ urlpatterns = [
     path('search-assign/<pk>/', views.AssignSearch.as_view()),
     path('delete-assign/<pk>/', views.AssignDelete.as_view()),
     path('update-assign/<pk>/', views.AssignUpdate.as_view()),
+    path('my-assign/<memberid>', views.MyAssign.as_view()),
 ]

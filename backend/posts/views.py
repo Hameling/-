@@ -27,6 +27,15 @@ class AssignUpdate(generics.UpdateAPIView):
     queryset = Assign.objects.all()
     serializer_class = AssignSerializer
 
+class MyAssign(generics.ListAPIView):
+    serializer_class = AssignSerializer
+    lookup_url_kwarg = "memberid"
+    def get_queryset(self):
+        memberid = self.kwargs.get(self.lookup_url_kwarg)
+        mymemberid = Assign.objects.filter(memberid=memberid)
+        print(mymemberid)
+        return mymemberid
+
 #Checklist
 class ChecklistList(generics.ListAPIView):
     queryset = Checklist.objects.all()
@@ -152,6 +161,24 @@ class EnrollDelete(generics.DestroyAPIView):
 class EnrollUpdate(generics.UpdateAPIView):
     queryset = Enroll.objects.all()
     serializer_class = EnrollSerializer
+
+class MyEnroll(generics.ListAPIView):
+    serializer_class = EnrollSerializer
+    lookup_url_kwarg = "memberid"
+    def get_queryset(self):
+        memberid = self.kwargs.get(self.lookup_url_kwarg)
+        mymemberid = Enroll.objects.filter(memberid=memberid)
+        print(mymemberid)
+        return mymemberid
+
+class MyTitle(generics.ListAPIView):
+    serializer_class = EnrollSerializer
+    lookup_url_kwarg = "titleid"
+    def get_queryset(self):
+        titleid = self.kwargs.get(self.lookup_url_kwarg)
+        mytitleid = Enroll.objects.filter(titleid=titleid)
+        print(mytitleid)
+        return mytitleid
 
 #File
 class FileList(generics.ListAPIView):
