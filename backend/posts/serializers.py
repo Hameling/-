@@ -114,6 +114,12 @@ class SectionUpdateSerializer(serializers.ModelSerializer):
         fields = ('sectionname',)
         model = models.Section
 
+#Setion
+class SetionSerializer(serializers.ModelSerializer):
+    class Meta:
+        fields = ('memberid','token','expiretime','setionid',)
+        model = models.Setion
+
 #Title
 class TitleSerializer(serializers.ModelSerializer):
     class Meta:

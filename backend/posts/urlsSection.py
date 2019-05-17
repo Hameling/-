@@ -9,4 +9,5 @@ urlpatterns = [
     path('search-section/<pk>/', views.SectionSearch.as_view()),
     path('delete-section/<pk>/', views.SectionDelete.as_view()),
     path('update-section/<pk>/', views.SectionUpdate.as_view()),
+    path('my-section/<sectionid>', views.MySection.as_view()),
 ]

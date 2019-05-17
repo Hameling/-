@@ -20,7 +20,7 @@ class Calender(models.Model):
     starttime = models.DateTimeField()
     duetime = models.DateTimeField()
     contentid = models.ForeignKey('Content', models.DO_NOTHING, db_column='contentid')
-    isoverlap = models.IntegerField()
+    isoverlap = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False
@@ -156,6 +156,19 @@ class Section(models.Model):
     def __str__(self):
         return self.sectionname
 
+
+class Setion(models.Model):
+    memberid = models.ForeignKey(Member, models.DO_NOTHING, db_column='memberid')
+    token = models.CharField(max_length=45)
+    expiretime = models.DateTimeField()
+    setionid = models.AutoField(primary_key=True)
+
+    class Meta:
+        managed = False
+        db_table = 'Setion'
+        unique_together = (('memberid','setionid'),)
+    def __str__(self):
+        return self.memberid
 
 class Title(models.Model):
     titleid = models.AutoField(primary_key=True)

@@ -2,8 +2,8 @@ from django.shortcuts import render
 from rest_framework import generics, permissions
 from django.views.generic import DetailView
 
-from .models import Assign,Checklist,Calender,Comment,Content,Contentstate,Enroll,File,Member,Permission,Section,Title, Permissionstate
-from .serializers import AssignSerializer,ChecklistSerializer,CalenderSerializer,CommentSerializer,ContentSerializer,ContentstateSerializer,EnrollSerializer,FileSerializer,MemberSerializer,PermissionSerializer,SectionSerializer,TitleSerializer,PermissionstateSerializer,MembeUpdaterSerializer,ChecklistUpdateSerializer,CalenderUpdateSerializer,CommentUpdateSerializer,ContentUpdateSerializer,FileUpdateSerializer,PermissionUpdateSerializer,SectionUpdateSerializer,TitleUpdateSerializer
+from .models import Assign,Checklist,Calender,Comment,Content,Contentstate,Enroll,File,Member,Permission,Section,Title, Permissionstate, Setion
+from .serializers import AssignSerializer,ChecklistSerializer,CalenderSerializer,CommentSerializer,ContentSerializer,ContentstateSerializer,EnrollSerializer,FileSerializer,MemberSerializer,PermissionSerializer,SectionSerializer,TitleSerializer,PermissionstateSerializer,MembeUpdaterSerializer,ChecklistUpdateSerializer,CalenderUpdateSerializer,CommentUpdateSerializer,ContentUpdateSerializer,FileUpdateSerializer,PermissionUpdateSerializer,SectionUpdateSerializer,TitleUpdateSerializer, SetionSerializer
 
 # Create your views here.
 #Assign
@@ -119,6 +119,15 @@ class ContentDelete(generics.DestroyAPIView):
 class ContentUpdate(generics.UpdateAPIView):
     queryset = Content.objects.all()
     serializer_class = ContentUpdateSerializer
+
+class MyContent(generics.ListAPIView):
+    serializer_class = ContentSerializer
+    lookup_url_kwarg = "sectionid"
+    def get_queryset(self):
+        sectionid = self.kwargs.get(self.lookup_url_kwarg)
+        mysectionid = Content.objects.filter(sectionid=sectionid)
+        print(mysectionid)
+        return mysectionid
 
 #Contentstate
 class ContentstateList(generics.ListAPIView):
@@ -284,6 +293,32 @@ class SectionDelete(generics.DestroyAPIView):
 class SectionUpdate(generics.UpdateAPIView):
     queryset = Section.objects.all()
     serializer_class = SectionUpdateSerializer
+
+class MySection(generics.ListAPIView):
+    serializer_class = SectionSerializer
+    lookup_url_kwarg = "titleid"
+    def get_queryset(self):
+        titleid = self.kwargs.get(self.lookup_url_kwarg)
+        mytitleid = Section.objects.filter(titleid=titleid)
+        print(mytitleid)
+        return mytitleid
+
+#Setion
+class SetionList(generics.ListAPIView):
+    queryset = Setion.objects.all()
+    serializer_class = SetionSerializer
+
+class SetionCreate(generics.CreateAPIView):
+    queryset = Setion.objects.all()
+    serializer_class = SetionSerializer
+
+class SetionSearch(generics.RetrieveAPIView):
+    queryset = Setion.objects.all()
+    serializer_class = SetionSerializer
+
+class SetionDelete(generics.DestroyAPIView):
+    queryset = Setion.objects.all()
+    serializer_class = SetionSerializer
 
 #Title
 class TitleList(generics.ListAPIView):
