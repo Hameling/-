@@ -160,14 +160,14 @@ class Section(models.Model):
 
 
 class Session(models.Model):
-    memberid = models.ForeignKey(Member, models.DO_NOTHING, db_column='memberid', null=True)
-    token = models.CharField(max_length=120, primary_key=True)
+    memberid = models.ForeignKey(Member, models.DO_NOTHING, db_column='memberid')
+    token = models.CharField(max_length=120)
     expiretime = models.DateTimeField()
+    sessionid = models.AutoField(primary_key=True)
 
     class Meta:
         managed = False
         db_table = 'Session'
-        unique_together = (('memberid', 'token'),)
 
 class Title(models.Model):
     titleid = models.AutoField(primary_key=True)
