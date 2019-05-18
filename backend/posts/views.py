@@ -349,5 +349,7 @@ class Login(APIView):
     parser_classes = (JSONParser,)
 
     def post(self, request, format=None):
-        token = "sdfjksdflskj"
-        return Response(token) 
+        input_memberid=request.data["memberid"]
+        input_memberpwd=request.data["memberpwd"]
+        token = "adasdasdas"
+        return Response(token) #Response(request.data)
