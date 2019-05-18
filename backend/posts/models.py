@@ -160,8 +160,8 @@ class Section(models.Model):
 
 
 class Session(models.Model):
-    memberid = models.ForeignKey(Member, models.DO_NOTHING, db_column='memberid')
-    token = models.CharField(max_length=45, primary_key=True)
+    memberid = models.ForeignKey(Member, models.DO_NOTHING, db_column='memberid', null=True)
+    token = models.CharField(max_length=120, primary_key=True)
     expiretime = models.DateTimeField()
 
     class Meta:
