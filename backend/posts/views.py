@@ -1,3 +1,7 @@
+from rest_framework.parsers import JSONParser
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
 from django.shortcuts import render
 from rest_framework import generics, permissions
 from django.views.generic import DetailView
@@ -340,3 +344,10 @@ class TitleDelete(generics.DestroyAPIView):
 class TitleUpdate(generics.UpdateAPIView):
     queryset = Title.objects.all()
     serializer_class = TitleUpdateSerializer
+
+class Login(APIView):
+    parser_classes = (JSONParser,)
+
+    def post(self, request, format=None):
+        token = "sdfjksdflskj"
+        return Response(token) 
