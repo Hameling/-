@@ -1,4 +1,5 @@
 from rest_framework.parsers import JSONParser
+from django.http import HttpResponse, JsonResponse
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -351,5 +352,5 @@ class Login(APIView):
     def post(self, request, format=None):
         input_memberid=request.data["memberid"]
         input_memberpwd=request.data["memberpwd"]
-        token = "adasdasdas"
-        return Response(token) #Response(request.data)
+        token = "13123123123adasd"
+        return JsonResponse({'token': token}) #json_dumps_params = {'ensure_ascii': True}
