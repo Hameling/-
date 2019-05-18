@@ -1,4 +1,5 @@
 import jwt
+import re
 from datetime import datetime
 
 from rest_framework.parsers import JSONParser
@@ -360,19 +361,9 @@ class Login(APIView):
         input_memberid=request.data["memberid"]
         input_memberpwd=request.data["memberpwd"]
 
-        # key = Member.objects.get(memberid=input_memberid)
-        # if key.exists():
-        #     print(key.memberpwd)
-        key2 = Member.objects.filter(memberid=input_memberid, memberpwd=input_memberpwd)
-        if key2:
-            print("됐어용가리")
-            mymemberid = input_memberid
-            encoded = jwt.encode({'memberid': mymemberid}, key, algorithm='HS256')
-            queryset = Session.objects.create(token=encoded)
-            #queryset = Session.memberid = input_memberid
-            queryset.save()
-            return JsonResponse({'token': encoded.decode('utf-8')}) #json_dumps_params = {'ensure_ascii': True}
-        
-        print("안됐어용가리")
+        if Member.objects.filter(memberid=input_memberid).filter(memberpwd=input_memberpwd).exists():
+            encoded = jwt.encode({'memberid': input_memberid}, key, algorithm='HS256')
+            queryset = Session.objects.create(token=encoded, memberid = Member.objects.filter(memberid=input_memberid))
+            return JsonResponse({'token': encoded.decode('utf-8')}) 
         return JsonResponse({'token': encoded})
          
