@@ -1,3 +1,6 @@
+import jwt
+from datetime import datetime
+
 from rest_framework.parsers import JSONParser
 from django.http import HttpResponse, JsonResponse
 from rest_framework.response import Response
@@ -350,7 +353,10 @@ class Login(APIView):
     parser_classes = (JSONParser,)
 
     def post(self, request, format=None):
+        now = datetime.now()
+        key = str(now)
         input_memberid=request.data["memberid"]
         input_memberpwd=request.data["memberpwd"]
-        token = "13123123123adasd"
-        return JsonResponse({'token': token}) #json_dumps_params = {'ensure_ascii': True}
+        mymemberid = input_memberid
+        encoded = jwt.encode({'memberid': mymemberid}, key, algorithm='HS256')
+        return JsonResponse({'token': encoded.decode('utf-8')}) #json_dumps_params = {'ensure_ascii': True}
