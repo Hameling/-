@@ -2,8 +2,8 @@ from django.shortcuts import render
 from rest_framework import generics, permissions
 from django.views.generic import DetailView
 
-from .models import Assign,Checklist,Calender,Comment,Content,Contentstate,Enroll,File,Member,Permission,Section,Title, Permissionstate, Setion
-from .serializers import AssignSerializer,ChecklistSerializer,CalenderSerializer,CommentSerializer,ContentSerializer,ContentstateSerializer,EnrollSerializer,FileSerializer,MemberSerializer,PermissionSerializer,SectionSerializer,TitleSerializer,PermissionstateSerializer,MembeUpdaterSerializer,ChecklistUpdateSerializer,CalenderUpdateSerializer,CommentUpdateSerializer,ContentUpdateSerializer,FileUpdateSerializer,PermissionUpdateSerializer,SectionUpdateSerializer,TitleUpdateSerializer, SetionSerializer
+from .models import Assign,Checklist,Calender,Comment,Content,Contentstate,Enroll,File,Member,Permission,Section,Title, Permissionstate, Session
+from .serializers import AssignSerializer,ChecklistSerializer,CalenderSerializer,CommentSerializer,ContentSerializer,ContentstateSerializer,EnrollSerializer,FileSerializer,MemberSerializer,PermissionSerializer,SectionSerializer,TitleSerializer,PermissionstateSerializer,MembeUpdaterSerializer,ChecklistUpdateSerializer,CalenderUpdateSerializer,CommentUpdateSerializer,ContentUpdateSerializer,FileUpdateSerializer,PermissionUpdateSerializer,SectionUpdateSerializer,TitleUpdateSerializer, SessionSerializer
 
 # Create your views here.
 #Assign
@@ -303,22 +303,22 @@ class MySection(generics.ListAPIView):
         print(mytitleid)
         return mytitleid
 
-#Setion
-class SetionList(generics.ListAPIView):
-    queryset = Setion.objects.all()
-    serializer_class = SetionSerializer
+#Session
+class SessionList(generics.ListAPIView):
+    queryset = Session.objects.all()
+    serializer_class = SessionSerializer
 
-class SetionCreate(generics.CreateAPIView):
-    queryset = Setion.objects.all()
-    serializer_class = SetionSerializer
+class SessionCreate(generics.CreateAPIView):
+    queryset = Session.objects.all()
+    serializer_class = SessionSerializer
 
-class SetionSearch(generics.RetrieveAPIView):
-    queryset = Setion.objects.all()
-    serializer_class = SetionSerializer
+class SessionSearch(generics.RetrieveAPIView):
+    queryset = Session.objects.all()
+    serializer_class = SessionSerializer
 
-class SetionDelete(generics.DestroyAPIView):
-    queryset = Setion.objects.all()
-    serializer_class = SetionSerializer
+class SessionDelete(generics.DestroyAPIView):
+    queryset = Session.objects.all()
+    serializer_class = SessionSerializer
 
 #Title
 class TitleList(generics.ListAPIView):

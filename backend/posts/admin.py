@@ -12,7 +12,7 @@ from . models import File
 from . models import Permission
 from . models import Section
 from . models import Permissionstate
-from . models import Setion
+from . models import Session
 
 # Register your models here.
 
@@ -29,4 +29,4 @@ admin.site.register(File)
 admin.site.register(Permission)
 admin.site.register(Section)
 admin.site.register(Permissionstate)
-admin.site.register(Setion)
+admin.site.register(Session)

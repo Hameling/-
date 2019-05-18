@@ -33,6 +33,7 @@ class Checklist(models.Model):
     listnumber = models.AutoField(primary_key=True)
     listname = models.CharField(max_length=45)
     contentid = models.ForeignKey('Content', models.DO_NOTHING, db_column='contentid')
+    checked = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False
@@ -45,6 +46,7 @@ class Comment(models.Model):
     comnumber = models.AutoField(primary_key=True)
     comcomment = models.CharField(max_length=45)
     contentid = models.ForeignKey('Content', models.DO_NOTHING, db_column='contentid')
+    memberid = models.ForeignKey('Member', models.DO_NOTHING, db_column='memberid', blank=True, null=True)
 
     class Meta:
         managed = False
@@ -157,18 +159,15 @@ class Section(models.Model):
         return self.sectionname
 
 
-class Setion(models.Model):
+class Session(models.Model):
     memberid = models.ForeignKey(Member, models.DO_NOTHING, db_column='memberid')
-    token = models.CharField(max_length=45)
+    token = models.CharField(max_length=45, primary_key=True)
     expiretime = models.DateTimeField()
-    setionid = models.AutoField(primary_key=True)
 
     class Meta:
         managed = False
-        db_table = 'Setion'
-        unique_together = (('memberid','setionid'),)
-    def __str__(self):
-        return self.memberid
+        db_table = 'Session'
+        unique_together = (('memberid', 'token'),)
 
 class Title(models.Model):
     titleid = models.AutoField(primary_key=True)

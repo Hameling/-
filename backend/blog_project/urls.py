@@ -31,5 +31,5 @@ urlpatterns = [
     path('section/', include('posts.urlsSection')),
     path('title/', include('posts.urlsTitle')),
     path('permissionstate/', include('posts.urlsPermissionstate')),
-    path('setion/', include('posts.urlsSetion')),
+    path('session/', include('posts.urlsSession')),
 ]

@@ -10,7 +10,7 @@ class AssignSerializer(serializers.ModelSerializer):
 #Checklist
 class ChecklistSerializer(serializers.ModelSerializer):
     class Meta:
-        fields = ('listnumber','listname','contentid')
+        fields = ('listnumber','listname','contentid','checked')
         model = models.Checklist
 
 class ChecklistUpdateSerializer(serializers.ModelSerializer):
@@ -32,7 +32,7 @@ class CalenderUpdateSerializer(serializers.ModelSerializer):
 #Comment
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
-        fields = ('comnumber','comcomment','contentid')
+        fields = ('comnumber','comcomment','contentid','memberid')
         model = models.Comment
 
 class CommentUpdateSerializer(serializers.ModelSerializer):
@@ -114,11 +114,11 @@ class SectionUpdateSerializer(serializers.ModelSerializer):
         fields = ('sectionname',)
         model = models.Section
 
-#Setion
-class SetionSerializer(serializers.ModelSerializer):
+#Session
+class SessionSerializer(serializers.ModelSerializer):
     class Meta:
-        fields = ('memberid','token','expiretime','setionid',)
-        model = models.Setion
+        fields = ('memberid','token','expiretime',)
+        model = models.Session
 
 #Title
 class TitleSerializer(serializers.ModelSerializer):
