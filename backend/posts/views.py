@@ -180,7 +180,7 @@ class MyEnroll(generics.ListAPIView):
         print(mymemberid)
         return mymemberid
 
-class MyTitle(generics.ListAPIView):
+class InTitle(generics.ListAPIView):
     serializer_class = EnrollSerializer
     lookup_url_kwarg = "titleid"
     def get_queryset(self):
