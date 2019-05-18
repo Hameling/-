@@ -122,12 +122,12 @@ class ContentUpdate(generics.UpdateAPIView):
 
 class MyContent(generics.ListAPIView):
     serializer_class = ContentSerializer
-    lookup_url_kwarg = "contentid"
+    lookup_url_kwarg = "sectionid"
     def get_queryset(self):
-        contentid = self.kwargs.get(self.lookup_url_kwarg)
-        mycontentid = Content.objects.filter(contentid=contentid)
-        print(mycontentid)
-        return mycontentid
+        sectionid = self.kwargs.get(self.lookup_url_kwarg)
+        mysectionid = Content.objects.filter(sectionid=sectionid)
+        print(mysectionid)
+        return mysectionid
 
 #Contentstate
 class ContentstateList(generics.ListAPIView):
