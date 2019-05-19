@@ -1,6 +1,5 @@
 import jwt
-import re
-from datetime import datetime
+import datetime
 
 from rest_framework.parsers import JSONParser
 from django.http import HttpResponse, JsonResponse
@@ -354,8 +353,8 @@ class Login(APIView):
     parser_classes = (JSONParser,)
 
     def post(self, request, format=None):
-        now = datetime.now()
-        key = str(now)
+        expiretime = datetime.datetime.now() + datetime.timedelta(hours=2)
+        key = str(expiretime)
         
         encoded = ""
         input_memberid=request.data["memberid"]
@@ -365,14 +364,14 @@ class Login(APIView):
         if Session.objects.filter(memberid=input_memberid).exists():
             encoded = jwt.encode({'memberid': input_memberid}, key, algorithm='HS256')
             member = Member.objects.get(memberid=input_memberid)
-            queryset = Session.objects.filter(memberid= member).update(memberid= member,token=encoded, expiretime = now)
+            queryset = Session.objects.filter(memberid= member).update(memberid= member,token=encoded, expiretime = expiretime)
             return JsonResponse({'token': encoded.decode('utf-8')}) 
         #session member가 없을 경우.
         else :
             if Member.objects.filter(memberid=input_memberid, memberpwd=input_memberpwd).exists():
                 encoded = jwt.encode({'memberid': input_memberid}, key, algorithm='HS256')
                 member = Member.objects.get(memberid=input_memberid)
-                queryset = Session.objects.create(memberid =member, token=encoded, expiretime=now)
+                queryset = Session.objects.create(memberid =member, token=encoded, expiretime=expiretime)
                 return JsonResponse({'token': encoded.decode('utf-8')}) 
         return JsonResponse({'token': encoded})
          
