@@ -361,28 +361,18 @@ class Login(APIView):
         input_memberid=request.data["memberid"]
         input_memberpwd=request.data["memberpwd"]
 
-        membercheck = Member.objects.filter(memberid=input_memberid, memberpwd=input_memberpwd)
-        sessioncheck = Session.objects.filter(memberid=input_memberid)
-
         #session member가 존재할 경우.
-        if sessioncheck.exists():
+        if Session.objects.filter(memberid=input_memberid).exists():
             encoded = jwt.encode({'memberid': input_memberid}, key, algorithm='HS256')
             member = Member.objects.get(memberid=input_memberid)
-            queryset = Session.objects.get(memberid = member)
-            #단일 행만 update할 경우 이렇게 해야함...
-            queryset.memberid = member
-            queryset.save()
-            queryset.token = encoded
-            queryset.save()
-            queryset.expiretime = now
-            queryset.save()
+            queryset = Session.objects.filter(memberid= member).update(memberid= member,token=encoded, expiretime = now)
             return JsonResponse({'token': encoded.decode('utf-8')}) 
-            #session member가 없을 경우.
-        elif membercheck.exists():
-            encoded = jwt.encode({'memberid': input_memberid}, key, algorithm='HS256')
-            member = Member.objects.get(memberid=input_memberid)
-            queryset = Session.objects.create(memberid =member, token=encoded, expiretime=now)
-            queryset.save()
-            return JsonResponse({'token': encoded.decode('utf-8')}) 
+        #session member가 없을 경우.
+        else :
+            if Member.objects.filter(memberid=input_memberid, memberpwd=input_memberpwd).exists():
+                encoded = jwt.encode({'memberid': input_memberid}, key, algorithm='HS256')
+                member = Member.objects.get(memberid=input_memberid)
+                queryset = Session.objects.create(memberid =member, token=encoded, expiretime=now)
+                return JsonResponse({'token': encoded.decode('utf-8')}) 
         return JsonResponse({'token': encoded})
          
