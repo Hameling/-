@@ -45,6 +45,8 @@ INSTALLED_APPS = [
 REST_FRAMEWORK = {
     'DEFAULT_PARSER_CLASSES': (
         'rest_framework.parsers.JSONParser',
+        'rest_framework.parsers.FileUploadParser',
+        'rest_framework.parsers.MultiPartParser',
     )
 }
 
@@ -115,7 +117,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
 

@@ -1,8 +1,10 @@
 import jwt
 import datetime
 import os
+import shutil
 
-from rest_framework.parsers import JSONParser
+from rest_framework.exceptions import ParseError
+from rest_framework.parsers import JSONParser, FileUploadParser, MultiPartParser
 from django.http import HttpResponse, JsonResponse
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -377,41 +379,22 @@ class Login(APIView):
         return JsonResponse({'token': encoded})
 
 class FileUpload(APIView):
-    parser_classes = (JSONParser,)
+    parser_classes = (FileUploadParser,)
 
     #승한이 컴퓨터에 전체 파일 업로드 되는 폴더 없으면 생성, 있으면 생성안함
     dir_path = "D:/filelocation"
     dir_name = ""
     if not os.path.isdir(dir_path +"/"):
-        os.mkdir(dir_path + "/")
+            os.mkdir(dir_path + "/")
 
-    def post(self, request, format=None):
-        #파일 올리려는 사람, 해당 컨텐츠를 입력 받아야함
-        input_memberid=request.data["memberid"]
-        input_contentname=request.data["contentname"]
-        dir_name = input_contentname
+    def put(self, request, format=None): 
+        if 'file' not in request.data:
+            req_file = request.FILES
+            req_data = request.data
+            req_ctype = request.content_type
+            print(req_file)
+            print(req_ctype)
+            raise ParseError("Empty content")
 
-        #입력 받은 contentname으로 contentid 찾음
-        content = Content.objects.get(contentname=input_contentname)
-
-        #contentid와 memberid로 그 사람이 할당 되었는지 확인
-        Assign.objects.get(memberid=input_memberid, contentid = content)
-
-        #contet에 memberid가 할당되어 있다면 그 정보로 Permission 테이블 검색
-
-        #Permission에서 Priority확인
-
-    #if Priority가 있다면 
-        #개별 Content 폴더 없으면 생성, 있으면 생성안함
-        if not os.path.isdir(FileUpload.dir_path + "/" + dir_name + "/"):
-            os.mkdir(FileUpload.dir_path + "/" + dir_name + "/")
-            #그리고 여기서 뭐 파일 저장하겠지
-            return JsonResponse({'fileupload':"success"})
-    #else Priority가 없다면
-        #파일 업로드는 되면 안된다
-        return JsonResponse({'fileupload':"fail"})
-         
-    
-       
         
-        
+        return Response(status=204)
