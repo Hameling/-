@@ -101,19 +101,20 @@ class CommentList(generics.ListAPIView):
 
 class CommentCreate(APIView):
     parser_classes = (JSONParser,)
+
     def post(self, request, format=None):
-        input_comcomnet = request.data["comcomnent"]
+        input_comcomment = request.data["comcomment"]
         input_memberid=request.data["memberid"]
         input_contentid = request.data["contentid"]
         cur_time = datetime.datetime.now()
 
         if Assign.objects.filter(contentid = input_contentid, memberid=input_memberid).exists():
-            
-            #queryset = Session.objects.create(memberid =member, token=encoded, expiretime=expiretime)
             content = Content.objects.get(contentid=input_contentid)
             member = Member.objects.get(memberid=input_memberid)
-            queryset = Comment.objects.create(comcomment=input_comcomnet, contentid = content, memberid = member, commenttime = cur_time)
-        return HttpResponse(queryset, content_type="application/json")
+            queryset = Comment.objects.create(comcomment=input_comcomment, contentid = content, memberid = member, commenttime = cur_time)
+            return JsonResponse({'create': 'success'}) 
+        else:
+            return JsonResponse({'create': 'fail'}) 
 
 class CommentSearch(generics.RetrieveAPIView):
     queryset = Comment.objects.all()
