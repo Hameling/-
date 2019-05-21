@@ -94,10 +94,26 @@ class CommentList(generics.ListAPIView):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
 
-class CommentCreate(generics.CreateAPIView):
-    queryset = Comment.objects.all()
-    queryset = queryset.update(commenttime= datetime.datetime.now())
-    serializer_class = CommentSerializer
+#class CommentCreate(generics.CreateAPIView):
+#    queryset = Comment.objects.all()
+#    queryset = queryset.update(commenttime= datetime.datetime.now())
+#    serializer_class = CommentSerializer
+
+class CommentCreate(APIView):
+    parser_classes = (JSONParser,)
+    def post(self, request, format=None):
+        input_comcomnet = request.data["comcomnent"]
+        input_memberid=request.data["memberid"]
+        input_contentid = request.data["contentid"]
+        cur_time = datetime.datetime.now()
+
+        if Assign.objects.filter(contentid = input_contentid, memberid=input_memberid).exists():
+            
+            #queryset = Session.objects.create(memberid =member, token=encoded, expiretime=expiretime)
+            content = Content.objects.get(contentid=input_contentid)
+            member = Member.objects.get(memberid=input_memberid)
+            queryset = Comment.objects.create(comcomment=input_comcomnet, contentid = content, memberid = member, commenttime = cur_time)
+        return HttpResponse(queryset, content_type="application/json")
 
 class CommentSearch(generics.RetrieveAPIView):
     queryset = Comment.objects.all()
@@ -114,24 +130,19 @@ class CommentUpdate(generics.UpdateAPIView):
 class CheckComment(APIView):
     parser_classes = (JSONParser,)
 
-    def post(self, request, format=None):
-
-        #comnumber = models.AutoField(primary_key=True)
-        #comcomment = models.CharField(max_length=45)
-        #memberid = models.ForeignKey('Member', models.DO_NOTHING, db_column='memberid', blank=True, null=True)
-    
+    def post(self, request, format=None):    
         input_memberid=request.data["memberid"]
-        input_contentname=request.data["contentname"]
         input_contentid = request.data["contentid"]
         myassigncontent = Assign.objects.filter(contentid = input_contentid, memberid=input_memberid)
-        i = 1
+        i = 15
         commentlist=[]
         if myassigncontent.exists():
             while True:
                 try:
                     json_tmp = {}
-                    json_tmp['comcoment'] = str(Comment.objects.get(contentid = input_contentid, comnumber= i)).strip('<>')
+                    json_tmp['comcomment'] = str(Comment.objects.get(contentid = input_contentid, comnumber= i)).strip('<>')[:-19]
                     json_tmp['memberid'] = input_memberid
+                    json_tmp['commentime'] =  str(Comment.objects.get(contentid = input_contentid, comnumber= i)).strip('<>')[-19:]
                     commentlist.append(json_tmp)
                 except Comment.DoesNotExist:
                     break

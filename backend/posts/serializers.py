@@ -32,7 +32,7 @@ class CalenderUpdateSerializer(serializers.ModelSerializer):
 #Comment
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
-        fields = ('comnumber','comcomment','contentid','memberid',)
+        fields = ('comnumber','comcomment','contentid','memberid','commenttime')
         model = models.Comment
 
 class CommentUpdateSerializer(serializers.ModelSerializer):
