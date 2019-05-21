@@ -383,7 +383,8 @@ class FileUpload(APIView):
     parser_classes = (JSONParser, MultiPartParser,)
 
     #승한이 컴퓨터에 전체 파일 업로드 되는 폴더 없으면 생성, 있으면 생성안함
-    dir_path = "D:/filelocation"
+   # dir_path = "D:/filelocation"
+    dir_path = "/home/ubuntu/File"
     dir_name = ""
     if not os.path.isdir(dir_path +"/"):
             os.mkdir(dir_path + "/")
@@ -399,4 +400,9 @@ class FileUpload(APIView):
             print(req_ctype)       
             Response({'received data': request.data})
 
+<<<<<<< HEAD
         return Response({'received data': request.data})
+=======
+        
+        return Response(status=204)
+>>>>>>> 127cb88ab7ce674c1a4f092c1a99a92354e53e47
