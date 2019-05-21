@@ -80,7 +80,6 @@ class MemberSerializer(serializers.ModelSerializer):
         fields = ('memberid','membername','memberpwd','memberemail',)
         model = models.Member
 
-#Member
 class MembeUpdaterSerializer(serializers.ModelSerializer):
     class Meta:
         fields = ('membername','memberpwd','memberemail',)
@@ -130,3 +129,9 @@ class TitleUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         fields = ('titlename','titleinfo',)
         model = models.Title
+
+#테스트
+class UploadSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Upload
+        fields = "__all__"

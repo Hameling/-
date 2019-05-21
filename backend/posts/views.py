@@ -5,16 +5,17 @@ import shutil
 
 from rest_framework.exceptions import ParseError
 from rest_framework.parsers import JSONParser, FileUploadParser, MultiPartParser
-from django.http import HttpResponse, JsonResponse
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from django.http import HttpResponse, JsonResponse
+
 
 from django.shortcuts import render
 from rest_framework import generics, permissions
 from django.views.generic import DetailView
 
 from .models import Assign,Checklist,Calender,Comment,Content,Contentstate,Enroll,File,Member,Permission,Section,Title, Permissionstate, Session
-from .serializers import AssignSerializer,ChecklistSerializer,CalenderSerializer,CommentSerializer,ContentSerializer,ContentstateSerializer,EnrollSerializer,FileSerializer,MemberSerializer,PermissionSerializer,SectionSerializer,TitleSerializer,PermissionstateSerializer,MembeUpdaterSerializer,ChecklistUpdateSerializer,CalenderUpdateSerializer,CommentUpdateSerializer,ContentUpdateSerializer,FileUpdateSerializer,PermissionUpdateSerializer,SectionUpdateSerializer,TitleUpdateSerializer, SessionSerializer
+from .serializers import AssignSerializer,ChecklistSerializer,CalenderSerializer,CommentSerializer,ContentSerializer,ContentstateSerializer,EnrollSerializer,FileSerializer,MemberSerializer,PermissionSerializer,SectionSerializer,TitleSerializer,PermissionstateSerializer,MembeUpdaterSerializer,ChecklistUpdateSerializer,CalenderUpdateSerializer,CommentUpdateSerializer,ContentUpdateSerializer,FileUpdateSerializer,PermissionUpdateSerializer,SectionUpdateSerializer,TitleUpdateSerializer, SessionSerializer, UploadSerializer
 
 # Create your views here.
 #Assign
@@ -398,3 +399,19 @@ class FileUpload(APIView):
 
         
         return Response(status=204)
+
+#테스트
+class FileUploadView(APIView):
+    parser_class = (FileUploadParser,)
+
+    def post(self, request, *args, **kwargs):
+
+      file_serializer = UploadSerializer(data=request.data)
+
+      if file_serializer.is_valid():
+          print("되니?")
+          file_serializer.save()
+          return Response(file_serializer.data)
+      else:
+          print("안되니?")
+          return Response(file_serializer.errors)
