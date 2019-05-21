@@ -44,7 +44,8 @@
                             <i class="fas fa-fw fa-comments"></i>
                           </div>
                           <div>
-                            <a class="text-white" href="#">Project 01</a>
+                           <!--<a class="text-white" href="#">Project 01</a>-->
+				<router-link to="/content" class="text-white">Project 01</router-link>
                           </div>
                         </div>
                       </div>
