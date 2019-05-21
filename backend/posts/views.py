@@ -14,7 +14,7 @@ from rest_framework import generics, permissions
 from django.views.generic import DetailView
 
 from .models import Assign,Checklist,Calender,Comment,Content,Contentstate,Enroll,File,Member,Permission,Section,Title, Permissionstate, Session
-from .serializers import AssignSerializer,ChecklistSerializer,CalenderSerializer,CommentSerializer,ContentSerializer,ContentstateSerializer,EnrollSerializer,FileSerializer,MemberSerializer,PermissionSerializer,SectionSerializer,TitleSerializer,PermissionstateSerializer,MembeUpdaterSerializer,ChecklistUpdateSerializer,CalenderUpdateSerializer,CommentUpdateSerializer,ContentUpdateSerializer,FileUpdateSerializer,PermissionUpdateSerializer,SectionUpdateSerializer,TitleUpdateSerializer, SessionSerializer
+from .serializers import AssignSerializer,ChecklistSerializer,CalenderSerializer,CommentSerializer,ContentSerializer,ContentstateSerializer,EnrollSerializer,FileSerializer,MemberSerializer,PermissionSerializer,SectionSerializer,TitleSerializer,PermissionstateSerializer,MembeUpdaterSerializer,ChecklistUpdateSerializer,CalenderUpdateSerializer,CommentUpdateSerializer,ContentUpdateSerializer,FileUpdateSerializer,PermissionUpdateSerializer,SectionUpdateSerializer,TitleUpdateSerializer, SessionSerializer, FileuploadSerializer
 
 # Create your views here.
 #Assign
@@ -379,7 +379,8 @@ class Login(APIView):
         return JsonResponse({'token': encoded})
 
 class FileUpload(APIView):
-    parser_classes = (FileUploadParser,MultiPartParser, FormParser)
+    serializer_class = FileuploadSerializer
+    parser_classes = (JSONParser, MultiPartParser,)
 
     #승한이 컴퓨터에 전체 파일 업로드 되는 폴더 없으면 생성, 있으면 생성안함
     dir_path = "D:/filelocation"
@@ -387,7 +388,8 @@ class FileUpload(APIView):
     if not os.path.isdir(dir_path +"/"):
             os.mkdir(dir_path + "/")
 
-    def post(self, request, filename, format=None): 
+    def post(self, request, format=None): 
+        
         if 'file' not in request.data:
             req_file = request.FILES
             req_data = request.data
@@ -395,7 +397,6 @@ class FileUpload(APIView):
             print(req_file)
             print(req_data)
             print(req_ctype)       
-            raise ParseError("Empty content")
+            Response({'received data': request.data})
 
-        
-        return Response(status=204)
+        return Response({'received data': request.data})
