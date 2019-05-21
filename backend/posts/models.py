@@ -179,17 +179,5 @@ class Title(models.Model):
         db_table = 'Title'
     def __str__(self):
         return self.titlename
-#테스트
-class Upload(models.Model):
-    filename = models.CharField(primary_key=True, max_length=45)
-    file = models.FileField(blank=False, null=False)
-
-    class Meta:
-        managed = False
-        db_table = 'Upload'
-
-    def __str__(self):
-        return self.filename
-    
 
     

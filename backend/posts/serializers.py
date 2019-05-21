@@ -129,16 +129,3 @@ class TitleUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         fields = ('titlename','titleinfo',)
         model = models.Title
-
-#테스트
-class UploadSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.Upload
-        fields = "__all__"
-
-class FileuploadSerializer(serializers.HyperlinkedModelSerializer):
-    image = serializers.ImageField(use_url=True)
-
-    class Meta:
-        model = models.Upload
-        fields = "__all__"

@@ -1,10 +1,8 @@
 import jwt
 import datetime
-import os
-import shutil
 
 from rest_framework.exceptions import ParseError
-from rest_framework.parsers import JSONParser, FileUploadParser, MultiPartParser, FormParser
+from rest_framework.parsers import JSONParser
 from django.http import HttpResponse, JsonResponse
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -14,7 +12,7 @@ from rest_framework import generics, permissions
 from django.views.generic import DetailView
 
 from .models import Assign,Checklist,Calender,Comment,Content,Contentstate,Enroll,File,Member,Permission,Section,Title, Permissionstate, Session
-from .serializers import AssignSerializer,ChecklistSerializer,CalenderSerializer,CommentSerializer,ContentSerializer,ContentstateSerializer,EnrollSerializer,FileSerializer,MemberSerializer,PermissionSerializer,SectionSerializer,TitleSerializer,PermissionstateSerializer,MembeUpdaterSerializer,ChecklistUpdateSerializer,CalenderUpdateSerializer,CommentUpdateSerializer,ContentUpdateSerializer,FileUpdateSerializer,PermissionUpdateSerializer,SectionUpdateSerializer,TitleUpdateSerializer, SessionSerializer, FileuploadSerializer
+from .serializers import AssignSerializer,ChecklistSerializer,CalenderSerializer,CommentSerializer,ContentSerializer,ContentstateSerializer,EnrollSerializer,FileSerializer,MemberSerializer,PermissionSerializer,SectionSerializer,TitleSerializer,PermissionstateSerializer,MembeUpdaterSerializer,ChecklistUpdateSerializer,CalenderUpdateSerializer,CommentUpdateSerializer,ContentUpdateSerializer,FileUpdateSerializer,PermissionUpdateSerializer,SectionUpdateSerializer,TitleUpdateSerializer, SessionSerializer
 
 # Create your views here.
 #Assign
@@ -377,26 +375,3 @@ class Login(APIView):
                 queryset = Session.objects.create(memberid =member, token=encoded, expiretime=expiretime)
                 return JsonResponse({'token': encoded.decode('utf-8')}) 
         return JsonResponse({'token': encoded})
-
-class FileUpload(APIView):
-    serializer_class = FileuploadSerializer
-    parser_classes = (JSONParser, MultiPartParser,)
-
-    #승한이 컴퓨터에 전체 파일 업로드 되는 폴더 없으면 생성, 있으면 생성안함
-    dir_path = "D:/filelocation"
-    #dir_path = "/home/ubuntu/File"
-    dir_name = ""
-    if not os.path.isdir(dir_path +"/"):
-            os.mkdir(dir_path + "/")
-
-    def post(self, request, format=None): 
-        
-        if 'file' not in request.data:
-            req_file = request.FILES
-            req_data = request.data
-            req_ctype = request.content_type
-            print(req_file)
-            print(req_data)
-            print(req_ctype)       
-            return Response({'received data': request.data})
-        return Response({'received data': request.data})
