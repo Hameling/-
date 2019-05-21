@@ -34,8 +34,6 @@ urlpatterns = [
     path('title/', include('posts.urlsTitle')),
     path('permissionstate/', include('posts.urlsPermissionstate')),
     path('session/', include('posts.urlsSession')),
-    #테스트
-    path('forms/', include('posts.forms')),
 ]
 
 #테스트

@@ -387,13 +387,14 @@ class FileUpload(APIView):
     if not os.path.isdir(dir_path +"/"):
             os.mkdir(dir_path + "/")
 
-    def put(self, request, format=None): 
+    def post(self, request, filename, format=None): 
         if 'file' not in request.data:
             req_file = request.FILES
             req_data = request.data
             req_ctype = request.content_type
             print(req_file)
-            print(req_ctype)
+            print(req_data)
+            print(req_ctype)       
             raise ParseError("Empty content")
 
         
