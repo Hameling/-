@@ -4,6 +4,7 @@ import Workspace from './views/workspace'
 import Cal_Monthly from './components/Cal_Monthly'
 import HelloWorld from './components/HelloWorld'
 import login from './components/login'
+import content from './components/ContentForm'
 
 Vue.use(Router)
 
@@ -30,10 +31,14 @@ export default new Router({
           component: login
         }
         //캘린더 두개 더 추가
-      ]
-
+      ],
       //다른 path추가 login, project
       //create project는 어떤식으로 할것인가?
     },
+    {
+      path: '/content',
+      name : 'content',
+      component: content
+    }
   ]
 })
