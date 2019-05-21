@@ -382,7 +382,8 @@ class FileUpload(APIView):
     parser_classes = (FileUploadParser,MultiPartParser, FormParser)
 
     #승한이 컴퓨터에 전체 파일 업로드 되는 폴더 없으면 생성, 있으면 생성안함
-    dir_path = "D:/filelocation"
+   # dir_path = "D:/filelocation"
+    dir_path = "/home/ubuntu/File"
     dir_name = ""
     if not os.path.isdir(dir_path +"/"):
             os.mkdir(dir_path + "/")
