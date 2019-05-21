@@ -1,4 +1,5 @@
 # -*- encoding: utf-8 -*-
+import datetime
 from django.db import models
 
 # Create your models here.
@@ -47,6 +48,7 @@ class Comment(models.Model):
     comcomment = models.CharField(max_length=45)
     contentid = models.ForeignKey('Content', models.DO_NOTHING, db_column='contentid')
     memberid = models.ForeignKey('Member', models.DO_NOTHING, db_column='memberid', blank=True, null=True)
+    commenttime = models.DateTimeField()
 
     class Meta:
         managed = False

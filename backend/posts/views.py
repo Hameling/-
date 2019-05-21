@@ -1,6 +1,8 @@
 import jwt
 import datetime
+import json
 
+from pytz import timezone
 from rest_framework.exceptions import ParseError
 from rest_framework.parsers import JSONParser
 from django.http import HttpResponse, JsonResponse
@@ -94,6 +96,7 @@ class CommentList(generics.ListAPIView):
 
 class CommentCreate(generics.CreateAPIView):
     queryset = Comment.objects.all()
+    queryset = queryset.update(commenttime= datetime.datetime.now())
     serializer_class = CommentSerializer
 
 class CommentSearch(generics.RetrieveAPIView):
@@ -107,6 +110,35 @@ class CommentDelete(generics.DestroyAPIView):
 class CommentUpdate(generics.UpdateAPIView):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
+
+class CheckComment(APIView):
+    parser_classes = (JSONParser,)
+
+    def post(self, request, format=None):
+
+        #comnumber = models.AutoField(primary_key=True)
+        #comcomment = models.CharField(max_length=45)
+        #memberid = models.ForeignKey('Member', models.DO_NOTHING, db_column='memberid', blank=True, null=True)
+    
+        input_memberid=request.data["memberid"]
+        input_contentname=request.data["contentname"]
+        input_contentid = request.data["contentid"]
+        myassigncontent = Assign.objects.filter(contentid = input_contentid, memberid=input_memberid)
+        i = 1
+        commentlist=[]
+        if myassigncontent.exists():
+            while True:
+                try:
+                    json_tmp = {}
+                    json_tmp['comcoment'] = str(Comment.objects.get(contentid = input_contentid, comnumber= i)).strip('<>')
+                    json_tmp['memberid'] = input_memberid
+                    commentlist.append(json_tmp)
+                except Comment.DoesNotExist:
+                    break
+                i += 1
+            commentlist=json.dumps(commentlist)
+            return HttpResponse(commentlist, content_type="application/json")
+
 
 #Content
 class ContentList(generics.ListAPIView):

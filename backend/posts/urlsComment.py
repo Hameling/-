@@ -8,4 +8,5 @@ urlpatterns = [
     path('search-comment/<pk>/', views.CommentSearch.as_view()),
     path('delete-comment/<pk>/', views.CommentDelete.as_view()),
     path('update-comment/<pk>/', views.CommentUpdate.as_view()),
+    path('checkcomment/', views.CheckComment.as_view()),
 ]
