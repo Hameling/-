@@ -180,6 +180,6 @@ class Title(models.Model):
         managed = False
         db_table = 'Title'
     def __str__(self):
-        return self.titlename
+        return '{}sp{}na{}'.format(self.titleid,self.titlename, self.titleinfo)
 
     

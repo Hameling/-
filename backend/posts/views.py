@@ -349,6 +349,32 @@ class MemberUpdate(generics.UpdateAPIView):
     queryset = Member.objects.all()
     serializer_class = MembeUpdaterSerializer
 
+class Login(APIView):
+    parser_classes = (JSONParser,)
+
+    def post(self, request, format=None):
+        expiretime = datetime.datetime.now() + datetime.timedelta(hours=2)
+        key = str(expiretime)
+        
+        encoded = ""
+        input_memberid=request.data["memberid"]
+        input_memberpwd=request.data["memberpwd"]
+
+        #session member가 존재할 경우.
+        if Session.objects.filter(memberid=input_memberid).exists():
+            encoded = jwt.encode({'memberid': input_memberid}, key, algorithm='HS256')
+            member = Member.objects.get(memberid=input_memberid)
+            queryset = Session.objects.filter(memberid= member).update(memberid= member,token=encoded, expiretime = expiretime)
+            return JsonResponse({'token': encoded.decode('utf-8')}) 
+        #session member가 없을 경우.
+        else :
+            if Member.objects.filter(memberid=input_memberid, memberpwd=input_memberpwd).exists():
+                encoded = jwt.encode({'memberid': input_memberid}, key, algorithm='HS256')
+                member = Member.objects.get(memberid=input_memberid)
+                queryset = Session.objects.create(memberid =member, token=encoded, expiretime=expiretime)
+                return JsonResponse({'token': encoded.decode('utf-8')}) 
+        return JsonResponse({'token': encoded})
+
 #Permission
 class PermissionList(generics.ListAPIView):
     queryset = Permission.objects.all()
@@ -443,44 +469,59 @@ class TitleList(generics.ListAPIView):
     queryset = Title.objects.all()
     serializer_class = TitleSerializer
 
-class TitleCreate(generics.CreateAPIView):
-    queryset = Title.objects.all()
-    serializer_class = TitleSerializer
-
-class TitleSearch(generics.RetrieveAPIView):
-    queryset = Title.objects.all()
-    serializer_class = TitleSerializer
-
-class TitleDelete(generics.DestroyAPIView):
-    queryset = Title.objects.all()
-    serializer_class = TitleSerializer
-
-class TitleUpdate(generics.UpdateAPIView):
-    queryset = Title.objects.all()
-    serializer_class = TitleUpdateSerializer
-
-class Login(APIView):
+class TitleCreate(APIView):
     parser_classes = (JSONParser,)
 
     def post(self, request, format=None):
-        expiretime = datetime.datetime.now() + datetime.timedelta(hours=2)
-        key = str(expiretime)
-        
-        encoded = ""
-        input_memberid=request.data["memberid"]
-        input_memberpwd=request.data["memberpwd"]
+        input_titlename=request.data["titlename"]
+        input_titleinfo = request.data["titleinfo"]
 
-        #session member가 존재할 경우.
-        if Session.objects.filter(memberid=input_memberid).exists():
-            encoded = jwt.encode({'memberid': input_memberid}, key, algorithm='HS256')
-            member = Member.objects.get(memberid=input_memberid)
-            queryset = Session.objects.filter(memberid= member).update(memberid= member,token=encoded, expiretime = expiretime)
-            return JsonResponse({'token': encoded.decode('utf-8')}) 
-        #session member가 없을 경우.
-        else :
-            if Member.objects.filter(memberid=input_memberid, memberpwd=input_memberpwd).exists():
-                encoded = jwt.encode({'memberid': input_memberid}, key, algorithm='HS256')
-                member = Member.objects.get(memberid=input_memberid)
-                queryset = Session.objects.create(memberid =member, token=encoded, expiretime=expiretime)
-                return JsonResponse({'token': encoded.decode('utf-8')}) 
-        return JsonResponse({'token': encoded})
+        try:
+            Title.objects.create(titlename = input_titlename, titleinfo = input_titleinfo)
+            return JsonResponse({'create': 'success'}) 
+        except:
+            return JsonResponse({'create': 'fail'})
+
+class TitleSearch(APIView):
+    parser_classes = (JSONParser,)
+
+    def post(self, request, format=None):    
+        input_titleid = request.data["titleid"]
+        comment_list = []
+        data = list(Title.objects.all().filter(titleid = input_titleid))
+        str_data = str(data)
+        power_list = regex.parse_title(str_data)
+        for i in power_list:
+            json_tmp = {}
+            json_tmp['titleid'] = i[0]
+            json_tmp['titlename'] = i[1]
+            json_tmp['titleinfo'] = i[2]
+            comment_list.append(json_tmp)
+        comment_list=json.dumps(comment_list)
+        return HttpResponse(comment_list, content_type="application/json")
+
+class TitleDelete(APIView):
+    parser_classes = (JSONParser,)
+
+    def post(self, request, format=None):
+        input_titleid = request.data["titleid"]
+        try:
+            del_title = Title.objects.all().filter(titleid = input_titleid)
+            del_title.delete()
+            return JsonResponse({'delete': 'Delete success'})
+        except:
+            return JsonResponse({'delete': 'fail'})
+
+class TitleUpdate(APIView):
+    parser_classes = (JSONParser,)
+
+    def post(self, request, format=None):
+        input_titlename=request.data["titlename"]
+        input_titleinfo = request.data["titleinfo"]
+        input_titleid = request.data["titleid"]
+        try:
+            update_title = Title.objects.all().filter(titleid = input_titleid)
+            update_title.update(titlename = input_titlename, titleinfo = input_titleinfo)
+            return JsonResponse({'update': 'success'})
+        except:
+            return JsonResponse({'update': 'fail'})
