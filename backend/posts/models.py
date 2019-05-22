@@ -54,7 +54,7 @@ class Comment(models.Model):
         managed = False
         db_table = 'Comment'
     def __str__(self):
-        return '{}isp{}{}'.format(self.comnumber,self.comcomment,self.commenttime)
+        return '{}isp{}who{}{}'.format(self.comnumber,self.memberid,self.comcomment,self.commenttime)
 
 
 class Content(models.Model):
