@@ -161,8 +161,8 @@ export default {
           }
       },
       delComment(comment_id){
-          this.$http.post('http://211.109.53.216:20000/comment/create-comment/',{
-            comnumber : comment_id
+          this.$http.post('http://211.109.53.216:20000/comment/delete-comment/',{
+            comnumber : comment_id, memberid:'jjhw9882'
           })
           .then((res) => {
               this.getComments()
@@ -172,33 +172,34 @@ export default {
     
     //체크리스트
       getCheckLists() {
-          this.$http.get('http://211.109.53.216:20000/checklist')
+          this.$http.post('http://211.109.53.216:20000/checklist/search-checklist/', {
+            contentid: "8"
+          })
           .then((res) => {
-              //console.log('getTodos:', res.data)
               this.checklists = res.data
           })
       },
       addCheckList(ckl_content){
           if(ckl_content){
-              this.$http.post('http://211.109.53.216:20000/checklist',{
+              this.$http.post('http://211.109.53.216:20000/checklist/',{
                   title:title
               }).then((res) => {
-                  //this.ckl_content.push(res.data);
                   this.getCheckLists()
                   this.ckl_content = ''
               })
           }
       },
       delCheckList(checklist){
-          this.$http.delete('http://211.109.53.216:20000/checklist'+checklist)
+          this.$http.delete('http://211.109.53.216:20000/checklist/'+checklist)
           .then((res) => {
+              alert(res.data)
               this.getCheckLists()
           })
       }
   },
   mounted() {
       this.getComments();
-      //this.getCheckLists();   
+      this.getCheckLists();   
     },
 
   components: {
