@@ -54,21 +54,66 @@ class ChecklistList(generics.ListAPIView):
     queryset = Checklist.objects.all()
     serializer_class = ChecklistSerializer
 
-class ChecklistCreate(generics.CreateAPIView):
-    queryset = Checklist.objects.all()
-    serializer_class = ChecklistSerializer
+class ChecklistCreate(APIView):
+    parser_classes = (JSONParser,)
 
-class ChecklistSearch(generics.RetrieveAPIView):
-    queryset = Checklist.objects.all()
-    serializer_class = ChecklistSerializer
+    def post(self, request, format=None):
+        input_listname = request.data["listname"]
+        input_contentid = request.data["contentid"]
 
-class ChecklistDelete(generics.DestroyAPIView):
-    queryset = Checklist.objects.all()
-    serializer_class = ChecklistSerializer
+        try:
+            content = Content.objects.get(contentid=input_contentid)
+            Checklist.objects.create(listname = input_listname, contentid = content, checked= 0)
+            return JsonResponse({'create': 'success'}) 
+        except:
+            return JsonResponse({'create': 'fail'})
 
-class ChecklistUpdate(generics.UpdateAPIView):
-    queryset = Checklist.objects.all()
-    serializer_class = ChecklistUpdateSerializer
+class ChecklistSearch(APIView):
+    parser_classes = (JSONParser,)
+
+    def post(self, request, format=None):    
+        input_contentid = request.data["contentid"]
+        comment_list = []
+    
+        data = list(Checklist.objects.all().filter(contentid = input_contentid))
+        str_data = str(data)
+        power_list = regex.parse_checklist(str_data)
+        for i in power_list:
+            json_tmp = {}
+            json_tmp['listnumber'] = i[0]
+            json_tmp['listname'] = i[1]
+            json_tmp['contentid'] = i[2]
+            json_tmp['checked'] = i[3]
+            comment_list.append(json_tmp)
+        comment_list=json.dumps(comment_list)
+        return HttpResponse(comment_list, content_type="application/json")
+
+
+class ChecklistDelete(APIView):
+    parser_classes = (JSONParser,)
+
+    def post(self, request, format=None):
+        input_listnumber = request.data["listnumber"]
+        try:
+            del_checklist = Checklist.objects.all().filter(listnumber = input_listnumber)    
+            del_checklist.delete()
+            return JsonResponse({'delete': 'Delete success'})
+        except:
+            return JsonResponse({'delete': 'fail'})
+
+class ChecklistUpdate(APIView):
+    parser_classes = (JSONParser,)
+
+    def post(self, request, format=None):
+        input_listname = request.data["listname"]
+        input_listnumber = request.data["listnumber"]
+        input_checked = request.data["checked"]
+        try:
+            update_checklist = Checklist.objects.all().filter(listnumber = input_listnumber)
+            update_checklist.update(listname = input_listname, checked = input_checked)
+            return JsonResponse({'update': 'success'})
+        except:
+            return JsonResponse({'update': 'fail'})
 
 #Calender
 class CalenderList(generics.ListAPIView):
