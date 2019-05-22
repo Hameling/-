@@ -6,6 +6,5 @@ def parse_text(text):
 
     for i in result:
         true_result.append((i[0],i[1],i[2][:-19],i[2][-19:]))
-
-    print(true_result)
+        
     return true_result

@@ -1,10 +1,10 @@
 import jwt
 import datetime
 import json
-import re
-from posts import regex
 
+from posts import regex
 from pytz import timezone
+
 from rest_framework.exceptions import ParseError
 from rest_framework.parsers import JSONParser
 from django.http import HttpResponse, JsonResponse
@@ -112,19 +112,44 @@ class CommentCreate(APIView):
             return JsonResponse({'create': 'success'}) 
         except:
             return JsonResponse({'create': 'fail'})
-        
 
-class CommentSearch(generics.RetrieveAPIView):
-    queryset = Comment.objects.all()
-    serializer_class = CommentSerializer
+class CommentDelete(APIView):
+    parser_classes = (JSONParser,)
 
-class CommentDelete(generics.DestroyAPIView):
-    queryset = Comment.objects.all()
-    serializer_class = CommentSerializer
+    def post(self, request, format=None):
+        input_comnumber = request.data["comnumber"]
+        input_memberid=request.data["memberid"]
+        try:
+            del_comment = Comment.objects.all().filter(comnumber = input_comnumber)
+            str_data = str(del_comment)
+            power_list = regex.parse_text(str_data)
+            acquire_memberid = power_list[0][1]
+            if acquire_memberid == input_memberid:
+                del_comment.delete()
+                return JsonResponse({'delete': 'Delete success'})
+            return JsonResponse({'delete': 'Not Matched'}) 
+        except:
+            return JsonResponse({'delete': 'fail'})
 
-class CommentUpdate(generics.UpdateAPIView):
-    queryset = Comment.objects.all()
-    serializer_class = CommentSerializer
+class CommentUpdate(APIView):
+    parser_classes = (JSONParser,)
+
+    def post(self, request, format=None):
+        input_comnumber = request.data["comnumber"]
+        input_memberid=request.data["memberid"]
+        input_comcomment = request.data["comcomment"]
+        cur_time = datetime.datetime.now()
+        try:
+            update_comment = Comment.objects.all().filter(comnumber = input_comnumber)
+            str_data = str(update_comment)
+            power_list = regex.parse_text(str_data)
+            acquire_memberid = power_list[0][1]
+            if acquire_memberid == input_memberid:
+                update_comment.update(comcomment = input_comcomment,commenttime = cur_time)
+                return JsonResponse({'delete': 'Update success'})
+            return JsonResponse({'delete': 'Not Matched'}) 
+        except:
+            return JsonResponse({'delete': 'fail'})
 
 class CheckComment(APIView):
     parser_classes = (JSONParser,)
