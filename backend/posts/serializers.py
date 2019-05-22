@@ -105,7 +105,7 @@ class PermissionstateSerializer(serializers.ModelSerializer):
 #Section
 class SectionSerializer(serializers.ModelSerializer):
     class Meta:
-        fields = ('titleid','sectionname',)
+        fields = ('titleid','sectionname','sectionid')
         model = models.Section
 
 class SectionUpdateSerializer(serializers.ModelSerializer):

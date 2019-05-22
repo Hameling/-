@@ -29,3 +29,14 @@ def parse_title(text):
         true_result.append((i[0],i[1],i[2]))
         
     return true_result
+
+#[<Section: 10na변경되냐?id14sp이상한데?na뭐지>]
+#return '{}na{}id{}'.format(self.sectionid,self.sectionname, self.titleid)
+def parse_section(text):
+    field = re.compile("<Section: (\d+)na([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)id(\d+)sp([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)na([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)>")
+    result = field.findall(text)
+    true_result = []
+
+    for i in result:
+        true_result.append((i[0],i[1],i[2]))
+    return true_result

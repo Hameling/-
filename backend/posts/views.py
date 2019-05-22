@@ -422,30 +422,61 @@ class SectionList(generics.ListAPIView):
     queryset = Section.objects.all()
     serializer_class = SectionSerializer
 
-class SectionCreate(generics.CreateAPIView):
-    queryset = Section.objects.all()
-    serializer_class = SectionSerializer
+class SectionCreate(APIView):
+    parser_classes = (JSONParser,)
+    def post(self, request, format=None):
+        input_titleid = request.data["titleid"]
+        input_sectionname = request.data["sectionname"]
 
-class SectionSearch(generics.RetrieveAPIView):
-    queryset = Section.objects.all()
-    serializer_class = SectionSerializer
+        try:
+            thistitle = Title.objects.get(titleid=input_titleid)
+            Section.objects.create(titleid = thistitle, sectionname = input_sectionname)
+            return JsonResponse({'create': 'success'}) 
+        except:
+            return JsonResponse({'create': 'fail'})
 
-class SectionDelete(generics.DestroyAPIView):
-    queryset = Section.objects.all()
-    serializer_class = SectionSerializer
+class SectionSearch(APIView):
+    parser_classes = (JSONParser,)
 
-class SectionUpdate(generics.UpdateAPIView):
-    queryset = Section.objects.all()
-    serializer_class = SectionUpdateSerializer
+    def post(self, request, format=None):    
+        input_sectionid = request.data["sectionid"]
+        comment_list = []
+        data = list(Section.objects.all().filter(sectionid = input_sectionid))
+        str_data = str(data)
+        power_list = regex.parse_section(str_data)
+        for i in power_list:
+            json_tmp = {}
+            json_tmp['sectionid'] = i[0]
+            json_tmp['sectionname'] = i[1]
+            json_tmp['titleid'] = i[2]
+            comment_list.append(json_tmp)
+        comment_list=json.dumps(comment_list)
+        return HttpResponse(comment_list, content_type="application/json")
 
-class MySection(generics.ListAPIView):
-    serializer_class = SectionSerializer
-    lookup_url_kwarg = "titleid"
-    def get_queryset(self):
-        titleid = self.kwargs.get(self.lookup_url_kwarg)
-        mytitleid = Section.objects.filter(titleid=titleid)
-        print(mytitleid)
-        return mytitleid
+class SectionDelete(APIView):
+    parser_classes = (JSONParser,)
+
+    def post(self, request, format=None):
+        input_sectionid = request.data["sectionid"]
+        try:
+            del_sec = Section.objects.all().filter(sectionid = input_sectionid)
+            del_sec.delete()
+            return JsonResponse({'delete': 'Delete success'})
+        except:
+            return JsonResponse({'delete': 'fail'})
+
+class SectionUpdate(APIView):
+    parser_classes = (JSONParser,)
+
+    def post(self, request, format=None):
+        input_sectionid = request.data["sectionid"]
+        input_sectionname = request.data["sectionname"]
+        try:
+            update_section = Section.objects.all().filter(sectionid = input_sectionid)
+            update_section.update(sectionname = input_sectionname)
+            return JsonResponse({'update': 'success'})
+        except:
+            return JsonResponse({'update': 'fail'})
 
 #Session
 class SessionList(generics.ListAPIView):

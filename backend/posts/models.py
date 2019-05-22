@@ -156,7 +156,7 @@ class Section(models.Model):
         managed = False
         db_table = 'Section'
     def __str__(self):
-        return self.sectionname
+        return '{}na{}id{}'.format(self.sectionid,self.sectionname, self.titleid)
 
 
 class Session(models.Model):
