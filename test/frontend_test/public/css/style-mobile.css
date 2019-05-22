@@ -23,7 +23,7 @@ img {
 
 
 #mobileUI-site-titlebar {
-	background: url(images/img02.png) repeat;
+	background: repeat;
 }
 
 #mobileUI-site-title {
@@ -40,7 +40,7 @@ img {
 #mobileUI-site-nav-opener {
 	width: 25px;
 	height: 25px;
-	background: url(images/img04.png) no-repeat left top;
+	background: no-repeat left top;
 	top: 7px;
 	left: 10px;
 	text-indent: -999999em;
@@ -57,7 +57,7 @@ img {
 
 #mobileUI-site-nav nav a {
 	padding: 15px 0px 15px 20px;
-	background: url(images/img08.png) repeat-x left bottom;
+	background: repeat-x left bottom;
 	text-decoration: none;
 	text-transform: uppercase;
 	font-family: 'Oswald', sans-serif;
