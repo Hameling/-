@@ -61,8 +61,6 @@ class Content(models.Model):
     contentid = models.AutoField(primary_key=True)
     contentname = models.CharField(max_length=45, blank=True, null=True)
     contentinfo = models.CharField(max_length=200, blank=True, null=True)
-    iscomment = models.IntegerField(blank=True, null=True)
-    ischecklist = models.IntegerField(blank=True, null=True)
     contentpos = models.IntegerField(blank=True, null=True)
     contentheight = models.IntegerField(blank=True, null=True)
     contentstate = models.ForeignKey('Contentstate', models.DO_NOTHING, db_column='contentstate')
