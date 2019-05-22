@@ -159,25 +159,27 @@
 	float: left;
 	margin-right: 40px;
 }
+
+#leftcontent {
+	padding: 50px 0px 0px 100px;
+}
+
 /* Sidebar1 */
 
 #sidebar1 {
-	padding: 0px 0px 0px 0px;
+	padding: 50px 0px 0px 0px;
 }
 
 #sidebar1 section {
-	margin: 0px 0px 50px 0px;
+	margin: 0px 0px 0px 70px;
 }
 
 #sidebar1 h2 {
 	height: 50px;
-	background: repeat;
 	margin-bottom: 20px;
-	padding: 0px 0px 0px 20px;
-	line-height: 50px;
-	text-transform: uppercase;
+	padding: 0px 0px 0px 0px;
 	font-size: 20pt;
-	color: #FFFFFF;
+	color: black;
 }
 
 
