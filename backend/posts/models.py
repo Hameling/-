@@ -40,7 +40,7 @@ class Checklist(models.Model):
         managed = False
         db_table = 'Checklist'
     def __str__(self):
-        return self.listname
+        return '{}sp{}where{}{}'.format(self.listnumber, self.listname, self.contentid, self.checked)
 
 
 class Comment(models.Model):
@@ -72,7 +72,7 @@ class Content(models.Model):
         managed = False
         db_table = 'Content'
     def __str__(self):
-        return self.contentname
+        return str(self.contentid)
 
 
 class Contentstate(models.Model):
@@ -180,6 +180,6 @@ class Title(models.Model):
         managed = False
         db_table = 'Title'
     def __str__(self):
-        return self.titlename
+        return '{}sp{}na{}'.format(self.titleid,self.titlename, self.titleinfo)
 
     
