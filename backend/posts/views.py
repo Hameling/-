@@ -1,6 +1,8 @@
 import jwt
 import datetime
 import json
+import re
+from posts import regex
 
 from pytz import timezone
 from rest_framework.exceptions import ParseError
@@ -111,7 +113,7 @@ class CommentCreate(APIView):
         if Assign.objects.filter(contentid = input_contentid, memberid=input_memberid).exists():
             content = Content.objects.get(contentid=input_contentid)
             member = Member.objects.get(memberid=input_memberid)
-            queryset = Comment.objects.create(comcomment=input_comcomment, contentid = content, memberid = member, commenttime = cur_time)
+            Comment.objects.create(comcomment=input_comcomment, contentid = content, memberid = member, commenttime = cur_time)
             return JsonResponse({'create': 'success'}) 
         else:
             return JsonResponse({'create': 'fail'}) 
@@ -134,24 +136,25 @@ class CheckComment(APIView):
     def post(self, request, format=None):    
         input_memberid=request.data["memberid"]
         input_contentid = request.data["contentid"]
-        myassigncontent = Assign.objects.filter(contentid = input_contentid, memberid=input_memberid)
-        i = 15
-        commentlist=[]
-        if myassigncontent.exists():
-            while True:
-                try:
-                    json_tmp = {}
-                    json_tmp['comcomment'] = str(Comment.objects.get(contentid = input_contentid, comnumber= i)).strip('<>')[:-19]
-                    json_tmp['memberid'] = input_memberid
-                    json_tmp['commentime'] =  str(Comment.objects.get(contentid = input_contentid, comnumber= i)).strip('<>')[-19:]
-                    commentlist.append(json_tmp)
-                except Comment.DoesNotExist:
-                    break
-                i += 1
-            commentlist=json.dumps(commentlist)
-            return HttpResponse(commentlist, content_type="application/json")
-
-
+        power_list = []
+        comment_list = []
+        #data = list(Comment.objects.all().filter(contentid = input_contentid))
+        #print(data)
+        if Assign.objects.filter(contentid = input_contentid, memberid=input_memberid).exists():
+            data = list(Comment.objects.all().filter(contentid = input_contentid))
+            str_data = str(data)
+            print(str_data)
+            power_list = regex.parse_text(str_data)
+            
+        for i in power_list:
+            json_tmp = {}
+            json_tmp['comnumber'] = i[0]
+            json_tmp['memberid'] = input_memberid
+            json_tmp['comcomment'] = i[1]
+            json_tmp['commenttime'] = i[2]
+            comment_list.append(json_tmp)
+        comment_list=json.dumps(comment_list)
+        return HttpResponse(comment_list, content_type="application/json")
 #Content
 class ContentList(generics.ListAPIView):
     queryset = Content.objects.all()
