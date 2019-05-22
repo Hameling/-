@@ -96,11 +96,6 @@ class CommentList(generics.ListAPIView):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
 
-#class CommentCreate(generics.CreateAPIView):
-#    queryset = Comment.objects.all()
-#    queryset = queryset.update(commenttime= datetime.datetime.now())
-#    serializer_class = CommentSerializer
-
 class CommentCreate(APIView):
     parser_classes = (JSONParser,)
 
@@ -110,13 +105,14 @@ class CommentCreate(APIView):
         input_contentid = request.data["contentid"]
         cur_time = datetime.datetime.now()
 
-        if Assign.objects.filter(contentid = input_contentid, memberid=input_memberid).exists():
+        try:
             content = Content.objects.get(contentid=input_contentid)
             member = Member.objects.get(memberid=input_memberid)
             Comment.objects.create(comcomment=input_comcomment, contentid = content, memberid = member, commenttime = cur_time)
             return JsonResponse({'create': 'success'}) 
-        else:
-            return JsonResponse({'create': 'fail'}) 
+        except:
+            return JsonResponse({'create': 'fail'})
+        
 
 class CommentSearch(generics.RetrieveAPIView):
     queryset = Comment.objects.all()
