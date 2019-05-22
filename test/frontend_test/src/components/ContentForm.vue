@@ -39,8 +39,8 @@
             </div>
             <section>
               <div class="form-label-group">
-                <input type="text" id="inputText" v-model="cmt_info" v-on:keyup.enter="addComment(cmt_info)">
-                <button id="btnAdd" v-on:click="addComment(cmt_info)">Add</button>
+                <input type="text" id="inputText" v-model="cmt_content" v-on:keyup.enter="addComment(cmt_content)">
+                <button id="btnAdd" v-on:click="addComment(cmt_content)">Add</button>
                 <cComment v-bind:comments="comments" v-on:del-comment="delComment"> </cComment>
               </div>
             </section>
@@ -80,8 +80,8 @@
             <section>
               <div id="myDIV" class="header">
                 <h2>Schedule</h2>
-                <input type="text" id="myInput" placeholder="Title..." v-model="ckl_info" v-on:keyup.enter="addCheckList(ckl_info)">
-                <span onclick="newElement()" class="addBtn" v-on:click="addCheckList(ckl_info)">Add</span>
+                <input type="text" id="myInput" placeholder="Title..." v-model="ckl_content" v-on:keyup.enter="addCheckList(ckl_content)">
+                <span onclick="newElement()" class="addBtn" v-on:click="addCheckList(ckl_content)">Add</span>
                 <cChecklist v-bind:checklists="checklists" v-on:del-checklist="delCheckList"> </cChecklist>
               </div>
             </section>
@@ -132,8 +132,8 @@ export default {
   name: 'contentForm',
   data(){
       return {
-          cmt_info: '',
-          ckl_info: '',
+          cmt_content: '',
+          ckl_content: '',
           comments:[],
           checklists:[],
       }
@@ -148,20 +148,22 @@ export default {
               this.comments = res.data
           })
       },
-      addComment(cmt_info){
-          if(cmt_info){
-              this.$http.post('http://211.109.53.216:20000/comment/create-comment',{
-                  comcomment:cmt_info, memberid:"jjhw9882", contentid:"8"
+      addComment(cmt_content){
+          if(cmt_content){
+              this.$http.post('http://211.109.53.216:20000/comment/create-comment/',{
+                  comcomment:cmt_content, memberid:"jjhw9882", contentid:"8"
               }).then((res) => {
                   //this.comments.push(res.data);
                   //this.comments = res.data
                   this.getComments()
-                  this.cmt_info = ''
+                  this.cmt_content = ''
               })
           }
       },
-      delComment(comment){
-          this.$http.delete('http://211.109.53.216:20000/comment/create-comment'+comment)
+      delComment(comment_id){
+          this.$http.post('http://211.109.53.216:20000/comment/create-comment/',{
+            comnumber : comment_id
+          })
           .then((res) => {
               this.getComments()
           })
@@ -176,14 +178,14 @@ export default {
               this.checklists = res.data
           })
       },
-      addCheckList(ckl_info){
-          if(ckl_info){
+      addCheckList(ckl_content){
+          if(ckl_content){
               this.$http.post('http://211.109.53.216:20000/checklist',{
                   title:title
               }).then((res) => {
-                  //this.ckl_info.push(res.data);
+                  //this.ckl_content.push(res.data);
                   this.getCheckLists()
-                  this.ckl_info = ''
+                  this.ckl_content = ''
               })
           }
       },

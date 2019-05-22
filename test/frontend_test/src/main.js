@@ -14,11 +14,11 @@ Vue.config.productionTip = false
 Vue.prototype.$http = axios
 
 
-axios.defaults.withCredentials = false
-axios.defaults.proxy = {
-  host: 'http://localhost',
-  port: 5000,
-};
+// axios.defaults.withCredentials = false
+// axios.defaults.proxy = {
+//   host: 'http://localhost',
+//   port: 5000,
+// };
 
 new Vue({
   router,
