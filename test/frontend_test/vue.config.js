@@ -1,9 +1,10 @@
 module.exports = {
     devServer: {
       proxy: {
-    '/comment': {
-        target: 'http://61.100.207.22',
+    '^/': {
+        target: 'http://211.109.53.216',
         changeOrigin: true,
+        ws = true
       }
     }
   }

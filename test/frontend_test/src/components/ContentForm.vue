@@ -141,18 +141,21 @@ export default {
   methods:{
     //코멘트
       getComments() {
-          this.$http.get('http://211.109.53.216:20000/comment')
-          .then((res) => {
+          this.$http.post('http://211.109.53.216:20000/comment/checkcomment/', {
+            memberid:"jjhw9882", contentname:"사전조사(1)", contentid:"8"
+          }).then((res) => {
               //console.log('getTodos:', res.data)
               this.comments = res.data
           })
       },
-      addComment(cmd_info){
+      addComment(cmt_info){
           if(cmt_info){
               this.$http.post('http://211.109.53.216:20000/comment/create-comment',{
-                  title:title
+                  comcomment:cmt_info, memberid:"jjhw9882", contentid:"8"
               }).then((res) => {
-                  this.comments.push(res.data);
+                  //this.comments.push(res.data);
+                  //this.comments = res.data
+                  this.getComments()
                   this.cmt_info = ''
               })
           }
@@ -178,7 +181,8 @@ export default {
               this.$http.post('http://211.109.53.216:20000/checklist',{
                   title:title
               }).then((res) => {
-                  this.ckl_info.push(res.data);
+                  //this.ckl_info.push(res.data);
+                  this.getCheckLists()
                   this.ckl_info = ''
               })
           }
@@ -192,7 +196,7 @@ export default {
   },
   mounted() {
       this.getComments();
-      this.getCheckLists();   
+      //this.getCheckLists();   
     },
 
   components: {
