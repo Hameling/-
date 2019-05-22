@@ -18,7 +18,7 @@ html, body {
 body {
 	margin: 0px;
 	padding: 0px;
-	background: #C55300 url(images/img01.png) repeat;
+	/*background: #C55300 repeat;*/
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 10pt;
 	color: #8A8A8A;
@@ -49,7 +49,7 @@ strong {
 #wrapper {
 	overflow: hidden;
 	padding: 0px 0px 50px 0px;
-	background: #D47028 url(images/img02.png) repeat;
+	/*background: #D47028 repeat;*/
 }
 
 
@@ -84,7 +84,7 @@ strong {
 	width: 174px;
 	height: 50px;
 	margin-top: 30px;
-	background: url(images/img01.png) repeat;
+	background: repeat;
 	border-radius: 10px;
 	line-height: 50px;
 	text-align: center;
@@ -117,7 +117,7 @@ ul.style1 li:last-child {
 ul.style1 a {
 	display: block;
 	padding: 0px 0px 0px 30px;
-	background: url(images/img03.png) no-repeat left top;
+	background: no-repeat left top;
 	text-decoration: none;
 	color: #525252;
 }
@@ -151,7 +151,7 @@ ul.style2 .date {
 	display: inline-block;
 	margin: 0px 0px 25px 0px;
 	padding: 5px 10px;
-	background: url(images/img01.png) repeat;
+	background: repeat;
 	letter-spacing: 1px;
 	line-height: none;
 	text-transform: uppercase;
@@ -246,7 +246,7 @@ ul.style4 li:first-child {
 ul.style4 a {
 	display: block;
 	padding: 0px 0px 0px 30px;
-	background: url(images/img09.png) no-repeat left 5px;
+	background: no-repeat left 5px;
 	line-height: 160%;
 	text-decoration: none;
 	color: #F3F1EE;
