@@ -40,7 +40,7 @@
             <section>
               <div class="form-label-group">
                 <input type="text" id="inputText" v-model="cmt_content" v-on:keyup.enter="addComment(cmt_content)">
-                <button id="btnAdd" v-on:click="addComment(cmt_content)">Add</button>
+                <button id="cmtAdd" v-on:click="addComment(cmt_content)">Add</button>
                 <cComment v-bind:comments="comments" v-on:del-comment="delComment"> </cComment>
               </div>
             </section>
@@ -81,7 +81,7 @@
               <div id="myDIV" class="header">
                 <h2>Schedule</h2>
                 <input type="text" id="myInput" placeholder="Title..." v-model="ckl_content" v-on:keyup.enter="addCheckList(ckl_content)">
-                <span onclick="newElement()" class="addBtn" v-on:click="addCheckList(ckl_content)">Add</span>
+                <button id="cklAdd" v-on:click="addCheckList(ckl_content)">Add</button>
                 <cChecklist v-bind:checklists="checklists" v-on:del-checklist="delCheckList"> </cChecklist>
               </div>
             </section>
@@ -181,18 +181,19 @@ export default {
       },
       addCheckList(ckl_content){
           if(ckl_content){
-              this.$http.post('http://211.109.53.216:20000/checklist/',{
-                  title:title
+              this.$http.post('http://211.109.53.216:20000/checklist/create-checklist/',{
+                  contentid:"8" , listname:ckl_content
               }).then((res) => {
                   this.getCheckLists()
                   this.ckl_content = ''
               })
           }
       },
-      delCheckList(checklist){
-          this.$http.delete('http://211.109.53.216:20000/checklist/'+checklist)
+      delCheckList(checklist_id){
+          this.$http.post('http://211.109.53.216:20000/checklist/delete-checklist/',{
+            listnumber: checklist_id
+          })
           .then((res) => {
-              alert(res.data)
               this.getCheckLists()
           })
       }
