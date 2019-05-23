@@ -38,13 +38,44 @@ class AssignCreate(APIView):
         except:
             return JsonResponse({'create': 'fail'})
 
-class AssignSearch(generics.RetrieveAPIView):
-    queryset = Assign.objects.all()
-    serializer_class = AssignSerializer
+class AssignSearchMember(APIView):
+    parser_classes = (JSONParser,)
 
-class AssignUpdate(generics.UpdateAPIView):
-    queryset = Assign.objects.all()
-    serializer_class = AssignSerializer
+    def post(self, request, format=None):
+        input_memberid = str(request.data["memberid"])
+        data = list(Assign.objects.all().filter(memberid = input_memberid))
+        assign_list = []
+
+        str_data = str(data)
+        power_list = regex.parse_assign(str_data)
+
+        for i in power_list:
+            json_tmp = {}
+            json_tmp['contentid'] = i[0]
+            json_tmp['memberid'] = i[1]
+            json_tmp['assignid'] = i[2]
+            assign_list.append(json_tmp)
+        assign_list=json.dumps(assign_list)
+        return HttpResponse(assign_list, content_type="application/json")
+class AssignSearchContent(APIView):
+    parser_classes = (JSONParser,)
+
+    def post(self, request, format=None):
+        input_contentid = str(request.data["contentid"])
+        data = list(Assign.objects.all().filter(contentid = input_contentid))
+        assign_list = []
+
+        str_data = str(data)
+        power_list = regex.parse_assign(str_data)
+
+        for i in power_list:
+            json_tmp = {}
+            json_tmp['contentid'] = i[0]
+            json_tmp['memberid'] = i[1]
+            json_tmp['assignid'] = i[2]
+            assign_list.append(json_tmp)
+        assign_list = json.dumps(assign_list)
+        return HttpResponse(assign_list, content_type="application/json")
 
 class AssignDelete(APIView):
     parser_classes = (JSONParser,)
@@ -55,7 +86,9 @@ class AssignDelete(APIView):
         try:
             del_assign = Assign.objects.all().filter(memberid = input_memberid, contentid = input_contentid)
             str_data = str(del_assign)
+            print("str",str_data)
             power_list = regex.parse_assign(str_data)
+            print("power",power_list)
             acquire_assigncid = str(power_list[0][0])
             acquire_assignid = str(power_list[0][1])
             if((acquire_assignid == input_memberid) and (acquire_assigncid == input_contentid)):

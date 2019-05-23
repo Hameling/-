@@ -12,9 +12,9 @@ class Assign(models.Model):
     class Meta:
         managed = False
         db_table = 'Assign'
-        unique_together = (('memberid'),)
+        unique_together = (('memberid','contentid'),)
     def __str__(self):
-        return '{}isp{}'.format(self.contentid, self.memberid)
+        return '{}msp{}isp{}'.format(self.contentid, self.memberid, self.assignid)
 
 class Calender(models.Model):
     indexnumber = models.AutoField(primary_key=True)
