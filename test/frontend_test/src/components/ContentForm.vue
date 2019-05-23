@@ -38,16 +38,18 @@
               <div>
                 <br>
               </div>
-            <section>
-              <div class="form-label-group">
-                <input type="text" id="inputText" v-model="cmt_content" v-on:keyup.enter="addComment(cmt_content)">
-                <button id="cmtAdd" v-on:click="addComment(cmt_content)">Add</button>
-                <cComment v-bind:comments="comments" v-on:del-comment="delComment"> </cComment>
-              </div>
-            </section>
-          </div>
+              <section>
+                <div class="box">
+                  <div class="form-label-group">
+                    <input type="text" id="inputText" v-model="cmt_content" v-on:keyup.enter="addComment(cmt_content)">
+                    <button id="cmtAdd" v-on:click="addComment(cmt_content)">Add</button>
+                    <cComment v-bind:comments="comments" v-on:del-comment="delComment"> </cComment>
+                  </div>
+                </div>
+              </section>
+            </div>
 
-            <div class="3u" id="sidebar1">
+            <div class="4u" id="sidebar1">
               <section>
                 <div class="form-label-group">
                   <input
@@ -60,46 +62,51 @@
                   <label for="AssignedPerson">Assigned Person</label>
                 </div>
               </section>
- <section>
-              <div id="myDIV" class="header">
-                <h2>Schedule</h2>
-                <input type="text" id="myInput" placeholder="Title..." v-model="ckl_content" v-on:keyup.enter="addCheckList(ckl_content)">
-                <button id="cklAdd" v-on:click="addCheckList(ckl_content)">Add</button>
-                <cChecklist v-bind:checklists="checklists" v-on:del-checklist="delCheckList"> </cChecklist>
+              <div><br></div>
+              <section>
+              <div class="box">
+                  <div id="myDIV" class="header">
+                    <h2>Schedule</h2>
+                    <input type="text" id="myInput" placeholder="Title..." v-model="ckl_content" v-on:keyup.enter="addCheckList(ckl_content)">
+                    <button id="cklAdd" v-on:click="addCheckList(ckl_content)">Add</button>
+                    <cChecklist v-bind:checklists="checklists" v-on:del-checklist="delCheckList"> </cChecklist>
+                  </div>
+                </div>
+              </section>
+              <div>
+                <br>
               </div>
-            </section>
-            <div>
-              <br>
-            </div>
-            <section>
-              <div class="form-label-group">
-                <input
-                  type="file"
-                  id="File"
-                  class="dropbox"
-                  placeholder="File"
-                  required="required"
-                  @change="upload($event.target.name, $event.target.files)"
-                  @drop="upload($event.target.name, $event.target.files)"
-                >
-                <h2>파일을 드래그해서 드랍해주세요.</h2>
+              <section>
+                <div class="box">
+                  <div class="form-label-group">
+                    <input
+                      type="file"
+                      id="File"
+                      class="dropbox"
+                      placeholder="File"
+                      required="required"
+                      @change="upload($event.target.name, $event.target.files)"
+                      @drop="upload($event.target.name, $event.target.files)"
+                    >
+                    <a>Drag & Drop</a>
+                  </div>
+                </div>
+              </section>
+              <div>
+                <br>
               </div>
-            </section>
-            <div>
-              <br>
-            </div>
-            <section>
-              <div class="form-label-group">
-                <input
-                  type="text"
-                  id="UpdateDate"
-                  class="form-control"
-                  placeholder="UpdateDate"
-                  required="required"
-                >
-                <label for="UpdateDate">Update Date</label>
-              </div>
-            </section>
+              <section>
+                <div class="form-label-group">
+                  <input
+                    type="text"
+                    id="UpdateDate"
+                    class="form-control"
+                    placeholder="UpdateDate"
+                    required="required"
+                  >
+                  <label for="UpdateDate">Update Date</label>
+                </div>
+              </section>
             </div>
             
           </div>

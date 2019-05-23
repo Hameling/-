@@ -2007,6 +2007,13 @@ pre code {
   border: 0;
 }
 
+.box{
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+}
+
 .form-control {
   display: block;
   width: 100%;
@@ -10740,4 +10747,64 @@ body.sidebar-toggled footer.sticky-footer {
   body.sidebar-toggled footer.sticky-footer {
     width: calc(100% - 90px);
   }
+}
+
+.text {
+  color: var(--primary)
+}
+
+.sessiontxt {
+  color: #007bff;
+}
+
+/*breadcrumb*/
+.session {
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  background-color: #fff;
+  background-clip: border-box;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  border-radius: 0.25rem;
+}
+
+/*card*/
+.session-card {
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  background-color: #fff;
+  background-clip: border-box;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  border-radius: 0.25rem;
+}
+
+.testimonial-group > .row {
+  overflow-x: auto;
+  white-space: nowrap;
+}
+.testimonial-group > .row > .col-md-4 {
+  display: inline-block;
+  float: none;
+}
+
+.main-container > .row {
+  overflow-x: scroll;
+  white-space: nowrap;
+  flex-wrap: nowrap;
+
 }
