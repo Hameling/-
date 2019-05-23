@@ -39,13 +39,23 @@
                 <br>
               </div>
               <section>
-                <div class="box">
                   <div class="form-label-group">
-                    <input type="text" id="inputText" v-model="cmt_content" v-on:keyup.enter="addComment(cmt_content)">
-                    <button id="cmtAdd" v-on:click="addComment(cmt_content)">Add</button>
-                    <cComment v-bind:comments="comments" v-on:del-comment="delComment"> </cComment>
+                    <input 
+                      type="text"
+                      id="NewComment"
+                      class="form-control"
+                      placeholder="NewComment"
+                      required="requiired"
+                      autofocus="autofocus"
+                      v-model="cmt_content" v-on:keyup.enter="addComment(cmt_content)"
+                    >
+                    <label for="NewComment"> New Comment </label>
+
+                    <div class="comment-box" style="overflow:auto">
+                      <cComment v-bind:comments="comments" v-on:del-comment="delComment"> </cComment>
+                    </div>
                   </div>
-                </div>
+  
               </section>
             </div>
 
@@ -65,10 +75,73 @@
               <div><br></div>
               <section>
               <div class="box">
-                  <div id="myDIV" class="header">
-                    <h2>Schedule</h2>
-                    <input type="text" id="myInput" placeholder="Title..." v-model="ckl_content" v-on:keyup.enter="addCheckList(ckl_content)">
-                    <button id="cklAdd" v-on:click="addCheckList(ckl_content)">Add</button>
+                <div id="myDIV" class="header">
+                  <a>Schedule</a>
+                </div>
+
+              <div class="dropdown">
+                <button class="dropbtn">MM</button>
+                <div class="dropdown-content">
+                  <a >1</a>
+                  <a >2</a>
+                  <a >3</a>
+                  <a >4</a>
+                  <a >5</a>
+                  <a >6</a>
+                  <a >7</a>
+                  <a >8</a>
+                  <a >9</a>
+                  <a >10</a>
+                  <a >11</a>
+                  <a >12</a>
+                </div>
+              </div>
+              <div class="dropdown">
+                <button class="dropbtn">dd</button>
+                <div class="dropdown-content">
+                  <a>1</a>
+                  <a>2</a>
+                  <a>3</a>
+                  <a>4</a>
+                  <a>5</a>
+                  <a>6</a>
+                  <a>7</a>
+                  <a>8</a>
+                  <a>9</a>
+                  <a>10</a>
+                  <a>11</a>
+                  <a>12</a>
+                  <a>13</a>
+                  <a>14</a>
+                  <a>15</a>
+                  <a>16</a>
+                  <a>17</a>
+                  <a>18</a>
+                  <a>19</a>
+                  <a>20</a>
+                  <a>21</a>
+                  <a>22</a>
+                  <a>23</a>
+                  <a>24</a>
+                  <a>25</a>
+                  <a>26</a>
+                  <a>27</a>
+                  <a>28</a>
+                  <a>29</a>
+                  <a>30</a>
+                  <a>31</a>
+                  
+                </div>
+              </div>
+
+              </div>
+              </section>
+              <div><br></div>
+              <section>
+                <div id="myDIV" class="header"> 
+                  <input type="text" id="myInput" class="form-control" placeholder="New List" v-model="ckl_content" v-on:keyup.enter="addCheckList(ckl_content)">
+                  <!--<button id="cklAdd" v-on:click="addCheckList(ckl_content)">Add</button>-->
+                  <div class="file-box" style="overflow:auto">
                     <cChecklist v-bind:checklists="checklists" v-on:del-checklist="delCheckList"> </cChecklist>
                   </div>
                 </div>
@@ -77,7 +150,7 @@
                 <br>
               </div>
               <section>
-                <div class="box">
+                <div class="file-box">
                   <div class="form-label-group">
                     <input
                       type="file"

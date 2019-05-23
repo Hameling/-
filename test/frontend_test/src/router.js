@@ -15,7 +15,7 @@ export default new Router({
     {
       path: '/',
       //name: 'workspace',
-      component: Session2,
+      component: content,
       children: [
         {
           path: '',
