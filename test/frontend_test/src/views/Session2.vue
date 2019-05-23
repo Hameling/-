@@ -23,83 +23,103 @@
                       </div>
                     </div>
 
-                    <!--작성된 컨텐트-->
-                    <a class="card-footer text-white clearfix small z-1">
-                      <span class="float-left">Create New content</span>
-                      <span class="float-right">
-                        <i class="fas fa-angle-right"></i>
-                      </span>
-                    </a>
+                    <router-link to="/content">  
+                      <!--작성된 컨텐트-->
+                      <div class="card-footer text-white clearfix small z-1">
+                        <span class="float-left">Content01</span>
+                        <span class="float-right">
+                          <i class="fas fa-angle-right"></i>
+                        </span>
+                      </div>
+                    </router-link>
                    
 
-                    <a class="card-footer text-white clearfix small z-1">
-                      <!--새 컨텐트 작성-->
-                      <span class="float-left">Create New content</span>
-                      <span class="float-right">
-                        <i class="fas fa-angle-right"></i>
-                      </span>
-                    </a>
+                      <div class="card-footer text-white clearfix small z-1">
+                        <!--새 컨텐트 작성-->
+                        <span class="float-left">Create New content</span>
+                        <span class="float-right">
+                          <i class="fas fa-angle-right"></i>
+                        </span>
+                      </div>
                   </div>
                 </section>
               </div>
 
 
 
-              <div class="col-md-4" id="newsession">
+              <div class="col-md-4 " id="newsession">
                 <section>
                   <div class="session text-white o-hidden h-100" style="background:gray" >
                     <div class="card-body">
                       <div class="breadcrumb-item">
                         <div>Test Session 01</div>
                       </div>
-                    </div> 
-                    <a class="card-footer text-white clearfix small z-1" href="#">
-                      <!--프로젝트 생성 페이지 링크-->
-                      <span class="float-left">Create New content</span>
-                      <span class="float-right">
-                        <i class="fas fa-angle-right"></i>
-                      </span>
-                    </a>
+                    </div>
+
+                    <router-link to="/content">  
+                      <!--작성된 컨텐트-->
+                       <div class="card-footer text-white clearfix small z-1">
+                        <!--새 컨텐트 작성-->
+                        <span class="float-left">Create New content</span>
+                        <span class="float-right">
+                          <i class="fas fa-angle-right"></i>
+                        </span>
+                      </div>
+                    </router-link>
                   </div>
                 </section>
               </div>
 
 
-              <div class="col-md-4" id="newsession">
+
+
+
+              <div class="col-md-4 " id="newsession">
                 <section>
                   <div class="session text-white o-hidden h-100" style="background:gray" >
                     <div class="card-body">
                       <div class="breadcrumb-item">
                         <div>Test Session 01</div>
                       </div>
-                    </div> 
-                    <a class="card-footer text-white clearfix small z-1" href="#">
-                      <!--프로젝트 생성 페이지 링크-->
-                      <span class="float-left">Create New content</span>
-                      <span class="float-right">
-                        <i class="fas fa-angle-right"></i>
-                      </span>
-                    </a>
+                    </div>
+
+                    <router-link to="/content">  
+                      <!--작성된 컨텐트-->
+                       <div class="card-footer text-white clearfix small z-1">
+                        <!--새 컨텐트 작성-->
+                        <span class="float-left">Create New content</span>
+                        <span class="float-right">
+                          <i class="fas fa-angle-right"></i>
+                        </span>
+                      </div>
+                    </router-link>
                   </div>
                 </section>
               </div>
 
 
-              <div class="col-md-4" id="newsession">
+
+
+
+              <div class="col-md-4 " id="newsession">
                 <section>
                   <div class="session text-white o-hidden h-100" style="background:gray" >
                     <div class="card-body">
                       <div class="breadcrumb-item">
                         <div>Test Session 01</div>
                       </div>
-                    </div> 
-                    <a class="card-footer text-white clearfix small z-1" href="#">
-                      <!--프로젝트 생성 페이지 링크-->
-                      <span class="float-left">Create New content</span>
-                      <span class="float-right">
-                        <i class="fas fa-angle-right"></i>
-                      </span>
-                    </a>
+                    </div>
+
+                    <router-link to="/content">  
+                      <!--작성된 컨텐트-->
+                       <div class="card-footer text-white clearfix small z-1">
+                        <!--새 컨텐트 작성-->
+                        <span class="float-left">Create New content</span>
+                        <span class="float-right">
+                          <i class="fas fa-angle-right"></i>
+                        </span>
+                      </div>
+                    </router-link>
                   </div>
                 </section>
               </div>
