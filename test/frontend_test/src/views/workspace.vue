@@ -38,7 +38,7 @@
                 <!--카드와 카드 사이줄-->
                 <div class="col-md-10 offset-md-1">
                   <!--프로젝트 01-->
-                  <router-link to="/content">
+                  <router-link to="/project">
                     <div class="card text-white bg-primary o-hidden h-100">
                       <div class="card-body">
                         <div class="card-body-icon">

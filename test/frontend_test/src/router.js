@@ -15,7 +15,7 @@ export default new Router({
     {
       path: '/',
       //name: 'workspace',
-      component: content,
+      component: Workspace,
       children: [
         {
           path: '',
@@ -36,6 +36,11 @@ export default new Router({
       ],
       //다른 path추가 login, project
       //create project는 어떤식으로 할것인가?
+    },
+    {
+      path: '/project',
+      name: 'project',
+      component: Session2
     },
     {
       path: '/content',

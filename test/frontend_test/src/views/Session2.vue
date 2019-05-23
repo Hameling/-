@@ -1,222 +1,40 @@
   <template>
-      <div class="container-fluid  main-container">
-            <div class="row h-100">
-              <div class="col-md-2" id="sessionbar">
-                <section>
-                  <router-link to="">
-                    <ol class="breadcrumb">
-                      <li class="breadcrumb-item">
-                        <a href="#">Create New Session</a>
-                      </li>
-                    </ol>
-                  </router-link>
-                </section>
-              </div>
+  <div class="container-fluid main-container">
+    <Section v-bind:sections="sections" v-on:del-section="delSection"></Section>
+  </div>
+  <!--content-fulid-->
 
-
-              <div class="col-md-4 " id="newsession">
-                <section>
-                  <div class="session text-white o-hidden h-100" style="background:gray" >
-                    <div class="card-body">
-                      <div class="breadcrumb-item">
-                        <div>Test Session 01</div>
-                      </div>
-                    </div>
-
-                    <router-link to="/content">  
-                      <!--작성된 컨텐트-->
-                      <div class="card-footer text-white clearfix small z-1">
-                        <span class="float-left">Content01</span>
-                        <span class="float-right">
-                          <i class="fas fa-angle-right"></i>
-                        </span>
-                      </div>
-                    </router-link>
-                   
-
-                      <div class="card-footer text-white clearfix small z-1">
-                        <!--새 컨텐트 작성-->
-                        <span class="float-left">Create New content</span>
-                        <span class="float-right">
-                          <i class="fas fa-angle-right"></i>
-                        </span>
-                      </div>
-                  </div>
-                </section>
-              </div>
-
-
-
-              <div class="col-md-4 " id="newsession">
-                <section>
-                  <div class="session text-white o-hidden h-100" style="background:gray" >
-                    <div class="card-body">
-                      <div class="breadcrumb-item">
-                        <div>Test Session 01</div>
-                      </div>
-                    </div>
-
-                    <router-link to="/content">  
-                      <!--작성된 컨텐트-->
-                       <div class="card-footer text-white clearfix small z-1">
-                        <!--새 컨텐트 작성-->
-                        <span class="float-left">Create New content</span>
-                        <span class="float-right">
-                          <i class="fas fa-angle-right"></i>
-                        </span>
-                      </div>
-                    </router-link>
-                  </div>
-                </section>
-              </div>
-
-
-
-
-
-              <div class="col-md-4 " id="newsession">
-                <section>
-                  <div class="session text-white o-hidden h-100" style="background:gray" >
-                    <div class="card-body">
-                      <div class="breadcrumb-item">
-                        <div>Test Session 01</div>
-                      </div>
-                    </div>
-
-                    <router-link to="/content">  
-                      <!--작성된 컨텐트-->
-                       <div class="card-footer text-white clearfix small z-1">
-                        <!--새 컨텐트 작성-->
-                        <span class="float-left">Create New content</span>
-                        <span class="float-right">
-                          <i class="fas fa-angle-right"></i>
-                        </span>
-                      </div>
-                    </router-link>
-                  </div>
-                </section>
-              </div>
-
-
-
-
-
-              <div class="col-md-4 " id="newsession">
-                <section>
-                  <div class="session text-white o-hidden h-100" style="background:gray" >
-                    <div class="card-body">
-                      <div class="breadcrumb-item">
-                        <div>Test Session 01</div>
-                      </div>
-                    </div>
-
-                    <router-link to="/content">  
-                      <!--작성된 컨텐트-->
-                       <div class="card-footer text-white clearfix small z-1">
-                        <!--새 컨텐트 작성-->
-                        <span class="float-left">Create New content</span>
-                        <span class="float-right">
-                          <i class="fas fa-angle-right"></i>
-                        </span>
-                      </div>
-                    </router-link>
-                  </div>
-                </section>
-              </div>
-
-
-
-
-
-            </div> <!--row-->
-
-      </div>  <!--content-fulid-->
-
-          <!--<a class="btn btn-primary btn-block" href="#">Confirm</a>-->
-    </div>
+  <!--<a class="btn btn-primary btn-block" href="#">Confirm</a>-->
 </template>
 
 <script>
-import cChecklist from '@/components/Cont_CheckList'
-import cComment from '@/components/Cont_Comment'
+import Section from "@/components/Section";
 export default {
-  name: 'contentForm',
-  data(){
-      return {
-          cmt_content: '',
-          ckl_content: '',
-          comments:[],
-          checklists:[],
-      }
+  name: "project",
+  data() {
+    return {
+      sections: []
+    };
   },
-  methods:{
-    //코멘트
-      getComments() {
-          this.$http.post('http://211.109.53.216:20000/comment/checkcomment/', {
-            memberid:"jjhw9882", contentname:"사전조사(1)", contentid:"8"
-          }).then((res) => {
-              //console.log('getTodos:', res.data)
-              this.comments = res.data
-          })
-      },
-      addComment(cmt_content){
-          if(cmt_content){
-              this.$http.post('http://211.109.53.216:20000/comment/create-comment/',{
-                  comcomment:cmt_content, memberid:"jjhw9882", contentid:"8"
-              }).then((res) => {
-                  //this.comments.push(res.data);
-                  //this.comments = res.data
-                  this.getComments()
-                  this.cmt_content = ''
-              })
-          }
-      },
-      delComment(comment_id){
-          this.$http.post('http://211.109.53.216:20000/comment/delete-comment/',{
-            comnumber : comment_id, memberid:'jjhw9882'
-          })
-          .then((res) => {
-              this.getComments()
-          })
-      },
-
-    
-    //체크리스트
-      getCheckLists() {
-          this.$http.post('http://211.109.53.216:20000/checklist/search-checklist/', {
-            contentid: "8"
-          })
-          .then((res) => {
-              this.checklists = res.data
-          })
-      },
-      addCheckList(ckl_content){
-          if(ckl_content){
-              this.$http.post('http://211.109.53.216:20000/checklist/create-checklist/',{
-                  contentid:"8" , listname:ckl_content
-              }).then((res) => {
-                  this.getCheckLists()
-                  this.ckl_content = ''
-              })
-          }
-      },
-      delCheckList(checklist_id){
-          this.$http.post('http://211.109.53.216:20000/checklist/delete-checklist/',{
-            listnumber: checklist_id
-          })
-          .then((res) => {
-              this.getCheckLists()
-          })
-      }
+  methods: {
+    getAllElement() {
+      this.$http.post("http://211.109.53.216:20000/member/call-all/", {
+        titleid: "8"
+      })
+      .then(res => {
+        this.sections = res.data;
+      });
+    },
+    delSection() {
+      
+    }
   },
   mounted() {
-      this.getComments();
-      this.getCheckLists();   
-    },
+    this.getAllElement();
+  },
 
   components: {
-    'cChecklist': cChecklist,
-    'cComment' : cComment
+    Section: Section
   }
-}
+};
 </script>

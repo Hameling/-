@@ -1,5 +1,48 @@
 <template>
   <div id="app">
+
+     <b-modal id='test' title = 'Login' hide-footer hide-header centered> 
+      <div class="card-header">Login</div>
+      <div class="card-body">
+        <form role="form" @submit.prevent = "onSubmit(id, pwd)">
+          <div class="form-group">
+            <div class="form-label-group">
+              <label for="inputID">ID</label>
+              <input type="ID" id="inputID" class="form-control" placeholder="ID" required="required" autofocus="autofocus"
+                v-model="id">
+
+       
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="form-label-group">
+              <label for="inputPassword">Password</label>
+              <input type="password" id="inputPassword" class="form-control" placeholder="Password" required="required"
+                v-model="pwd">
+
+              
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" value="remember-me">
+                Remember Password
+              </label>
+            </div>
+          </div>
+          <input type = "submit" class="btn btn-primary btn-block" value = 'Login'>
+        </form>
+        <!--<button type = "button" class="btn btn-primary btn-block" v-on:click="addEmail(id, pwd)">Login</button>-->
+        
+        <div class="text-center">
+          <a class="d-block small mt-3" href="register.html">Register an Account</a>
+          <a class="d-block small" href="forgot-password.html">Forgot Password?</a>
+        </div>
+      </div>
+
+    </b-modal>
+
     <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
       <a class="navbar-brand mr-1" href="index.html">HOME</a>
 
@@ -113,7 +156,7 @@
           </a>
           <div class="dropdown-menu" aria-labelledby="pagesDropdown">
             <h6 class="dropdown-header">Login Screens:</h6>
-            <a class="dropdown-item" href="login.html">Login</a>
+            <div class="dropdown-item" @click='$bvModal.show("test")'>Login</div>
             <a class="dropdown-item" href="register.html">Register</a>
             <a class="dropdown-item" href="forgot-password.html">Forgot Password</a>
             <div class="dropdown-divider"></div>
@@ -176,6 +219,41 @@
 
 <script>
 export default {
-  name: "app"
+  name: "app",
+  data: () => ({
+        id: '',
+        pwd: '',
+    }),
+  methods:{
+    upload(name, files) {
+        const formData = new FormData();
+        formData.append(name, files[0], files[0].name);
+        const url = "http://211.109.53.216:20000/file/fileupload/";
+        this.$http.post(url, formData).then(res => {
+          console.log("Sucess");
+        })
+        .catch(res => {
+          console.log("Fail");
+        })
+    },
+    onSubmit(id, pwd){
+        // this.$store.dispatch('LOGIN', {id, pwd})
+        // .then(() => tis.redirect())
+        // .catch(({message}) => this.msg = message)
+        if(id){
+        this.$http.post('http://211.109.53.216:20000/member/login/', {
+          memberid:id, memberpwd:pwd
+        }).then((res)=>{
+          alert(res)
+          this.id = ""
+          this.pwd = ""
+        })
+       }
+      },
+  },
+
+  components:{
+    //Modal_Test
+  }
 };
 </script>

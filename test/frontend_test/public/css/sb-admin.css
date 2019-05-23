@@ -10786,15 +10786,6 @@ body.sidebar-toggled footer.sticky-footer {
   border-radius: 0.25rem;
 }
 
-.testimonial-group > .row {
-  overflow-x: auto;
-  white-space: nowrap;
-}
-.testimonial-group > .row > .col-md-4 {
-  display: inline-block;
-  float: none;
-}
-
 .main-container > .row {
   overflow-x: scroll;
   white-space: nowrap;
@@ -10896,4 +10887,9 @@ body.sidebar-toggled footer.sticky-footer {
 
 .dropdown:hover .dropbtn {
   background-color: #007bff;
+}
+.inner-row {
+  overflow-x: scroll;
+  white-space: nowrap;
+  flex-wrap: nowrap;
 }
