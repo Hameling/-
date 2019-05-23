@@ -279,7 +279,6 @@ class EnrollCreate(APIView):
     def post(self, request, format=None):
         input_titleid = str(request.data["titleid"])
         input_memberid = str(request.data["memberid"])
-
         try:
             member = Member.objects.get(memberid=input_memberid)
             title = Title.objects.get(titleid=input_titleid)
@@ -289,12 +288,40 @@ class EnrollCreate(APIView):
             return JsonResponse({'create': 'fail'})
 
 class EnrollSearchTitle(APIView):
-    queryset = Enroll.objects.all()
-    serializer_class = EnrollSerializer
+    parser_classes = (JSONParser,)
+
+    def post(self, request, format=None):  
+        input_memberid = str(request.data["memberid"])
+        data = list(Enroll.objects.all().filter(memberid = input_memberid))
+        comment_list = []
+        str_data = str(data)
+        power_list = regex.parse_enroll(str_data)
+        for i in power_list:
+            json_tmp = {}
+            json_tmp['titleid'] = i[0]
+            json_tmp['memeberid'] = i[1]
+            json_tmp['enrollid'] = i[2]
+            comment_list.append(json_tmp)
+        comment_list=json.dumps(comment_list)
+        return HttpResponse(comment_list, content_type="application/json")
 
 class EnrollSearchMember(APIView):
-    queryset = Enroll.objects.all()
-    serializer_class = EnrollSerializer
+    parser_classes = (JSONParser,)
+
+    def post(self, request, format=None):   
+        input_titleid = str(request.data["titleid"]) 
+        data = list(Enroll.objects.all().filter(titleid = input_titleid))
+        comment_list = []
+        str_data = str(data)
+        power_list = regex.parse_enroll(str_data)
+        for i in power_list:
+            json_tmp = {}
+            json_tmp['titleid'] = i[0]
+            json_tmp['memeberid'] = i[1]
+            json_tmp['enrollid'] = i[2]
+            comment_list.append(json_tmp)
+        comment_list=json.dumps(comment_list)
+        return HttpResponse(comment_list, content_type="application/json")
 
 class EnrollDelete(APIView):
     parser_classes = (JSONParser,)
