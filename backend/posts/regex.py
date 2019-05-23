@@ -40,3 +40,13 @@ def parse_section(text):
     for i in result:
         true_result.append((i[0],i[1],i[2]))
     return true_result
+
+#<QuerySet [<Enroll: 8sp종합 프로젝트na소프트웨어 개발idjjhw9882idd8>]>
+def parse_enroll(text):
+    field = re.compile("<Enroll: (\d+)sp([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)na([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)id(\w+)idd(\d+)>")
+    result = field.findall(text)
+    true_result = []
+
+    for i in result:
+        true_result.append((i[0],i[3],i[4]))
+    return true_result

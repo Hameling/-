@@ -273,39 +273,48 @@ class EnrollList(generics.ListAPIView):
     queryset = Enroll.objects.all()
     serializer_class = EnrollSerializer
 
-class EnrollCreate(generics.CreateAPIView):
+class EnrollCreate(APIView):
+    parser_classes = (JSONParser,)
+
+    def post(self, request, format=None):
+        input_titleid = str(request.data["titleid"])
+        input_memberid = str(request.data["memberid"])
+
+        try:
+            member = Member.objects.get(memberid=input_memberid)
+            title = Title.objects.get(titleid=input_titleid)
+            Enroll.objects.create(memberid=member, titleid=title)
+            return JsonResponse({'create': 'success'}) 
+        except:
+            return JsonResponse({'create': 'fail'})
+
+class EnrollSearchTitle(APIView):
     queryset = Enroll.objects.all()
     serializer_class = EnrollSerializer
 
-class EnrollSearch(generics.RetrieveAPIView):
+class EnrollSearchMember(APIView):
     queryset = Enroll.objects.all()
     serializer_class = EnrollSerializer
 
-class EnrollDelete(generics.DestroyAPIView):
-    queryset = Enroll.objects.all()
-    serializer_class = EnrollSerializer
+class EnrollDelete(APIView):
+    parser_classes = (JSONParser,)
 
-class EnrollUpdate(generics.UpdateAPIView):
-    queryset = Enroll.objects.all()
-    serializer_class = EnrollSerializer
-
-class MyEnroll(generics.ListAPIView):
-    serializer_class = EnrollSerializer
-    lookup_url_kwarg = "memberid"
-    def get_queryset(self):
-        memberid = self.kwargs.get(self.lookup_url_kwarg)
-        mymemberid = Enroll.objects.filter(memberid=memberid)
-        print(mymemberid)
-        return mymemberid
-
-class InTitle(generics.ListAPIView):
-    serializer_class = EnrollSerializer
-    lookup_url_kwarg = "titleid"
-    def get_queryset(self):
-        titleid = self.kwargs.get(self.lookup_url_kwarg)
-        mytitleid = Enroll.objects.filter(titleid=titleid)
-        print(mytitleid)
-        return mytitleid
+    def post(self, request, format=None):
+        input_titleid = str(request.data["titleid"])
+        input_memberid = str(request.data["memberid"])
+        try:
+            del_enroll = Enroll.objects.all().filter(memberid = input_memberid, titleid = input_titleid)
+            str_data = str(del_enroll)
+            power_list = regex.parse_enroll(str_data)
+            ac_titleid = str(power_list[0][0])
+            ac_memberid = str(power_list[0][1])
+            if((ac_memberid == input_memberid) and (ac_titleid == input_titleid)):
+                del_enroll.delete()
+                return JsonResponse({'delete': 'success'})
+            else:
+                return JsonResponse({'delete': 'Not matched'})
+        except:
+            return JsonResponse({'delete': 'fail'})
 
 #File
 class FileList(generics.ListAPIView):

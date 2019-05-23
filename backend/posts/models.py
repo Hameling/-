@@ -93,7 +93,7 @@ class Enroll(models.Model):
         db_table = 'Enroll'
         unique_together = (('memberid','titleid'),)
     def __str__(self):
-        return '[{}] {}'.format(self.titleid, self.memberid)
+        return '{}id{}idd{}'.format(self.titleid, self.memberid, self.enrollid)
 
 class File(models.Model):
     fileaddress = models.CharField(primary_key=True, max_length=45)
