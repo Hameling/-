@@ -12,9 +12,9 @@ class Assign(models.Model):
     class Meta:
         managed = False
         db_table = 'Assign'
-        unique_together = (('memberid'),)
+        unique_together = (('memberid','contentid'),)
     def __str__(self):
-        return '[{}] {}'.format(self.contentid, self.memberid)
+        return '{}msp{}isp{}'.format(self.contentid, self.memberid, self.assignid)
 
 class Calender(models.Model):
     indexnumber = models.AutoField(primary_key=True)
@@ -61,8 +61,6 @@ class Content(models.Model):
     contentid = models.AutoField(primary_key=True)
     contentname = models.CharField(max_length=45, blank=True, null=True)
     contentinfo = models.CharField(max_length=200, blank=True, null=True)
-    iscomment = models.IntegerField(blank=True, null=True)
-    ischecklist = models.IntegerField(blank=True, null=True)
     contentpos = models.IntegerField(blank=True, null=True)
     contentheight = models.IntegerField(blank=True, null=True)
     contentstate = models.ForeignKey('Contentstate', models.DO_NOTHING, db_column='contentstate')
@@ -72,7 +70,7 @@ class Content(models.Model):
         managed = False
         db_table = 'Content'
     def __str__(self):
-        return str(self.contentid)
+        return '{}na{}in{}'.format(self.contentid,self.contentname,self.contentinfo)
 
 
 class Contentstate(models.Model):
@@ -95,7 +93,7 @@ class Enroll(models.Model):
         db_table = 'Enroll'
         unique_together = (('memberid','titleid'),)
     def __str__(self):
-        return '[{}] {}'.format(self.titleid, self.memberid)
+        return '{}id{}idd{}'.format(self.titleid, self.memberid, self.enrollid)
 
 class File(models.Model):
     fileaddress = models.CharField(primary_key=True, max_length=45)
@@ -158,7 +156,7 @@ class Section(models.Model):
         managed = False
         db_table = 'Section'
     def __str__(self):
-        return self.sectionname
+        return '{}na{}id{}'.format(self.sectionid,self.sectionname, self.titleid)
 
 
 class Session(models.Model):

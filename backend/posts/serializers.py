@@ -43,12 +43,12 @@ class CommentUpdateSerializer(serializers.ModelSerializer):
 #Content
 class ContentSerializer(serializers.ModelSerializer):
     class Meta:
-        fields = ('contentid','contentname','contentinfo','iscomment','ischecklist','contentpos','contentheight','contentstate','sectionid')
+        fields = ('contentid','contentname','contentinfo','contentpos','contentheight','contentstate','sectionid')
         model = models.Content
 
 class ContentUpdateSerializer(serializers.ModelSerializer):
     class Meta:
-        fields = ('contentname','contentinfo','iscomment','ischecklist','contentpos','contentheight','contentstate',)
+        fields = ('contentname','contentinfo','contentpos','contentheight','contentstate',)
         model = models.Content
 
 #Contentstate
@@ -105,7 +105,7 @@ class PermissionstateSerializer(serializers.ModelSerializer):
 #Section
 class SectionSerializer(serializers.ModelSerializer):
     class Meta:
-        fields = ('titleid','sectionname',)
+        fields = ('titleid','sectionname','sectionid')
         model = models.Section
 
 class SectionUpdateSerializer(serializers.ModelSerializer):

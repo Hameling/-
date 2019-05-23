@@ -24,30 +24,80 @@ class AssignList(generics.ListAPIView):
     queryset = Assign.objects.all()
     serializer_class = AssignSerializer
 
-class AssignCreate(generics.CreateAPIView):
-    queryset = Assign.objects.all()
-    serializer_class = AssignSerializer
+class AssignCreate(APIView):
+    parser_classes = (JSONParser,)
+    def post(self, request, format=None):
+        input_memberid = request.data["memberid"]
+        input_contentid =request.data["contentid"]
 
-class AssignSearch(generics.RetrieveAPIView):
-    queryset = Assign.objects.all()
-    serializer_class = AssignSerializer
+        try:
+            member = Member.objects.get(memberid=input_memberid)
+            content = Content.objects.get(contentid=input_contentid)
+            Assign.objects.create(memberid = member, contentid = content)
+            return JsonResponse({'create': 'success'}) 
+        except:
+            return JsonResponse({'create': 'fail'})
 
-class AssignDelete(generics.DestroyAPIView):
-    queryset = Assign.objects.all()
-    serializer_class = AssignSerializer
+class AssignSearchMember(APIView):
+    parser_classes = (JSONParser,)
 
-class AssignUpdate(generics.UpdateAPIView):
-    queryset = Assign.objects.all()
-    serializer_class = AssignSerializer
+    def post(self, request, format=None):
+        input_memberid = str(request.data["memberid"])
+        data = list(Assign.objects.all().filter(memberid = input_memberid))
+        assign_list = []
 
-class MyAssign(generics.ListAPIView):
-    serializer_class = AssignSerializer
-    lookup_url_kwarg = "memberid"
-    def get_queryset(self):
-        memberid = self.kwargs.get(self.lookup_url_kwarg)
-        mymemberid = Assign.objects.filter(memberid=memberid)
-        print(mymemberid)
-        return mymemberid
+        str_data = str(data)
+        power_list = regex.parse_assign(str_data)
+
+        for i in power_list:
+            json_tmp = {}
+            json_tmp['contentid'] = i[0]
+            json_tmp['memberid'] = i[1]
+            json_tmp['assignid'] = i[2]
+            assign_list.append(json_tmp)
+        assign_list=json.dumps(assign_list)
+        return HttpResponse(assign_list, content_type="application/json")
+class AssignSearchContent(APIView):
+    parser_classes = (JSONParser,)
+
+    def post(self, request, format=None):
+        input_contentid = str(request.data["contentid"])
+        data = list(Assign.objects.all().filter(contentid = input_contentid))
+        assign_list = []
+
+        str_data = str(data)
+        power_list = regex.parse_assign(str_data)
+
+        for i in power_list:
+            json_tmp = {}
+            json_tmp['contentid'] = i[0]
+            json_tmp['memberid'] = i[1]
+            json_tmp['assignid'] = i[2]
+            assign_list.append(json_tmp)
+        assign_list = json.dumps(assign_list)
+        return HttpResponse(assign_list, content_type="application/json")
+
+class AssignDelete(APIView):
+    parser_classes = (JSONParser,)
+
+    def post(self, request, format=None):
+        input_memberid = str(request.data["memberid"])
+        input_contentid = str(request.data["contentid"])
+        try:
+            del_assign = Assign.objects.all().filter(memberid = input_memberid, contentid = input_contentid)
+            str_data = str(del_assign)
+            print("str",str_data)
+            power_list = regex.parse_assign(str_data)
+            print("power",power_list)
+            acquire_assigncid = str(power_list[0][0])
+            acquire_assignid = str(power_list[0][1])
+            if((acquire_assignid == input_memberid) and (acquire_assigncid == input_contentid)):
+                del_assign.delete()
+                return JsonResponse({'delete': 'success'})
+            else:
+                return JsonResponse({'delete': 'Not matched'})
+        except:
+            return JsonResponse({'delete': 'fail'})
 
 #Checklist
 class ChecklistList(generics.ListAPIView):
@@ -273,39 +323,75 @@ class EnrollList(generics.ListAPIView):
     queryset = Enroll.objects.all()
     serializer_class = EnrollSerializer
 
-class EnrollCreate(generics.CreateAPIView):
-    queryset = Enroll.objects.all()
-    serializer_class = EnrollSerializer
+class EnrollCreate(APIView):
+    parser_classes = (JSONParser,)
 
-class EnrollSearch(generics.RetrieveAPIView):
-    queryset = Enroll.objects.all()
-    serializer_class = EnrollSerializer
+    def post(self, request, format=None):
+        input_titleid = str(request.data["titleid"])
+        input_memberid = str(request.data["memberid"])
+        try:
+            member = Member.objects.get(memberid=input_memberid)
+            title = Title.objects.get(titleid=input_titleid)
+            Enroll.objects.create(memberid=member, titleid=title)
+            return JsonResponse({'create': 'success'}) 
+        except:
+            return JsonResponse({'create': 'fail'})
 
-class EnrollDelete(generics.DestroyAPIView):
-    queryset = Enroll.objects.all()
-    serializer_class = EnrollSerializer
+class EnrollSearchTitle(APIView):
+    parser_classes = (JSONParser,)
 
-class EnrollUpdate(generics.UpdateAPIView):
-    queryset = Enroll.objects.all()
-    serializer_class = EnrollSerializer
+    def post(self, request, format=None):  
+        input_memberid = str(request.data["memberid"])
+        data = list(Enroll.objects.all().filter(memberid = input_memberid))
+        comment_list = []
+        str_data = str(data)
+        power_list = regex.parse_enroll(str_data)
+        for i in power_list:
+            json_tmp = {}
+            json_tmp['titleid'] = i[0]
+            json_tmp['memeberid'] = i[1]
+            json_tmp['enrollid'] = i[2]
+            comment_list.append(json_tmp)
+        comment_list=json.dumps(comment_list)
+        return HttpResponse(comment_list, content_type="application/json")
 
-class MyEnroll(generics.ListAPIView):
-    serializer_class = EnrollSerializer
-    lookup_url_kwarg = "memberid"
-    def get_queryset(self):
-        memberid = self.kwargs.get(self.lookup_url_kwarg)
-        mymemberid = Enroll.objects.filter(memberid=memberid)
-        print(mymemberid)
-        return mymemberid
+class EnrollSearchMember(APIView):
+    parser_classes = (JSONParser,)
 
-class InTitle(generics.ListAPIView):
-    serializer_class = EnrollSerializer
-    lookup_url_kwarg = "titleid"
-    def get_queryset(self):
-        titleid = self.kwargs.get(self.lookup_url_kwarg)
-        mytitleid = Enroll.objects.filter(titleid=titleid)
-        print(mytitleid)
-        return mytitleid
+    def post(self, request, format=None):   
+        input_titleid = str(request.data["titleid"]) 
+        data = list(Enroll.objects.all().filter(titleid = input_titleid))
+        comment_list = []
+        str_data = str(data)
+        power_list = regex.parse_enroll(str_data)
+        for i in power_list:
+            json_tmp = {}
+            json_tmp['titleid'] = i[0]
+            json_tmp['memeberid'] = i[1]
+            json_tmp['enrollid'] = i[2]
+            comment_list.append(json_tmp)
+        comment_list=json.dumps(comment_list)
+        return HttpResponse(comment_list, content_type="application/json")
+
+class EnrollDelete(APIView):
+    parser_classes = (JSONParser,)
+
+    def post(self, request, format=None):
+        input_titleid = str(request.data["titleid"])
+        input_memberid = str(request.data["memberid"])
+        try:
+            del_enroll = Enroll.objects.all().filter(memberid = input_memberid, titleid = input_titleid)
+            str_data = str(del_enroll)
+            power_list = regex.parse_enroll(str_data)
+            ac_titleid = str(power_list[0][0])
+            ac_memberid = str(power_list[0][1])
+            if((ac_memberid == input_memberid) and (ac_titleid == input_titleid)):
+                del_enroll.delete()
+                return JsonResponse({'delete': 'success'})
+            else:
+                return JsonResponse({'delete': 'Not matched'})
+        except:
+            return JsonResponse({'delete': 'fail'})
 
 #File
 class FileList(generics.ListAPIView):
@@ -422,30 +508,61 @@ class SectionList(generics.ListAPIView):
     queryset = Section.objects.all()
     serializer_class = SectionSerializer
 
-class SectionCreate(generics.CreateAPIView):
-    queryset = Section.objects.all()
-    serializer_class = SectionSerializer
+class SectionCreate(APIView):
+    parser_classes = (JSONParser,)
+    def post(self, request, format=None):
+        input_titleid = request.data["titleid"]
+        input_sectionname = request.data["sectionname"]
 
-class SectionSearch(generics.RetrieveAPIView):
-    queryset = Section.objects.all()
-    serializer_class = SectionSerializer
+        try:
+            thistitle = Title.objects.get(titleid=input_titleid)
+            Section.objects.create(titleid = thistitle, sectionname = input_sectionname)
+            return JsonResponse({'create': 'success'}) 
+        except:
+            return JsonResponse({'create': 'fail'})
 
-class SectionDelete(generics.DestroyAPIView):
-    queryset = Section.objects.all()
-    serializer_class = SectionSerializer
+class SectionSearch(APIView):
+    parser_classes = (JSONParser,)
 
-class SectionUpdate(generics.UpdateAPIView):
-    queryset = Section.objects.all()
-    serializer_class = SectionUpdateSerializer
+    def post(self, request, format=None):    
+        input_sectionid = request.data["sectionid"]
+        comment_list = []
+        data = list(Section.objects.all().filter(sectionid = input_sectionid))
+        str_data = str(data)
+        power_list = regex.parse_section(str_data)
+        for i in power_list:
+            json_tmp = {}
+            json_tmp['sectionid'] = i[0]
+            json_tmp['sectionname'] = i[1]
+            json_tmp['titleid'] = i[2]
+            comment_list.append(json_tmp)
+        comment_list=json.dumps(comment_list)
+        return HttpResponse(comment_list, content_type="application/json")
 
-class MySection(generics.ListAPIView):
-    serializer_class = SectionSerializer
-    lookup_url_kwarg = "titleid"
-    def get_queryset(self):
-        titleid = self.kwargs.get(self.lookup_url_kwarg)
-        mytitleid = Section.objects.filter(titleid=titleid)
-        print(mytitleid)
-        return mytitleid
+class SectionDelete(APIView):
+    parser_classes = (JSONParser,)
+
+    def post(self, request, format=None):
+        input_sectionid = request.data["sectionid"]
+        try:
+            del_sec = Section.objects.all().filter(sectionid = input_sectionid)
+            del_sec.delete()
+            return JsonResponse({'delete': 'Delete success'})
+        except:
+            return JsonResponse({'delete': 'fail'})
+
+class SectionUpdate(APIView):
+    parser_classes = (JSONParser,)
+
+    def post(self, request, format=None):
+        input_sectionid = request.data["sectionid"]
+        input_sectionname = request.data["sectionname"]
+        try:
+            update_section = Section.objects.all().filter(sectionid = input_sectionid)
+            update_section.update(sectionname = input_sectionname)
+            return JsonResponse({'update': 'success'})
+        except:
+            return JsonResponse({'update': 'fail'})
 
 #Session
 class SessionList(generics.ListAPIView):
@@ -525,3 +642,34 @@ class TitleUpdate(APIView):
             return JsonResponse({'update': 'success'})
         except:
             return JsonResponse({'update': 'fail'})
+
+
+class SearchAll(APIView):
+    parser_classes = (JSONParser,)
+
+    def post(self, request, format=None):    
+        input_titleid = request.data["titleid"]
+        section_list = []
+        data = list(Section.objects.all().filter(titleid = input_titleid))
+        str_data = str(data)
+        power_list = regex.parse_section(str_data)
+        for i in power_list:
+            json_tmp = {}
+            json_tmp['sectionid'] = i[0]
+            json_tmp['sectionname'] = i[1]
+            content_list = []
+            con_data = list(Content.objects.all().filter(sectionid = i[0]))
+            str_condata = str(con_data)
+            content_regex= regex.parse_content(str_condata)
+            print(content_regex)
+            for j in content_regex:
+                json_stmp = {}
+                json_stmp['contentid'] = j[0]
+                json_stmp['contentname'] = j[1]
+                json_stmp['contentinfo'] = j[2]
+                print(json_stmp)
+                content_list.append(json_stmp)
+            json_tmp['includeContent'] = content_list
+            section_list.append(json_tmp)
+        section_list=json.dumps(section_list)
+        return HttpResponse(section_list, content_type="application/json")
