@@ -70,7 +70,7 @@ class Content(models.Model):
         managed = False
         db_table = 'Content'
     def __str__(self):
-        return str(self.contentid)
+        return '{}na{}in{}'.format(self.contentid,self.contentname,self.contentinfo)
 
 
 class Contentstate(models.Model):

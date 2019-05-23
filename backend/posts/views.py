@@ -592,3 +592,34 @@ class TitleUpdate(APIView):
             return JsonResponse({'update': 'success'})
         except:
             return JsonResponse({'update': 'fail'})
+
+
+class SearchAll(APIView):
+    parser_classes = (JSONParser,)
+
+    def post(self, request, format=None):    
+        input_titleid = request.data["titleid"]
+        section_list = []
+        data = list(Section.objects.all().filter(titleid = input_titleid))
+        str_data = str(data)
+        power_list = regex.parse_section(str_data)
+        for i in power_list:
+            json_tmp = {}
+            json_tmp['sectionid'] = i[0]
+            json_tmp['sectionname'] = i[1]
+            content_list = []
+            con_data = list(Content.objects.all().filter(sectionid = i[0]))
+            str_condata = str(con_data)
+            content_regex= regex.parse_content(str_condata)
+            print(content_regex)
+            for j in content_regex:
+                json_stmp = {}
+                json_stmp['contentid'] = j[0]
+                json_stmp['contentname'] = j[1]
+                json_stmp['contentinfo'] = j[2]
+                print(json_stmp)
+                content_list.append(json_stmp)
+            json_tmp['includeContent'] = content_list
+            section_list.append(json_tmp)
+        section_list=json.dumps(section_list)
+        return HttpResponse(section_list, content_type="application/json")

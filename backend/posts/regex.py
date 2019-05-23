@@ -50,3 +50,13 @@ def parse_enroll(text):
     for i in result:
         true_result.append((i[0],i[3],i[4]))
     return true_result
+
+#[<Content: 8na사전조사(1)in현재 운영중인 회사 정보>]
+def parse_content(text):
+    field = re.compile("<Content: ([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)na([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)in([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)>")
+    result = field.findall(text)
+    true_result = []
+
+    for i in result:
+        true_result.append((i[0],i[1],i[2]))
+    return true_result
