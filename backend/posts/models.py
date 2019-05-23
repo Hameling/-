@@ -14,7 +14,7 @@ class Assign(models.Model):
         db_table = 'Assign'
         unique_together = (('memberid'),)
     def __str__(self):
-        return '[{}] {}'.format(self.contentid, self.memberid)
+        return '{}isp{}'.format(self.contentid, self.memberid)
 
 class Calender(models.Model):
     indexnumber = models.AutoField(primary_key=True)

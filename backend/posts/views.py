@@ -24,15 +24,21 @@ class AssignList(generics.ListAPIView):
     queryset = Assign.objects.all()
     serializer_class = AssignSerializer
 
-class AssignCreate(generics.CreateAPIView):
-    queryset = Assign.objects.all()
-    serializer_class = AssignSerializer
+class AssignCreate(APIView):
+    parser_classes = (JSONParser,)
+    def post(self, request, format=None):
+        input_memberid = request.data["memberid"]
+        input_contentid =request.data["contentid"]
+
+        try:
+            member = Member.objects.get(memberid=input_memberid)
+            content = Content.objects.get(contentid=input_contentid)
+            Assign.objects.create(memberid = member, contentid = content)
+            return JsonResponse({'create': 'success'}) 
+        except:
+            return JsonResponse({'create': 'fail'})
 
 class AssignSearch(generics.RetrieveAPIView):
-    queryset = Assign.objects.all()
-    serializer_class = AssignSerializer
-
-class AssignDelete(generics.DestroyAPIView):
     queryset = Assign.objects.all()
     serializer_class = AssignSerializer
 
@@ -40,14 +46,25 @@ class AssignUpdate(generics.UpdateAPIView):
     queryset = Assign.objects.all()
     serializer_class = AssignSerializer
 
-class MyAssign(generics.ListAPIView):
-    serializer_class = AssignSerializer
-    lookup_url_kwarg = "memberid"
-    def get_queryset(self):
-        memberid = self.kwargs.get(self.lookup_url_kwarg)
-        mymemberid = Assign.objects.filter(memberid=memberid)
-        print(mymemberid)
-        return mymemberid
+class AssignDelete(APIView):
+    parser_classes = (JSONParser,)
+
+    def post(self, request, format=None):
+        input_memberid = str(request.data["memberid"])
+        input_contentid = str(request.data["contentid"])
+        try:
+            del_assign = Assign.objects.all().filter(memberid = input_memberid, contentid = input_contentid)
+            str_data = str(del_assign)
+            power_list = regex.parse_assign(str_data)
+            acquire_assigncid = str(power_list[0][0])
+            acquire_assignid = str(power_list[0][1])
+            if((acquire_assignid == input_memberid) and (acquire_assigncid == input_contentid)):
+                del_assign.delete()
+                return JsonResponse({'delete': 'success'})
+            else:
+                return JsonResponse({'delete': 'Not matched'})
+        except:
+            return JsonResponse({'delete': 'fail'})
 
 #Checklist
 class ChecklistList(generics.ListAPIView):

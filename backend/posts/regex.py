@@ -60,3 +60,13 @@ def parse_content(text):
     for i in result:
         true_result.append((i[0],i[1],i[2]))
     return true_result
+
+#[<Assign: 8ispjjhw9882>]
+def parse_assign(text):
+    field = re.compile("<Assign: (\d+)isp(\w+)>")
+    result = field.findall(text)
+    true_result = []
+
+    for i in result:
+        true_result.append((i[0],i[1]))
+    return true_result
