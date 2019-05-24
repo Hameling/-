@@ -63,3 +63,13 @@ def parse_content(text):
     for i in result:
         true_result.append((i[0],i[1],i[2],i[3],i[4],i[5]))
     return true_result
+
+#[<Assign: 8na사전조사(1)in현재 운영중인 회사 정보mspjjhw9883isp3>]
+def parse_assign(text):
+    field = re.compile("<Assign: (\d+)na([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)in([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)msp(\w+)isp(\w+)>")
+    result = field.findall(text)
+    true_result = []
+
+    for i in result:
+        true_result.append((i[0],i[3],i[4]))
+    return true_result
