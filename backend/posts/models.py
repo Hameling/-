@@ -119,7 +119,7 @@ class Member(models.Model):
         managed = False
         db_table = 'Member'
     def __str__(self):
-        return self.memberid
+        return '{}ps{}na{}em{}'.format(self.memberid, self.memberpwd, self.membername, self.memberemail)
 
 
 class Permission(models.Model):

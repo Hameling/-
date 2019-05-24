@@ -289,15 +289,6 @@ class ContentUpdate(generics.UpdateAPIView):
     queryset = Content.objects.all()
     serializer_class = ContentUpdateSerializer
 
-class MyContent(generics.ListAPIView):
-    serializer_class = ContentSerializer
-    lookup_url_kwarg = "sectionid"
-    def get_queryset(self):
-        sectionid = self.kwargs.get(self.lookup_url_kwarg)
-        mysectionid = Content.objects.filter(sectionid=sectionid)
-        print(mysectionid)
-        return mysectionid
-
 #Contentstate
 class ContentstateList(generics.ListAPIView):
     queryset = Contentstate.objects.all()
@@ -420,21 +411,60 @@ class MemberList(generics.ListAPIView):
     queryset = Member.objects.all()
     serializer_class = MemberSerializer
 
-class MemberCreate(generics.CreateAPIView):
-    queryset = Member.objects.all()
-    serializer_class = MemberSerializer
+class MemberCreate(APIView):
+    parser_classes = (JSONParser,)
+    def post(self, request, format=None):
+        input_memberid = request.data["memberid"]
+        input_memberpwd = request.data["memberpwd"]
+        input_membername = request.data["membername"]
+        input_memberemail = request.data["memberemail"]
 
-class MemberSearch(generics.RetrieveAPIView):
-    queryset = Member.objects.all()
-    serializer_class = MemberSerializer
+        try:
+            Member.objects.create(memberid = input_memberid, memberpwd = input_memberpwd, membername = input_membername, memberemail= input_memberemail)
+            return JsonResponse({'create': 'success'}) 
+        except:
+            return JsonResponse({'create': 'fail'})
 
-class MemberDelete(generics.DestroyAPIView):
-    queryset = Member.objects.all()
-    serializer_class = MemberSerializer
+class MemberDelete(APIView):
+    parser_classes = (JSONParser,)
 
-class MemberUpdate(generics.UpdateAPIView):
-    queryset = Member.objects.all()
-    serializer_class = MembeUpdaterSerializer
+    def post(self, request, format=None):
+        input_memberid = request.data["memberid"]
+        input_memberpwd = request.data["memberpwd"]
+        try:
+            del_member = Member.objects.all().filter(memberid = input_memberid, memberpwd = input_memberpwd)
+            str_data = str(del_member)
+            power_list = regex.parse_member(str_data)
+            ac_memberid = str(power_list[0][0])
+            ac_memberpwd = str(power_list[0][1])
+            if((ac_memberid == input_memberid) and (ac_memberpwd == input_memberpwd)):
+               del_member.delete()
+               return JsonResponse({'delete': 'success'})
+            else:
+                return JsonResponse({'delete': 'Not matched'})
+        except:
+            return JsonResponse({'delete': 'fail'})
+
+class MemberUpdate(APIView):
+    parser_classes = (JSONParser,)
+
+    def post(self, request, format=None):
+        input_memberid = request.data["memberid"]
+        input_memberpwd = request.data["memberpwd"]
+        input_membername = request.data["membername"]
+        input_memberemail = request.data["memberemail"]
+        try:
+            update_member = Member.objects.all().filter(memberid = input_memberid)
+            str_data = str(update_member)
+            power_list = regex.parse_member(str_data)
+            ac_memberid = str(power_list[0][0])
+            if ac_memberid == input_memberid:
+               update_member.update(membername = input_membername, memberemail = input_memberemail, memberpwd = input_memberpwd)
+               return JsonResponse({'update': 'success'})
+            else:
+                return JsonResponse({'update': 'Not matched'})
+        except:
+            return JsonResponse({'update': 'fail'})
 
 class Login(APIView):
     parser_classes = (JSONParser,)

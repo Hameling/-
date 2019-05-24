@@ -73,3 +73,14 @@ def parse_assign(text):
     for i in result:
         true_result.append((i[0],i[3],i[4]))
     return true_result
+
+#return '{}pwd{}na{}em{}'.format(self.memberid, self.memberpwd, self.membername, self.memberemail)
+#[<Member: testidpwdtestpwd123na테스트emtest@naver.com>]
+def parse_member(text):
+    field = re.compile("<Member: ([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)ps([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)na([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)em([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)>")
+    result = field.findall(text)
+    true_result = []
+
+    for i in result:
+        true_result.append((i[0],i[1],i[2],i[3]))
+    return true_result
