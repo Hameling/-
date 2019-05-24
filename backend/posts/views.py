@@ -78,12 +78,13 @@ class ChecklistSearch(APIView):
         data = list(Checklist.objects.all().filter(contentid = input_contentid))
         str_data = str(data)
         power_list = regex.parse_checklist(str_data)
+        print(power_list)
         for i in power_list:
             json_tmp = {}
             json_tmp['listnumber'] = i[0]
             json_tmp['listname'] = i[1]
-            json_tmp['contentid'] = i[2]
-            json_tmp['checked'] = i[3]
+            json_tmp['checked'] = i[2]
+            json_tmp['contentid'] = i[3]
             comment_list.append(json_tmp)
         comment_list=json.dumps(comment_list)
         return HttpResponse(comment_list, content_type="application/json")
@@ -603,6 +604,7 @@ class SearchAll(APIView):
         data = list(Section.objects.all().filter(titleid = input_titleid))
         str_data = str(data)
         power_list = regex.parse_section(str_data)
+        print(power_list)
         for i in power_list:
             json_tmp = {}
             json_tmp['sectionid'] = i[0]
@@ -617,6 +619,9 @@ class SearchAll(APIView):
                 json_stmp['contentid'] = j[0]
                 json_stmp['contentname'] = j[1]
                 json_stmp['contentinfo'] = j[2]
+                json_stmp['pos'] = j[3]
+                json_stmp['height'] = j[4]
+                json_stmp['state'] = j[5]
                 print(json_stmp)
                 content_list.append(json_stmp)
             json_tmp['includeContent'] = content_list

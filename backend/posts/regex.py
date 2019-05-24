@@ -9,13 +9,15 @@ def parse_text(text):
         
     return true_result
 
+#return '{}na{}ck{}cid{}'.format(self.listnumber, self.listname,self.checked, self.contentid)
+#[<Checklist: 1na업데이트 성공!ck1cid8na사전조사(1)in현재 운영중인 회사 정보pos1he1st신규>]
 def parse_checklist(text):
-    field = re.compile("<Checklist: (\d+)sp([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)where(\d+)>")
+    field = re.compile("<Checklist: (\d+)na([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)ck(\d+)cid(\d+)na([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)in([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)pos(\d+)he(\d+)st([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)>")
     result = field.findall(text)
     true_result = []
 
     for i in result:
-        true_result.append((i[0],i[1],i[2][:-1],i[2][-1:]))
+        true_result.append((i[0],i[1],i[2],i[3]))
         
     return true_result
 
@@ -51,12 +53,13 @@ def parse_enroll(text):
         true_result.append((i[0],i[3],i[4]))
     return true_result
 
-#[<Content: 8na사전조사(1)in현재 운영중인 회사 정보>]
+#return '{}na{}in{}pos{}he{}st{}'.format(self.contentid,self.contentname,self.contentinfo, self.contentpos, self.contentheight, self.contentstate)
+#[<Content: 8na사전조사(1)in현재 운영중인 회사 정보pos1he1st신규>]
 def parse_content(text):
-    field = re.compile("<Content: ([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)na([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)in([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)>")
+    field = re.compile("<Content: (\d+)na([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)in([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)pos(\d+)he(\d+)st([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)>")
     result = field.findall(text)
     true_result = []
 
     for i in result:
-        true_result.append((i[0],i[1],i[2]))
+        true_result.append((i[0],i[1],i[2],i[3],i[4],i[5]))
     return true_result
