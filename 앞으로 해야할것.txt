@@ -1,5 +1,5 @@
-﻿1. Assign - Myassign삭제 , create, delete, search
-2. Calender
+﻿1. Assign - 끝
+2. Calender - Create 완성
 3. Content
 4. Enroll - 끝
 5. Member - 끝

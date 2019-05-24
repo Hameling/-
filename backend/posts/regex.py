@@ -84,3 +84,14 @@ def parse_member(text):
     for i in result:
         true_result.append((i[0],i[1],i[2],i[3]))
     return true_result
+
+#return '[{}] ~ [{}]csp{}isp{}lsp{}'.format(self.starttime, self.duetime, self.contentid, self.indexnumber, self.isoverlap)
+#[<Calender: 2019-05-24T11:22:33~2019-05-25T12:23:34csp8isp1lsp0]
+def parse_calender(text):
+    field = re.compile("<Calender: [([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)] ~ [([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)]csp(\d+)na([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)in([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)pos(\d+)he(\d+)st([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)isp(\d+)lsp(ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…+)>")
+    result = field.findall(text)
+    true_result = []
+
+    for i in result:
+        true_result.append((i[0],i[1],i[2],i[8],i[9]))
+    return true_result

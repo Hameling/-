@@ -171,21 +171,52 @@ class CalenderList(generics.ListAPIView):
     queryset = Calender.objects.all()
     serializer_class = CalenderSerializer
 
-class CalenderCreate(generics.CreateAPIView):
-    queryset = Calender.objects.all()
-    serializer_class = CalenderSerializer
+class CalenderCreate(APIView):
+    parser_classes = (JSONParser,)
 
-class CalenderSearch(generics.RetrieveAPIView):
-    queryset = Calender.objects.all()
-    serializer_class = CalenderSerializer
+    def post(self, request, format=None):
+        input_starttime=request.data["starttime"]
+        input_duetime = request.data["duetime"]
+        input_contentid = request.data["contentid"]
 
-class CalenderDelete(generics.DestroyAPIView):
-    queryset = Calender.objects.all()
-    serializer_class = CalenderSerializer
+        try:
+            contentid = Content.objects.get(contentid=input_contentid)
+            Calender.objects.create(starttime = input_starttime, duetime = input_duetime, contentid = contentid)
+            return JsonResponse({'create': 'success'}) 
+        except:
+            return JsonResponse({'create': 'fail'})
 
-class CalenderUpdate(generics.UpdateAPIView):
-    queryset = Calender.objects.all()
-    serializer_class = CalenderUpdateSerializer
+class CalenderSearch(APIView):
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
+
+
+class CalenderDelete(APIView):
+    parser_classes = (JSONParser,)
+
+    def post(self, request, format=None):
+        input_indexnumber = request.data["indexnumber"]
+        input_contentid=request.data["contentid"]
+        try:
+            del_calender = Calender.objects.all().filter(indexnumber = input_indexnumber, contentid = input_contentid)
+            str_data = str(del_calender)
+            print(str_data)
+            power_list = regex.parse_calender(str_data)
+            print("1",power_list)
+            acquire_indexnumber = power_list[0][8]
+            acquire_contentid = power_list[0][2]
+            if(acquire_indexnumber == input_indexnumber) and ( acquire_contentid == input_contentid):
+                del_calender.delete()
+                return JsonResponse({'delete': 'Delete success'})
+            return JsonResponse({'delete': 'Not Matched'}) 
+        except:
+            return JsonResponse({'delete': 'fail'})
+
+
+class CalenderUpdate(APIView):
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
+
 
 #Comment
 class CommentList(generics.ListAPIView):
