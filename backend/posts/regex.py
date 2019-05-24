@@ -97,12 +97,13 @@ def parse_member(text):
     return true_result
 
 #return '[{}] ~ [{}]csp{}isp{}lsp{}'.format(self.starttime, self.duetime, self.contentid, self.indexnumber, self.isoverlap)
-#[<Calender: 2019-05-24T11:22:33~2019-05-25T12:23:34csp8isp1lsp0]
+#[Calender: [2019-05-24 00:00:00] ~ [2019-05-25 00:00:00]csp8na사전조사(1)in현재 운영중인 회사 정보pos1he1st신규sec6na사전조사id8sp종합 프로젝트na소프트웨어 개발isp14lsp0]
 def parse_calender(text):
-    field = re.compile("<Calender: [([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)] ~ [([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)]csp(\d+)na([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)in([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)pos(\d+)he(\d+)st([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)isp(\d+)lsp(ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…+)>")
+    field = re.compile("<Calender: [([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)] ~ [([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)]csp(\d+)na([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)in([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)pos(\d+)he(\d+)st([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)sec([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)isp(\d+)lsp(\d+)>")
     result = field.findall(text)
     true_result = []
 
     for i in result:
-        true_result.append((i[0],i[1],i[2],i[8],i[9]))
+        #true_result.append((i[0],i[1],i[2],i[13],i[14]))
+        true_result.append((i[0],i[1],i[2],i[3],i[4],i[5],i[6],i[7],i[8],i[9],i[10],i[11],i[12],i[13],i[14]))
     return true_result

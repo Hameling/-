@@ -21,7 +21,7 @@ class Calender(models.Model):
     starttime = models.DateTimeField()
     duetime = models.DateTimeField()
     contentid = models.ForeignKey('Content', on_delete=models.CASCADE, db_column='contentid')
-    isoverlap = models.IntegerField(blank=True, null=True)
+    isoverlap = models.IntegerField(blank=True, null=True, default=0)
 
     class Meta:
         managed = False
