@@ -1,7 +1,7 @@
 ﻿1. Assign - 끝
 2. Calender - Create 완성
-3. Content
+3. Content - 끝, search 부분에 calender 추가해야함 -> 주환이가 calender crud 만들면 그때 가능
 4. Enroll - 끝
 5. Member - 끝
-6. Permission
-7. All About 
+6. Permission - 주환이 담당
+7. All About - 언제하누...

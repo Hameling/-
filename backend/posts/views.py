@@ -16,8 +16,7 @@ from rest_framework import generics, permissions
 from django.views.generic import DetailView
 
 from .models import Assign,Checklist,Calender,Comment,Content,Contentstate,Enroll,File,Member,Permission,Section,Title, Permissionstate, Session
-from .serializers import AssignSerializer,ChecklistSerializer,CalenderSerializer,CommentSerializer,ContentSerializer,ContentstateSerializer,EnrollSerializer,FileSerializer,MemberSerializer,PermissionSerializer,SectionSerializer,TitleSerializer,PermissionstateSerializer,MembeUpdaterSerializer,ChecklistUpdateSerializer,CalenderUpdateSerializer,CommentUpdateSerializer,ContentUpdateSerializer,FileUpdateSerializer,PermissionUpdateSerializer,SectionUpdateSerializer,TitleUpdateSerializer, SessionSerializer
-
+from .serializers import AssignSerializer,ChecklistSerializer,CalenderSerializer,CommentSerializer,ContentSerializer,ContentstateSerializer,EnrollSerializer,FileSerializer,MemberSerializer,PermissionSerializer,SectionSerializer,TitleSerializer,PermissionstateSerializer
 # Create your views here.
 #Assign
 class AssignList(generics.ListAPIView):
@@ -128,7 +127,6 @@ class ChecklistSearch(APIView):
         data = list(Checklist.objects.all().filter(contentid = input_contentid))
         str_data = str(data)
         power_list = regex.parse_checklist(str_data)
-        print(power_list)
         for i in power_list:
             json_tmp = {}
             json_tmp['listnumber'] = i[0]
@@ -282,7 +280,6 @@ class CheckComment(APIView):
     parser_classes = (JSONParser,)
 
     def post(self, request, format=None):    
-        input_memberid=request.data["memberid"]
         input_contentid = request.data["contentid"]
         comment_list = []
     
@@ -304,21 +301,104 @@ class ContentList(generics.ListAPIView):
     queryset = Content.objects.all()
     serializer_class = ContentSerializer
 
-class ContentCreate(generics.CreateAPIView):
-    queryset = Content.objects.all()
-    serializer_class = ContentSerializer
+class ContentCreate(APIView):
+    parser_classes = (JSONParser,)
+
+    def post(self, request, format=None):
+        input_contentname = request.data["contentname"]
+        input_contentinfo = request.data["contentinfo"]
+        input_contentstate = request.data["contentstate"]
+        input_sectionid = request.data["sectionid"]
+        try:
+            contentstatename = Contentstate.objects.get(statenumber=input_contentstate)
+            
+            if(input_sectionid == "NULL"):
+                print(input_sectionid)
+                Content.objects.create(contentname=input_contentname, contentinfo = input_contentinfo, contentpos= 0, contentheight=0, contentstate = contentstatename)
+            else:
+                section = Section.objects.get(sectionid = input_sectionid)
+                Content.objects.create(contentname=input_contentname, contentinfo = input_contentinfo, contentpos= 0, contentheight=0, contentstate = contentstatename, sectionid =section)
+                print(section)
+            return JsonResponse({'Create': 'Create success'})
+        except:
+            return JsonResponse({'Create': 'fail'})
     
-class ContentSearch(generics.RetrieveAPIView):
-    queryset = Content.objects.all()
-    serializer_class = ContentSerializer
+class ContentSearch(APIView):
+    parser_classes = (JSONParser,)
 
-class ContentDelete(generics.DestroyAPIView):
-    queryset = Content.objects.all()
-    serializer_class = ContentSerializer
+    def post(self, request, format=None):    
+        input_contentid = request.data["contentid"]
+        content_list = []
+        data = Content.objects.all().filter(contentid = input_contentid)
+        str_data = str(data)
+        power_list = regex.parse_content(str_data)
+        for i in power_list:
+            json_tmp = {}
+            json_tmp['contentid'] = i[0]
+            json_tmp['contentname'] = i[1]
+            json_tmp['contentinfo'] = i[2]
+            json_tmp['contentpos'] = i[3]
+            json_tmp['contentheight'] = i[4]
+            json_tmp['contentstate'] = i[5]
+            str_sectionid = str(i[6])
+            only_sectionid = regex.parse_getsectionid(str_sectionid)
+            json_tmp['sectionid'] = only_sectionid[0][0]
+            comment_data = list(Comment.objects.all().filter(contentid = input_contentid))
+            str_commentdata = str(comment_data)
+            comment_list = regex.parse_text(str_commentdata)
+            comment_jlist = []
+            for j in comment_list:
+                json_ctmp = {}
+                json_ctmp['comnumber'] = j[0]
+                json_ctmp['memberid'] = j[1]
+                json_ctmp['comcomment'] = j[2]
+                json_ctmp['commenttime'] = j[3]
+                comment_jlist.append(json_ctmp)
+            json_tmp['commentlist'] = comment_jlist
+            checklist_data = list(Checklist.objects.all().filter(contentid = input_contentid))
+            str_cheklistdata = str(checklist_data)
+            check_list = regex.parse_checklist(str_cheklistdata)
+            cheklist_list = []
+            for k in check_list:
+                json_cktmp = {}
+                json_cktmp['listnumber'] = k[0]
+                json_cktmp['listname'] = k[1]
+                json_cktmp['checked'] = k[2]
+                json_cktmp['contentid'] = k[3]
+                cheklist_list.append(json_cktmp)
+            json_tmp['checklistlist'] = cheklist_list
+            content_list.append(json_tmp)
+        content_list=json.dumps(content_list)
+        return HttpResponse(content_list, content_type="application/json")
 
-class ContentUpdate(generics.UpdateAPIView):
-    queryset = Content.objects.all()
-    serializer_class = ContentUpdateSerializer
+class ContentDelete(APIView):
+    parser_classes = (JSONParser,)
+
+    def post(self, request, format=None):
+        input_contentid = request.data["contentid"]
+        try:
+            del_content = Content.objects.all().filter(contentid = input_contentid)
+            del_content.delete()
+            return JsonResponse({'delete': 'Delete success'})
+        except:
+            return JsonResponse({'delete': 'fail'})
+
+class ContentUpdate(APIView):
+    parser_classes = (JSONParser,)
+
+    def post(self, request, format=None):
+        input_contentid = request.data["contentid"]
+        input_contentname = request.data["contentname"]
+        input_contentinfo = request.data["contentinfo"]
+        input_contentstate = request.data["contentstate"]
+        try:
+            update_content = Content.objects.all().filter(contentid = input_contentid)
+            str_data = str(update_content)
+            power_list = regex.parse_content(str_data)
+            update_content.update(contentname = input_contentname,contentinfo = input_contentinfo, contentstate = input_contentstate)
+            return JsonResponse({'update': 'update success'})
+        except:
+            return JsonResponse({'update': 'fail'})
 
 #Contentstate
 class ContentstateList(generics.ListAPIView):
@@ -435,7 +515,7 @@ class FileDelete(generics.DestroyAPIView):
 
 class FileUpdate(generics.UpdateAPIView):
     queryset = File.objects.all()
-    serializer_class = FileUpdateSerializer
+    serializer_class = FileSerializer
 
 #Member
 class MemberList(generics.ListAPIView):
@@ -542,7 +622,7 @@ class PermissionDelete(generics.DestroyAPIView):
 
 class PermissionUpdate(generics.UpdateAPIView):
     queryset = Permission.objects.all()
-    serializer_class = PermissionUpdateSerializer
+    serializer_class = PermissionSerializer
 
 #Permissionstate
 class PermissionstateList(generics.ListAPIView):
@@ -628,20 +708,20 @@ class SectionUpdate(APIView):
 
 #Session
 class SessionList(generics.ListAPIView):
-    queryset = Session.objects.all()
-    serializer_class = SessionSerializer
+    def post(self, request, format=None):
+        return JsonResponse({'nothing': 'nothing'})
 
 class SessionCreate(generics.CreateAPIView):
-    queryset = Session.objects.all()
-    serializer_class = SessionSerializer
+    def post(self, request, format=None):
+        return JsonResponse({'nothing': 'nothing'})
 
 class SessionSearch(generics.RetrieveAPIView):
-    queryset = Session.objects.all()
-    serializer_class = SessionSerializer
+    def post(self, request, format=None):
+        return JsonResponse({'nothing': 'nothing'})
 
 class SessionDelete(generics.DestroyAPIView):
-    queryset = Session.objects.all()
-    serializer_class = SessionSerializer
+    def post(self, request, format=None):
+        return JsonResponse({'nothing': 'nothing'})
 
 #Title
 class TitleList(generics.ListAPIView):
@@ -724,7 +804,6 @@ class SearchAll(APIView):
             con_data = list(Content.objects.all().filter(sectionid = i[0]))
             str_condata = str(con_data)
             content_regex= regex.parse_content(str_condata)
-            print(content_regex)
             for j in content_regex:
                 json_stmp = {}
                 json_stmp['contentid'] = j[0]
@@ -733,7 +812,6 @@ class SearchAll(APIView):
                 json_stmp['pos'] = j[3]
                 json_stmp['height'] = j[4]
                 json_stmp['state'] = j[5]
-                print(json_stmp)
                 content_list.append(json_stmp)
             json_tmp['includeContent'] = content_list
             section_list.append(json_tmp)

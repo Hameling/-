@@ -1,11 +1,13 @@
 import re
+#[<Comment: 63ispjjhw9882psm4321na테스트2emtest02@naver.comwho이얏2019-05-24 17:10:10>
+#return '{}isp{}who{}{}'.format(self.comnumber,self.memberid,self.comcomment,self.commenttime)
 def parse_text(text):
-    field =  re.compile("<Comment: (\d+)isp(\w+)who([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)>")
+    field =  re.compile("<Comment: (\d+)isp([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)ps([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)na([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)em([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)who([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)>")
     result = field.findall(text)
     true_result = []
 
     for i in result:
-        true_result.append((i[0],i[1],i[2][:-19],i[2][-19:]))
+        true_result.append((i[0],i[1],i[5][:-19],i[5][-19:]))
         
     return true_result
 
@@ -43,6 +45,15 @@ def parse_section(text):
         true_result.append((i[0],i[1],i[2]))
     return true_result
 
+def parse_getsectionid(text):
+    field = re.compile("(\d+)na([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)id(\d+)sp([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)na([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)")
+    result = field.findall(text)
+    true_result = []
+
+    for i in result:
+        true_result.append((i[0],i[1],i[2]))
+    return true_result
+
 #<QuerySet [<Enroll: 8sp종합 프로젝트na소프트웨어 개발idjjhw9882idd8>]>
 def parse_enroll(text):
     field = re.compile("<Enroll: (\d+)sp([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)na([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)id(\w+)idd(\d+)>")
@@ -53,15 +64,15 @@ def parse_enroll(text):
         true_result.append((i[0],i[3],i[4]))
     return true_result
 
-#return '{}na{}in{}pos{}he{}st{}'.format(self.contentid,self.contentname,self.contentinfo, self.contentpos, self.contentheight, self.contentstate)
+#return '{}na{}in{}pos{}he{}st{}sec{}'.format(self.contentid,self.contentname,self.contentinfo, self.contentpos, self.contentheight, self.contentstate)
 #[<Content: 8na사전조사(1)in현재 운영중인 회사 정보pos1he1st신규>]
 def parse_content(text):
-    field = re.compile("<Content: (\d+)na([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)in([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)pos(\d+)he(\d+)st([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)>")
+    field = re.compile("<Content: (\d+)na([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)in([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)pos(\d+)he(\d+)st([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)sec([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)>")
     result = field.findall(text)
     true_result = []
 
     for i in result:
-        true_result.append((i[0],i[1],i[2],i[3],i[4],i[5]))
+        true_result.append((i[0],i[1],i[2],i[3],i[4],i[5],i[6]))
     return true_result
 
 #[<Assign: 8na사전조사(1)in현재 운영중인 회사 정보mspjjhw9883isp3>]
