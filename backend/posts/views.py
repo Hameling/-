@@ -85,11 +85,11 @@ class AssignDelete(APIView):
         try:
             del_assign = Assign.objects.all().filter(memberid = input_memberid, contentid = input_contentid)
             str_data = str(del_assign)
-            print("str",str_data)
+
             power_list = regex.parse_assign(str_data)
-            print("power",power_list)
             acquire_assigncid = str(power_list[0][0])
             acquire_assignid = str(power_list[0][1])
+
             if((acquire_assignid == input_memberid) and (acquire_assigncid == input_contentid)):
                 del_assign.delete()
                 return JsonResponse({'delete': 'success'})
@@ -185,36 +185,71 @@ class CalenderCreate(APIView):
             return JsonResponse({'create': 'fail'})
 
 class CalenderSearch(APIView):
-    queryset = Comment.objects.all()
-    serializer_class = CommentSerializer
+    parser_classes = (JSONParser,)
+
+    def post(self, request, format=None):    
+        input_contentid = request.data["contentid"]
+        calender_list = []
+    
+        data = list(Calender.objects.all().filter(contentid = input_contentid))
+        str_data = str(data)
+        power_list = regex.parse_calender(str_data)
+        for i in power_list:
+            json_tmp = {}
+            json_tmp['indexnumber'] = i[3]
+            json_tmp['starttime'] = i[0]
+            json_tmp['duetime'] = i[1]
+            json_tmp['contentid'] = i[2]
+            calender_list.append(json_tmp)
+        calender_list=json.dumps(calender_list)
+        return HttpResponse(calender_list, content_type="application/json")
 
 
 class CalenderDelete(APIView):
     parser_classes = (JSONParser,)
 
     def post(self, request, format=None):
-        input_indexnumber = request.data["indexnumber"]
-        input_contentid=request.data["contentid"]
-        #input_isoverlap = request.data["isoverlap"]
+        input_indexnumber = str(request.data["indexnumber"])
+        input_contentid = str(request.data["contentid"])
         try:
             del_calender = Calender.objects.all().filter(indexnumber = input_indexnumber, contentid = input_contentid)
             str_data = str(del_calender)
-            print(str_data)
+
             power_list = regex.parse_calender(str_data)
-            print(power_list)
-            #acquire_indexnumber = power_list[0][13]
-            #acquire_contentid = power_list[0][2]
-            #if(acquire_indexnumber == input_indexnumber) and ( acquire_contentid == input_contentid):
-                #del_calender.delete()
-                #return JsonResponse({'delete': 'Delete success'})
-            return JsonResponse({'delete': 'Not Matched'}) 
+            acquire_contentid = str(power_list[0][2])
+            acquire_indexnumber = str(power_list[0][3])
+
+            if((acquire_indexnumber == input_indexnumber) and ( acquire_contentid == input_contentid)):
+                del_calender.delete()
+                return JsonResponse({'delete': 'Delete success'})
+            else:
+                return JsonResponse({'delete': 'Not Matched'}) 
         except:
             return JsonResponse({'delete': 'fail'})
 
 
 class CalenderUpdate(APIView):
-    queryset = Comment.objects.all()
-    serializer_class = CommentSerializer
+    parser_classes = (JSONParser,)
+
+    def post(self, request, format=None):
+        input_contentid = request.data["contentid"]
+        input_starttime = request.data["starttime"]
+        input_duetime = request.data["duetime"]
+        input_isoverlap = request.data["isoverlap"]
+
+        try:
+            update_contentid = Calender.objects.all().filter(contentid = input_contentid)
+            str_data = str(update_contentid)
+            power_list = regex.parse_calender(str_data)
+            print(power_list)
+            acquire_contentid = power_list[0][2]
+            if(acquire_contentid == input_contentid):
+                update_contentid.update(starttime = input_starttime, duetime = input_duetime, isoverlap = input_isoverlap)
+                return JsonResponse({'update': 'success'})
+            else:
+                return JsonResponse({'update': 'Not Matched'})
+        except:
+            return JsonResponse({'update': 'fail'})
 
 
 #Comment
