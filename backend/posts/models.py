@@ -5,8 +5,8 @@ from django.db import models
 # Create your models here.
 
 class Assign(models.Model):
-    memberid = models.ForeignKey('Member', models.DO_NOTHING, db_column='memberid')
-    contentid = models.ForeignKey('Content', models.DO_NOTHING, db_column='contentid')
+    memberid = models.ForeignKey('Member', on_delete=models.CASCADE, db_column='memberid')
+    contentid = models.ForeignKey('Content', on_delete=models.CASCADE, db_column='contentid')
     assignid = models.AutoField(primary_key=True)
 
     class Meta:
@@ -20,7 +20,7 @@ class Calender(models.Model):
     indexnumber = models.AutoField(primary_key=True)
     starttime = models.DateTimeField()
     duetime = models.DateTimeField()
-    contentid = models.ForeignKey('Content', models.DO_NOTHING, db_column='contentid')
+    contentid = models.ForeignKey('Content', on_delete=models.CASCADE, db_column='contentid')
     isoverlap = models.IntegerField(blank=True, null=True)
 
     class Meta:
@@ -33,7 +33,7 @@ class Calender(models.Model):
 class Checklist(models.Model):
     listnumber = models.AutoField(primary_key=True)
     listname = models.CharField(max_length=45)
-    contentid = models.ForeignKey('Content', models.DO_NOTHING, db_column='contentid')
+    contentid = models.ForeignKey('Content', on_delete=models.CASCADE, db_column='contentid')
     checked = models.IntegerField(blank=True, null=True)
 
     class Meta:
@@ -46,8 +46,8 @@ class Checklist(models.Model):
 class Comment(models.Model):
     comnumber = models.AutoField(primary_key=True)
     comcomment = models.CharField(max_length=45)
-    contentid = models.ForeignKey('Content', models.DO_NOTHING, db_column='contentid')
-    memberid = models.ForeignKey('Member', models.DO_NOTHING, db_column='memberid', blank=True, null=True)
+    contentid = models.ForeignKey('Content', on_delete=models.CASCADE, db_column='contentid')
+    memberid = models.ForeignKey('Member', on_delete=models.CASCADE, db_column='memberid', blank=True, null=True)
     commenttime = models.DateTimeField()
 
     class Meta:
@@ -63,8 +63,8 @@ class Content(models.Model):
     contentinfo = models.CharField(max_length=200, blank=True, null=True)
     contentpos = models.IntegerField(blank=True, null=True)
     contentheight = models.IntegerField(blank=True, null=True)
-    contentstate = models.ForeignKey('Contentstate', models.DO_NOTHING, db_column='contentstate')
-    sectionid = models.ForeignKey('Section', models.DO_NOTHING, db_column='sectionid', blank=True, null=True)
+    contentstate = models.ForeignKey('Contentstate', on_delete=models.CASCADE, db_column='contentstate')
+    sectionid = models.ForeignKey('Section', on_delete=models.CASCADE, db_column='sectionid', blank=True, null=True)
 
     class Meta:
         managed = False
@@ -84,8 +84,8 @@ class Contentstate(models.Model):
         return self.statename
         
 class Enroll(models.Model):
-    memberid = models.ForeignKey('Member', models.DO_NOTHING, db_column='memberid')
-    titleid = models.ForeignKey('Title', models.DO_NOTHING, db_column='titleid')
+    memberid = models.ForeignKey('Member', on_delete=models.CASCADE, db_column='memberid')
+    titleid = models.ForeignKey('Title', on_delete=models.CASCADE, db_column='titleid')
     enrollid = models.AutoField(primary_key=True)
 
     class Meta:
@@ -99,7 +99,7 @@ class File(models.Model):
     fileaddress = models.CharField(primary_key=True, max_length=45)
     filename = models.CharField(max_length=45, blank=True, null=True)
     fileformat = models.CharField(max_length=45, blank=True, null=True)
-    contentid = models.ForeignKey(Content, models.DO_NOTHING, db_column='contentid', blank=True, null=True)
+    contentid = models.ForeignKey(Content, on_delete=models.CASCADE, db_column='contentid', blank=True, null=True)
 
     class Meta:
         managed = False
@@ -123,10 +123,10 @@ class Member(models.Model):
 
 
 class Permission(models.Model):
-    priority = models.ForeignKey('Permissionstate', models.DO_NOTHING, db_column='priority')
-    memberid = models.ForeignKey(Member, models.DO_NOTHING, db_column='memberid')
-    contentid = models.ForeignKey(Content, models.DO_NOTHING, db_column='contentid')
-    fileaddress = models.ForeignKey(File, models.DO_NOTHING, db_column='fileaddress')
+    priority = models.ForeignKey('Permissionstate', on_delete=models.CASCADE, db_column='priority')
+    memberid = models.ForeignKey(Member, on_delete=models.CASCADE, db_column='memberid')
+    contentid = models.ForeignKey(Content, on_delete=models.CASCADE, db_column='contentid')
+    fileaddress = models.ForeignKey(File, on_delete=models.CASCADE, db_column='fileaddress')
     permissionid = models.AutoField(primary_key=True)
 
     class Meta:
@@ -149,7 +149,7 @@ class Permissionstate(models.Model):
 
 class Section(models.Model):
     sectionid = models.AutoField(primary_key=True)
-    titleid = models.ForeignKey('Title', models.DO_NOTHING, db_column='titleid')
+    titleid = models.ForeignKey('Title', on_delete=models.CASCADE, db_column='titleid')
     sectionname = models.CharField(max_length=45)
 
     class Meta:
@@ -160,7 +160,7 @@ class Section(models.Model):
 
 
 class Session(models.Model):
-    memberid = models.ForeignKey(Member, models.DO_NOTHING, db_column='memberid')
+    memberid = models.ForeignKey(Member, on_delete=models.CASCADE, db_column='memberid')
     token = models.CharField(max_length=120)
     expiretime = models.DateTimeField()
     sessionid = models.AutoField(primary_key=True)
