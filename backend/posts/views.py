@@ -199,15 +199,15 @@ class CalenderDelete(APIView):
         try:
             del_calender = Calender.objects.all().filter(indexnumber = input_indexnumber, contentid = input_contentid)
             str_data = str(del_calender)
-            #print(str_data)
+            print(str_data)
             power_list = regex.parse_calender(str_data)
-            print("1111111",power_list)
+            print(power_list)
             #acquire_indexnumber = power_list[0][13]
             #acquire_contentid = power_list[0][2]
             #if(acquire_indexnumber == input_indexnumber) and ( acquire_contentid == input_contentid):
                 #del_calender.delete()
                 #return JsonResponse({'delete': 'Delete success'})
-            #return JsonResponse({'delete': 'Not Matched'}) 
+            return JsonResponse({'delete': 'Not Matched'}) 
         except:
             return JsonResponse({'delete': 'fail'})
 

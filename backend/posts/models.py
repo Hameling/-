@@ -27,7 +27,7 @@ class Calender(models.Model):
         managed = False
         db_table = 'Calender'
     def __str__(self):
-        return '[{}] ~ [{}]csp{}isp{}lsp{}'.format(self.starttime, self.duetime, self.contentid, self.indexnumber, self.isoverlap)
+        return '{}to{}csp{}isp{}lsp{}'.format(self.starttime, self.duetime, self.contentid, self.indexnumber, self.isoverlap)
 
 
 class Checklist(models.Model):
