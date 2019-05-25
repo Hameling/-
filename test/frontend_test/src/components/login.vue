@@ -1,7 +1,7 @@
 <template>
   <div class="container">
-    <div class="card card-login mx-auto mt-5">
-      <div class="card-header">Login</div>
+    <div class="login-card card-login mx-auto mt-5">
+      <div class="login-card-header">Login</div>
       <div class="card-body">
         <form role="form" @submit.prevent = "onSubmit(id, pwd)">
           <div class="form-group">
