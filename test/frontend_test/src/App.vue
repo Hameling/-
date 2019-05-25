@@ -2,7 +2,7 @@
   <div id="app">
 
      <b-modal id='test' title = 'Login' hide-footer hide-header centered> 
-      <div class="card-header">Login</div>
+      <div class="login-card-header">Login</div>
       <div class="card-body">
         <form role="form" @submit.prevent = "onSubmit(id, pwd)">
           <div class="form-group">

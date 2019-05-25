@@ -52,7 +52,7 @@
                     <label for="NewComment"> New Comment </label>
 
                     <div class="comment-box" style="overflow:auto">
-                      <cComment v-bind:comments="comments" v-on:del-comment="delComment"> </cComment>
+                      <cComment v-bind:comments="comments" v-on:del-comment="delComment" style="background:gray"> </cComment>
                     </div>
                   </div>
   
