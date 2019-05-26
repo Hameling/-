@@ -132,7 +132,6 @@ class ChecklistSearch(APIView):
             json_tmp['listnumber'] = i[0]
             json_tmp['listname'] = i[1]
             json_tmp['checked'] = i[2]
-            json_tmp['contentid'] = i[3]
             comment_list.append(json_tmp)
         comment_list=json.dumps(comment_list)
         return HttpResponse(comment_list, content_type="application/json")
@@ -400,10 +399,20 @@ class ContentSearch(APIView):
                 json_cktmp['listnumber'] = k[0]
                 json_cktmp['listname'] = k[1]
                 json_cktmp['checked'] = k[2]
-                json_cktmp['contentid'] = k[3]
                 cheklist_list.append(json_cktmp)
             json_tmp['checklistlist'] = cheklist_list
             content_list.append(json_tmp)
+            calender_data = list(Calender.objects.all().filter(contentid = input_contentid))
+            str_calenerdata = str(calender_data)
+            calender_list = regex.parse_calender(str_calenerdata)
+            calender_jlist = []
+            for l in calender_list:
+                json_catmp = {}
+                json_catmp['indexnumber'] = l[3]
+                json_catmp['starttime'] = l[0]
+                json_catmp['duetime'] = l[1]
+                calender_jlist.append(json_catmp)
+            json_tmp['calender'] = calender_jlist
         content_list=json.dumps(content_list)
         return HttpResponse(content_list, content_type="application/json")
 
@@ -482,7 +491,7 @@ class EnrollSearchTitle(APIView):
     def post(self, request, format=None):  
         input_memberid = str(request.data["memberid"])
         data = list(Enroll.objects.all().filter(memberid = input_memberid))
-        comment_list = []
+        enroll_list = []
         str_data = str(data)
         power_list = regex.parse_enroll(str_data)
         for i in power_list:
@@ -490,9 +499,9 @@ class EnrollSearchTitle(APIView):
             json_tmp['titleid'] = i[0]
             json_tmp['memeberid'] = i[1]
             json_tmp['enrollid'] = i[2]
-            comment_list.append(json_tmp)
-        comment_list=json.dumps(comment_list)
-        return HttpResponse(comment_list, content_type="application/json")
+            enroll_list.append(json_tmp)
+        enroll_list=json.dumps(enroll_list)
+        return HttpResponse(enroll_list, content_type="application/json")
 
 class EnrollSearchMember(APIView):
     parser_classes = (JSONParser,)
@@ -821,35 +830,76 @@ class TitleUpdate(APIView):
         except:
             return JsonResponse({'update': 'fail'})
 
-
 class SearchAll(APIView):
     parser_classes = (JSONParser,)
 
     def post(self, request, format=None):    
         input_titleid = request.data["titleid"]
-        section_list = []
-        data = list(Section.objects.all().filter(titleid = input_titleid))
-        str_data = str(data)
-        power_list = regex.parse_section(str_data)
-        print(power_list)
-        for i in power_list:
-            json_tmp = {}
-            json_tmp['sectionid'] = i[0]
-            json_tmp['sectionname'] = i[1]
-            content_list = []
-            con_data = list(Content.objects.all().filter(sectionid = i[0]))
-            str_condata = str(con_data)
-            content_regex= regex.parse_content(str_condata)
-            for j in content_regex:
-                json_stmp = {}
-                json_stmp['contentid'] = j[0]
-                json_stmp['contentname'] = j[1]
-                json_stmp['contentinfo'] = j[2]
-                json_stmp['pos'] = j[3]
-                json_stmp['height'] = j[4]
-                json_stmp['state'] = j[5]
-                content_list.append(json_stmp)
-            json_tmp['includeContent'] = content_list
-            section_list.append(json_tmp)
-        section_list=json.dumps(section_list)
-        return HttpResponse(section_list, content_type="application/json")
+        section_data = list(Section.objects.all().filter(titleid = input_titleid))
+        str_sectiondata = str(section_data)
+        section_list = regex.parse_section(str_sectiondata)
+        section_jlist = []
+        for j in section_list:
+            json_section = {}
+            json_section['sectionid'] = j[0]
+            json_section['sectionname'] = j[1]
+
+            content_data = list(Content.objects.all().filter(sectionid = j[0]))
+            str_contentdata = str(content_data)
+            content_list= regex.parse_content(str_contentdata)
+            content_jlist = []
+            for k in content_list:
+                json_content = {}
+                json_content['contentid'] = k[0]
+                json_content['contentname'] = k[1]
+                json_content['contentinfo'] = k[2]
+                json_content['pos'] = k[3]
+                json_content['height'] = k[4]
+                json_content['state'] = k[5]
+
+                checklist_data = list(Checklist.objects.all().filter(contentid = k[0]))
+                str_cheklistdata = str(checklist_data)
+                checklist_list = regex.parse_checklist(str_cheklistdata)
+                checklist_jlist = []
+                for l in checklist_list:
+                    json_checktmp = {}
+                    json_checktmp['listnumber'] = l[0]
+                    json_checktmp['listname'] = l[1]
+                    json_checktmp['checked'] = l[2]
+                    checklist_jlist.append(json_checktmp)
+                json_content['includeChecklist'] = checklist_jlist
+
+                comment_data = list(Comment.objects.all().filter(contentid = k[0]))
+                str_commentdata = str(comment_data)
+                comment_list = regex.parse_text(str_commentdata)
+                comment_jlist = []
+                for m in comment_list:
+                    json_comment = {}
+                    json_comment['comnumber'] = m[0]
+                    json_comment['memberid'] = m[1]
+                    json_comment['comcomment'] = m[2]
+                    json_comment['commenttime'] = m[3]
+                    comment_jlist.append(json_comment)
+                json_content['includeComment'] = comment_jlist
+
+                calender_data = list(Calender.objects.all().filter(contentid = k[0]))
+                str_calenerdata = str(calender_data)
+                calender_list = regex.parse_calender(str_calenerdata)
+                calender_jlist = []
+                for n in calender_list:
+                    json_calender = {}
+                    json_calender['indexnumber'] = n[3]
+                    json_calender['starttime'] = n[0]
+                    json_calender['duetime'] = n[1]
+                    calender_jlist.append(json_calender)
+                json_content['includeCalender'] = calender_jlist
+
+                content_jlist.append(json_content)
+            json_section['includeContent'] = content_jlist
+            section_jlist.append(json_section)
+        section_jlist=json.dumps(section_jlist)
+        return HttpResponse(section_jlist, content_type="application/json")
+
+
+
+        
