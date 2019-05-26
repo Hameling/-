@@ -52,7 +52,7 @@
                     <label for="NewComment"> New Comment </label>
 
                     <div class="comment-box" style="overflow:auto">
-                      <cComment v-bind:comments="comments" v-on:del-comment="delComment" style="background:gray"> </cComment>
+                      <cComment v-bind:comments="comments" v-on:del-comment="delComment" style="background: #d1d3d4"> </cComment>
                     </div>
                   </div>
   
@@ -238,7 +238,7 @@
 
               <div><br></div>
 
-              <a>Start time </a>
+              <a>End Game </a>
 
               <div class="dropdown">
                 <button class="dropbtn-finish">YYYY</button>
