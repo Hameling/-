@@ -404,6 +404,17 @@ class ContentSearch(APIView):
                 cheklist_list.append(json_cktmp)
             json_tmp['checklistlist'] = cheklist_list
             content_list.append(json_tmp)
+            calender_data = list(Calender.objects.all().filter(contentid = input_contentid))
+            str_calenerdata = str(calender_data)
+            calender_list = regex.parse_calender(str_calenerdata)
+            calender_jlist = []
+            for l in calender_list:
+                json_catmp = {}
+                json_catmp['indexnumber'] = l[3]
+                json_catmp['starttime'] = l[0]
+                json_catmp['duetime'] = l[1]
+                calender_jlist.append(json_catmp)
+            json_tmp['calender'] = calender_jlist
         content_list=json.dumps(content_list)
         return HttpResponse(content_list, content_type="application/json")
 
