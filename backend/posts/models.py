@@ -96,17 +96,16 @@ class Enroll(models.Model):
         return '{}id{}idd{}'.format(self.titleid, self.memberid, self.enrollid)
 
 class File(models.Model):
-    fileaddress = models.CharField(primary_key=True, max_length=45)
-    filename = models.CharField(max_length=45, blank=True, null=True)
-    fileformat = models.CharField(max_length=45, blank=True, null=True)
-    contentid = models.ForeignKey(Content, on_delete=models.CASCADE, db_column='contentid', blank=True, null=True)
+    fileformat = models.CharField(max_length=45)
+    contentid = models.ForeignKey(Content, on_delete=models.CASCADE, db_column='contentid')
+    fileid = models.AutoField(primary_key=True)
+    filename = models.CharField(max_length=45)
 
     class Meta:
         managed = False
         db_table = 'File'
     def __str__(self):
         return self.filename
-
 
 
 class Member(models.Model):
@@ -121,21 +120,6 @@ class Member(models.Model):
     def __str__(self):
         return '{}ps{}na{}em{}'.format(self.memberid, self.memberpwd, self.membername, self.memberemail)
 
-
-class Permission(models.Model):
-    priority = models.ForeignKey('Permissionstate', on_delete=models.CASCADE, db_column='priority')
-    memberid = models.ForeignKey(Member, on_delete=models.CASCADE, db_column='memberid')
-    contentid = models.ForeignKey(Content, on_delete=models.CASCADE, db_column='contentid')
-    fileaddress = models.ForeignKey(File, on_delete=models.CASCADE, db_column='fileaddress')
-    permissionid = models.AutoField(primary_key=True)
-
-    class Meta:
-        managed = False
-        db_table = 'Permission'
-    def __str__(self):
-        return '<{}>[{}] {}'.format(self.priority,self.contentid, self.memberid)
-
-
 class Permissionstate(models.Model):
     perstatenumber = models.IntegerField(primary_key=True)
     perstatename = models.CharField(max_length=45)
@@ -146,6 +130,18 @@ class Permissionstate(models.Model):
     def __str__(self):
         return self.perstatename
 
+class Permission(models.Model):
+    priority = models.ForeignKey('Permissionstate', on_delete=models.CASCADE, db_column='priority')
+    contentid = models.ForeignKey(Content, on_delete=models.CASCADE, db_column='contentid')
+    memberid = models.ForeignKey(Member, on_delete=models.CASCADE, db_column='memberid')
+    fileid = models.ForeignKey(File, on_delete=models.CASCADE, db_column='fileid')
+    permissionid = models.AutoField(primary_key=True)
+
+    class Meta:
+        managed = False
+        db_table = 'Permission'
+    def __str__(self):
+        return '{}cid{}mid{}fid{}per{}'.format(self.priority,self.contentid, self.memberid, self.fileid, self.permissionid)
 
 class Section(models.Model):
     sectionid = models.AutoField(primary_key=True)
@@ -179,5 +175,3 @@ class Title(models.Model):
         db_table = 'Title'
     def __str__(self):
         return '{}sp{}na{}'.format(self.titleid,self.titlename, self.titleinfo)
-
-    

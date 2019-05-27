@@ -739,21 +739,75 @@ class PermissionList(generics.ListAPIView):
     queryset = Permission.objects.all()
     serializer_class = PermissionSerializer
 
-class PermissionCreate(generics.CreateAPIView):
-    queryset = Permission.objects.all()
-    serializer_class = PermissionSerializer
+class PermissionCreate(APIView):
+    parser_classes = (JSONParser,)
+    def post(self, request, format = None):
+        input_priority = request.data["priority"]
+        input_memberid = request.data["memberid"]
+        input_contentid = request.data["contentid"]
+        input_fileid = request.data["fileid"]
 
-class PermissionSearch(generics.RetrieveAPIView):
-    queryset = Permission.objects.all()
-    serializer_class = PermissionSerializer
+        try:
+            priority = Permissionstate.objects.get(perstatenumber=input_priority)
+            member = Member.objects.get(memberid=input_memberid)
+            content = Content.objects.get(contentid=input_contentid)
+            fileid = File.objects.get(fileid=input_fileid)
+            Permission.objects.create(priority = priority, memberid = member, contentid = content, fileid = fileid)
+            return JsonResponse({'create': 'success'}) 
+        except:
+            return JsonResponse({'create': 'fail'})
 
-class PermissionDelete(generics.DestroyAPIView):
-    queryset = Permission.objects.all()
-    serializer_class = PermissionSerializer
+class PermissionSearchMember(APIView):
+     parser_classes = (JSONParser,)
 
-class PermissionUpdate(generics.UpdateAPIView):
-    queryset = Permission.objects.all()
-    serializer_class = PermissionSerializer
+     def post(self, request, format=None):
+        input_memberid = str(request.data["memberid"])
+        data = list(Permission.objects.all().filter(memberid = input_memberid))
+        Permission_list = []
+        str_data = str(data)
+        power_list = regex.parse_Permission(str_data)
+        for i in power_list:
+            json_tmp = {}
+            json_tmp['priority'] = i[0]
+            json_tmp['contentid'] = i[1]
+            json_tmp['memeberid'] = i[2]
+            json_tmp['filename'] = i[3]
+            json_tmp['fileid'] = i[4]
+            Permission_list.append(json_tmp)
+        Permission_list=json.dumps(Permission_list)
+        return HttpResponse(Permission_list, content_type="application/json")
+
+class PermissionSearchContent(APIView):
+     parser_classes = (JSONParser,)
+
+     def post(self, request, format=None):
+        input_contentid = str(request.data["contentid"])
+        data = list(Permission.objects.all().filter(contentid = input_contentid))
+        Permission_list = []
+        str_data = str(data)
+        power_list = regex.parse_Permission(str_data)
+        for i in power_list:
+            json_tmp = {}
+            json_tmp['priority'] = i[0]
+            json_tmp['contentid'] = i[1]
+            json_tmp['memeberid'] = i[2]
+            json_tmp['filename'] = i[3]
+            json_tmp['fileid'] = i[4]
+            Permission_list.append(json_tmp)
+        Permission_list=json.dumps(Permission_list)
+        return HttpResponse(Permission_list, content_type="application/json")
+
+class PermissionDelete(APIView):
+    parser_classes = (JSONParser,)
+
+    def post(self, request, format=None):
+        input_fileid = request.data["fileid"]
+        try:
+            del_per = Permission.objects.all().filter(fileid = input_fileid)
+            del_per.delete()
+            return JsonResponse({'delete': 'Delete success'})
+        except:
+            return JsonResponse({'delete': 'fail'})
 
 #Permissionstate
 class PermissionstateList(generics.ListAPIView):

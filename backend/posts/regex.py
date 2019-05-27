@@ -87,7 +87,7 @@ def parse_assign(text):
         true_result.append((i[0],i[11],i[15],i[1],i[2]))
     return true_result
 
-#return '{}pwd{}na{}em{}'.format(self.memberid, self.memberpwd, self.membername, self.memberemail)
+#return '{}ps{}na{}em{}'.format(self.memberid, self.memberpwd, self.membername, self.memberemail)
 #[<Member: testidpwdtestpwd123na테스트emtest@naver.com>]
 def parse_member(text):
     field = re.compile("<Member: ([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)ps([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)na([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)em([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)>")
@@ -107,4 +107,15 @@ def parse_calender(text):
 
     for i in result:
         true_result.append((i[0],i[1],i[2],i[13]))
+    return true_result
+
+#return '{}cid{}mid{}fid{}per{}'.format(self.priority,self.contentid, self.memberid, self.fileid, self.permissionid)
+#[<Permission: 나만cid8na사전조사(1)in현재 운영중인 회사 정보pos1he1st신규sec6na사전조사id8sp종합 프로젝트na소프트웨어 개발midjjhw9882psm4321na테스트2emtest02@naver.comfid가랏per2>]
+def parse_Permission(text):
+    field = re.compile("<Permission: ([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)cid(\d+)na([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)in([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)pos(\d+)he(\d+)st([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)sec([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)mid([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)ps([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)na([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)em([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)fid(\w+)per(\w+)>")
+    result = field.findall(text)
+    true_result = []
+
+    for i in result:
+        true_result.append((i[0],i[1],i[8],i[12],i[13]))
     return true_result
