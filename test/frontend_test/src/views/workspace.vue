@@ -1,6 +1,30 @@
 <template>
   <!--routing 시작부분 -->
   <div id="content-wrapper">
+
+        <!--Modal 선언부 -->
+    <b-modal
+      id="create-title"
+      title="Create Title"
+      centered
+      ok-only
+      ref = 'modal'
+      @show="resetModal"
+      @hidden="resetModal"
+      @ok="handleOk"
+    >
+      <form ref="form" @submit.stop.prevent="handleSubmit">
+        <b-form-group
+          :state="nameState"
+          label="Title Name"
+          label-for="name-input"
+          invalid-feedback="Name is required"
+        >
+          <b-form-input id="name-input" v-model="name" :state="nameState" required></b-form-input>
+        </b-form-group>
+      </form>
+    </b-modal>
+
     <div class="container-fluid">
       <div class="container show-grid" style="width: 1080px;">
         <div class="row">
@@ -22,7 +46,7 @@
                         </div>
                         <div>Project selection area</div>
                       </div>
-                      <a class="card-footer text-white clearfix small z-1">
+                      <a class="card-footer text-white clearfix small z-1" @click="$bvModal.show('create-title')">
                         <!--프로젝트 생성 페이지 링크-->
                         <span class="float-left">Create New Project</span>
                         <span class="float-right">
@@ -104,6 +128,32 @@ export default {
     getBaseData() {
       this.enrollList = this.$store.getters.getEnroll;
       this.assignList = this.$store.getters.getAssign;
+    },
+    
+    //Modal 관련코드
+    checkFormValidity() {
+      const valid = this.$refs.form.checkValidity();
+      this.nameState = valid ? "valid" : "invalid";
+      return valid;
+    },
+    resetModal() {
+      this.name = "";
+      this.nameState = null;
+    },
+    handleOk(bvModalEvt) {
+      bvModalEvt.preventDefault();
+      this.handleSubmit();
+    },
+    handleSubmit() {
+      // Exit when the form isn't valid
+      if (!this.checkFormValidity()) {
+        return;
+      }
+      // Hide the modal manually
+      this.$nextTick(() => {
+        this.$refs.modal.hide();
+        createContent(this.name)
+      })
     }
   },
   mounted() {
