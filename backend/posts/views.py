@@ -497,8 +497,8 @@ class EnrollSearchTitle(APIView):
         for i in power_list:
             json_tmp = {}
             json_tmp['titleid'] = i[0]
-            json_tmp['memeberid'] = i[1]
-            json_tmp['enrollid'] = i[2]
+            json_tmp['memeberid'] = i[3]
+            json_tmp['enrollid'] = i[4]
             enroll_list.append(json_tmp)
         enroll_list=json.dumps(enroll_list)
         return HttpResponse(enroll_list, content_type="application/json")
@@ -515,8 +515,8 @@ class EnrollSearchMember(APIView):
         for i in power_list:
             json_tmp = {}
             json_tmp['titleid'] = i[0]
-            json_tmp['memeberid'] = i[1]
-            json_tmp['enrollid'] = i[2]
+            json_tmp['memeberid'] = i[3]
+            json_tmp['enrollid'] = i[4]
             comment_list.append(json_tmp)
         comment_list=json.dumps(comment_list)
         return HttpResponse(comment_list, content_type="application/json")
@@ -648,7 +648,9 @@ class Login(APIView):
                 for i in enrolltitle_list:
                     json_tmp = {}
                     json_tmp['titleid'] = i[0]
-                    json_tmp['enrollid'] = i[2]
+                    json_tmp['titlename'] = i[1]
+                    json_tmp['titleinfo'] = i[2]
+                    json_tmp['enrollid'] = i[4]
                     enroll_list.append(json_tmp)
                 login_json['enrollTitle'] = enroll_list
                 assign_data = list(Assign.objects.all().filter(memberid = input_memberid))
@@ -659,6 +661,8 @@ class Login(APIView):
                     json_assigntmp = {}
                     json_assigntmp['contentid'] = j[0]
                     json_assigntmp['assignid'] = j[2]
+                    json_assigntmp['contentname'] = j[3]
+                    json_assigntmp['contentinfo'] = j[4]
                     calender_data = list(Calender.objects.all().filter(contentid = j[0]))
                     str_calenerdata = str(calender_data)
                     calender_list = regex.parse_calender(str_calenerdata)
@@ -689,7 +693,9 @@ class Login(APIView):
                 for i in enrolltitle_list:
                     json_tmp = {}
                     json_tmp['titleid'] = i[0]
-                    json_tmp['enrollid'] = i[2]
+                    json_tmp['titlename'] = i[1]
+                    json_tmp['titleinfo'] = i[2]
+                    json_tmp['enrollid'] = i[4]
                     enroll_list.append(json_tmp)
                 login_json['enrollTitle'] = enroll_list 
                 assign_data = list(Assign.objects.all().filter(memberid = input_memberid))
@@ -700,6 +706,8 @@ class Login(APIView):
                     json_assigntmp = {}
                     json_assigntmp['contentid'] = j[0]
                     json_assigntmp['assignid'] = j[2]
+                    json_assigntmp['contentname'] = j[3]
+                    json_assigntmp['contentinfo'] = j[4]
                     calender_data = list(Calender.objects.all().filter(contentid = j[0]))
                     str_calenerdata = str(calender_data)
                     calender_list = regex.parse_calender(str_calenerdata)
@@ -921,7 +929,6 @@ class SearchAll(APIView):
             json_section = {}
             json_section['sectionid'] = j[0]
             json_section['sectionname'] = j[1]
-
             content_data = list(Content.objects.all().filter(sectionid = j[0]))
             str_contentdata = str(content_data)
             content_list= regex.parse_content(str_contentdata)
@@ -934,7 +941,6 @@ class SearchAll(APIView):
                 json_content['pos'] = k[3]
                 json_content['height'] = k[4]
                 json_content['state'] = k[5]
-
                 checklist_data = list(Checklist.objects.all().filter(contentid = k[0]))
                 str_cheklistdata = str(checklist_data)
                 checklist_list = regex.parse_checklist(str_cheklistdata)
@@ -946,7 +952,6 @@ class SearchAll(APIView):
                     json_checktmp['checked'] = l[2]
                     checklist_jlist.append(json_checktmp)
                 json_content['includeChecklist'] = checklist_jlist
-
                 comment_data = list(Comment.objects.all().filter(contentid = k[0]))
                 str_commentdata = str(comment_data)
                 comment_list = regex.parse_text(str_commentdata)
@@ -959,7 +964,6 @@ class SearchAll(APIView):
                     json_comment['commenttime'] = m[3]
                     comment_jlist.append(json_comment)
                 json_content['includeComment'] = comment_jlist
-
                 calender_data = list(Calender.objects.all().filter(contentid = k[0]))
                 str_calenerdata = str(calender_data)
                 calender_list = regex.parse_calender(str_calenerdata)
@@ -971,7 +975,6 @@ class SearchAll(APIView):
                     json_calender['duetime'] = n[1]
                     calender_jlist.append(json_calender)
                 json_content['includeCalender'] = calender_jlist
-
                 content_jlist.append(json_content)
             json_section['includeContent'] = content_jlist
             section_jlist.append(json_section)

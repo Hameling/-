@@ -4,6 +4,7 @@
 4. Enroll - 끝
 5. Member - 끝
 6. Permission - 주환이 담당
-7. All About - 우선 끝난것같은데
+7. All About - 끝
 8. 멤버 id로 검색하는 부분 -> session의 토큰값으로 하게 끔 수정 - 화요일
 9. 파일 업로드 파이썬 자료 찾기 - 수요일 이후
+10. 로그인 return json 수정 - 끝

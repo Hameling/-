@@ -62,7 +62,7 @@ def parse_enroll(text):
     true_result = []
 
     for i in result:
-        true_result.append((i[0],i[3],i[7]))
+        true_result.append((i[0],i[1],i[2],i[3],i[7]))
     return true_result
 
 #return '{}na{}in{}pos{}he{}st{}sec{}'.format(self.contentid,self.contentname,self.contentinfo, self.contentpos, self.contentheight, self.contentstate)
@@ -84,7 +84,7 @@ def parse_assign(text):
     true_result = []
 
     for i in result:
-        true_result.append((i[0],i[11],i[15]))
+        true_result.append((i[0],i[11],i[15],i[1],i[2]))
     return true_result
 
 #return '{}pwd{}na{}em{}'.format(self.memberid, self.memberpwd, self.membername, self.memberemail)
