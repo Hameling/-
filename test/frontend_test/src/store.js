@@ -42,8 +42,6 @@ export default new Vuex.Store({
     SETBASE_DATA(state, {enrollList, assignList}){
       state.enrollList = enrollList
       state.assignList = assignList
-      localStorage.enrollList = enrollList
-      localStorage.assignList = assignList
     }
   },
   actions: {
