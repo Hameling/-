@@ -36,10 +36,7 @@
                   <br>
                 </div>
                 <!--카드와 카드 사이줄-->
-              <p v-for="(enroll,i) in enrollList" :key="i"> {{enroll.titleid}}</p>
-            <Project v-bind:titles="enrollList"> </Project>
-
-
+                <Project v-bind:titles="enrollList"></Project>
               </div>
             </div>
           </div>
@@ -70,21 +67,7 @@
                     <a href="#">Assigned Tasks</a>
                   </li>
                 </ol>
-                <div class="col-md-10 offset-md-1">
-                  <!--프로젝트 02-->
-                  <router-link to="Assigned01">  
-                    <div class="card text-white bg-danger o-hidden h-100">
-                      <div class="card-body">
-                        <div class="card-body-icon">
-                          <i class="fas fa-fw fa-comments"></i>
-                        </div>
-                        <div>
-                          <a class="text-white">Assigned 01</a>
-                        </div>
-                      </div>
-                    </div>
-                  </router-link>
-                </div>
+                <Assign v-bind:assigns="assignList"></Assign>
               </div>
             </div>
           </div>
@@ -109,19 +92,27 @@
 </template>
 
 <script>
-import Project from '@/components/Project'
-import Assign from '@/components/Assign'
+import Project from "@/components/Project";
+import Assign from "@/components/Assign";
 export default {
   name: "workspace",
-  props: ["enrollList", "assignList"],
-
+  data: () => ({
+    enrollList: [],
+    assignList: []
+  }),
   methods: {
+    getBaseData() {
+      this.enrollList = this.$store.getters.getEnroll;
+      this.assignList = this.$store.getters.getAssign;
+    }
   },
   mounted() {
+    this.getBaseData();
+    console.log(this.$store.getters.getUID);
   },
   components: {
     Project: Project,
-    Assign : Assign
+    Assign: Assign
   }
 };
 </script>

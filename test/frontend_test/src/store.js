@@ -4,6 +4,14 @@ import axios from 'axios'
 
 Vue.use(Vuex)
 
+// const refreshAll = () => {
+//   const {uid} = localStorage.uid
+//   const {accessToken} = localStorage.accessToken
+//   const {enrollList} = localStorage.enrollList
+//   const {assignList} = localStorage.assignList
+// }
+// refreshAll()
+
 export default new Vuex.Store({
   state: {
     uid: '',
@@ -11,23 +19,31 @@ export default new Vuex.Store({
     enrollList : [],
     assignList : []
   },
+  getters:{
+    getUID: state => state.uid,
+    getToken : state => state.accessToken,
+    getEnroll : state => state.enrollList,
+    getAssign : state => state.assignList
+  },
   mutations: {
     LOGIN(state, { id, accessToken }) {
       state.uid = id
       state.accessToken = accessToken
-      localStorage.uid = id
-      localStorage.accessToken = accessToken
+      sessionStorage.uid = id
+      sessionStorage.accessToken = accessToken
     },
     LOGOUT(state) {
       state.uid = ""
       state.accessToken = null
 
-      delete localStorage.uid
-      delete localStorage.accessToken
+      delete sessionStorage.uid
+      delete sessionStorage.accessToken
     },
     SETBASE_DATA(state, {enrollList, assignList}){
       state.enrollList = enrollList
       state.assignList = assignList
+      localStorage.enrollList = enrollList
+      localStorage.assignList = assignList
     }
   },
   actions: {
