@@ -36,43 +36,8 @@
                   <br>
                 </div>
                 <!--카드와 카드 사이줄-->
-                <div class="col-md-10 offset-md-1">
-                  <!--프로젝트 01-->
-                  <router-link to="/project">
-                    <div class="card text-white bg-primary o-hidden h-100">
-                      <div class="card-body">
-                        <div class="card-body-icon">
-                          <i class="fas fa-fw fa-comments"></i>
-                        </div>
-                        <div>
-                          <!--<a class="text-white" href="#">Project 01</a>-->
-                          <a class="text-white">Project 01</a>
-                        </div>
-                      </div>
-                    </div>
-                  </router-link>
-                </div>
-                <div>
-                  <br>
-                </div>
-                <!--카드와 카드 사이줄-->
-                <div class="col-md-10 offset-md-1">
-                  <!--프로젝트 02-->
-                  <router-link to="/content">
-                    <div class="card text-white bg-primary o-hidden h-100">
-                      <div class="card-body">
-                        <div class="card-body-icon">
-                          <i class="fas fa-fw fa-comments"></i>
-                        </div>
-                        <div>
-                          <a class="text-white">Project 02</a>
-                        </div>
-                      </div>
-                    </div>
-                  </router-link>
-                </div>
-                
-                
+              <p v-for="(enroll,i) in enrollList" :key="i"> {{enroll.titleid}}</p>
+            <Project v-bind:titles="enrollList"> </Project>
 
 
               </div>
@@ -144,7 +109,19 @@
 </template>
 
 <script>
+import Project from '@/components/Project'
+import Assign from '@/components/Assign'
 export default {
-  name: "workspace"
+  name: "workspace",
+  props: ["enrollList", "assignList"],
+
+  methods: {
+  },
+  mounted() {
+  },
+  components: {
+    Project: Project,
+    Assign : Assign
+  }
 };
 </script>

@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import Section from "@/components/Section";
+import Section from "@/components/Section"
 export default {
   name: "project",
   data() {
