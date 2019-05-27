@@ -16,7 +16,7 @@ from rest_framework import generics, permissions
 from django.views.generic import DetailView
 
 from .models import Assign,Checklist,Calender,Comment,Content,Contentstate,Enroll,File,Member,Permission,Section,Title, Permissionstate, Session
-from .serializers import AssignSerializer,ChecklistSerializer,CalenderSerializer,CommentSerializer,ContentSerializer,ContentstateSerializer,EnrollSerializer,FileSerializer,MemberSerializer,PermissionSerializer,SectionSerializer,TitleSerializer,PermissionstateSerializer
+from .serializers import AssignSerializer,ChecklistSerializer,CalenderSerializer,CommentSerializer,ContentSerializer,ContentstateSerializer,EnrollSerializer,FileSerializer,MemberSerializer,PermissionSerializer,SectionSerializer,TitleSerializer,PermissionstateSerializer,SessionSerializer
 # Create your views here.
 #Assign
 class AssignList(generics.ListAPIView):
@@ -633,20 +633,98 @@ class Login(APIView):
         input_memberid=request.data["memberid"]
         input_memberpwd=request.data["memberpwd"]
 
-        #session member가 존재할 경우.
-        if Session.objects.filter(memberid=input_memberid).exists():
-            encoded = jwt.encode({'memberid': input_memberid}, key, algorithm='HS256')
-            member = Member.objects.get(memberid=input_memberid)
-            queryset = Session.objects.filter(memberid= member).update(memberid= member,token=encoded, expiretime = expiretime)
-            return JsonResponse({'token': encoded.decode('utf-8')}) 
-        #session member가 없을 경우.
-        else :
-            if Member.objects.filter(memberid=input_memberid, memberpwd=input_memberpwd).exists():
+        if Member.objects.filter(memberid=input_memberid, memberpwd=input_memberpwd).exists():
+            if Session.objects.filter(memberid=input_memberid).exists():
                 encoded = jwt.encode({'memberid': input_memberid}, key, algorithm='HS256')
                 member = Member.objects.get(memberid=input_memberid)
-                queryset = Session.objects.create(memberid =member, token=encoded, expiretime=expiretime)
-                return JsonResponse({'token': encoded.decode('utf-8')}) 
-        return JsonResponse({'token': encoded})
+                Session.objects.filter(memberid= member).update(memberid= member,token=encoded, expiretime = expiretime)
+                login_list = []
+                login_json = {}
+                login_json['token'] = encoded.decode('utf-8') 
+                data = list(Enroll.objects.all().filter(memberid = input_memberid))
+                str_data = str(data)
+                enrolltitle_list = regex.parse_enroll(str_data)
+                enroll_list = []
+                for i in enrolltitle_list:
+                    json_tmp = {}
+                    json_tmp['titleid'] = i[0]
+                    json_tmp['enrollid'] = i[2]
+                    enroll_list.append(json_tmp)
+                login_json['enrollTitle'] = enroll_list
+                assign_data = list(Assign.objects.all().filter(memberid = input_memberid))
+                str_assigndata = str(assign_data)
+                assigncontent_list = regex.parse_assign(str_assigndata)
+                assign_list = []
+                for j in assigncontent_list:
+                    json_assigntmp = {}
+                    json_assigntmp['contentid'] = j[0]
+                    json_assigntmp['assignid'] = j[2]
+                    calender_data = list(Calender.objects.all().filter(contentid = j[0]))
+                    str_calenerdata = str(calender_data)
+                    calender_list = regex.parse_calender(str_calenerdata)
+                    calender_jlist = []
+                    for l in calender_list:
+                        json_catmp = {}
+                        json_catmp['indexnumber'] = l[3]
+                        json_catmp['starttime'] = l[0]
+                        json_catmp['duetime'] = l[1]
+                        calender_jlist.append(json_catmp)
+                    json_assigntmp['calender'] = calender_jlist
+                    assign_list.append(json_assigntmp)
+                login_json['assignContent'] = assign_list
+                login_list.append(login_json)
+                login_list=json.dumps(login_list)
+                return HttpResponse(login_list, content_type="application/json")
+            else:
+                encoded = jwt.encode({'memberid': input_memberid}, key, algorithm='HS256')
+                member = Member.objects.get(memberid=input_memberid)
+                Session.objects.create(memberid =member, token=encoded, expiretime=expiretime)
+                login_list = []
+                login_json = {}
+                login_json['token'] = encoded.decode('utf-8') 
+                data = list(Enroll.objects.all().filter(memberid = input_memberid))
+                str_data = str(data)
+                enrolltitle_list = regex.parse_enroll(str_data)
+                enroll_list = []
+                for i in enrolltitle_list:
+                    json_tmp = {}
+                    json_tmp['titleid'] = i[0]
+                    json_tmp['enrollid'] = i[2]
+                    enroll_list.append(json_tmp)
+                login_json['enrollTitle'] = enroll_list 
+                assign_data = list(Assign.objects.all().filter(memberid = input_memberid))
+                str_assigndata = str(assign_data)
+                assigncontent_list = regex.parse_assign(str_assigndata)
+                assign_list = []
+                for j in assigncontent_list:
+                    json_assigntmp = {}
+                    json_assigntmp['contentid'] = j[0]
+                    json_assigntmp['assignid'] = j[2]
+                    calender_data = list(Calender.objects.all().filter(contentid = j[0]))
+                    str_calenerdata = str(calender_data)
+                    calender_list = regex.parse_calender(str_calenerdata)
+                    calender_jlist = []
+                    for l in calender_list:
+                        json_catmp = {}
+                        json_catmp['indexnumber'] = l[3]
+                        json_catmp['starttime'] = l[0]
+                        json_catmp['duetime'] = l[1]
+                        calender_jlist.append(json_catmp)
+                    json_assigntmp['calender'] = calender_jlist
+                    assign_list.append(json_assigntmp)
+                login_json['assignContent'] = assign_list
+                login_list.append(login_json)
+                login_list=json.dumps(login_list)
+                return HttpResponse(login_list, content_type="application/json")
+        else: 
+            login_list = []
+            login_tmp = {}
+            login_tmp['token'] = "Not Matched"
+            login_list.append(login_tmp)
+            login_list=json.dumps(login_list)
+            return HttpResponse(login_list, content_type="application/json")
+
+
 
 #Permission
 class PermissionList(generics.ListAPIView):
@@ -753,18 +831,18 @@ class SectionUpdate(APIView):
 
 #Session
 class SessionList(generics.ListAPIView):
+    queryset = Session.objects.all()
+    serializer_class = SessionSerializer
+
+class SessionCreate(APIView):
     def post(self, request, format=None):
         return JsonResponse({'nothing': 'nothing'})
 
-class SessionCreate(generics.CreateAPIView):
+class SessionSearch(APIView):
     def post(self, request, format=None):
         return JsonResponse({'nothing': 'nothing'})
 
-class SessionSearch(generics.RetrieveAPIView):
-    def post(self, request, format=None):
-        return JsonResponse({'nothing': 'nothing'})
-
-class SessionDelete(generics.DestroyAPIView):
+class SessionDelete(APIView):
     def post(self, request, format=None):
         return JsonResponse({'nothing': 'nothing'})
 
@@ -899,7 +977,3 @@ class SearchAll(APIView):
             section_jlist.append(json_section)
         section_jlist=json.dumps(section_jlist)
         return HttpResponse(section_jlist, content_type="application/json")
-
-
-
-        
