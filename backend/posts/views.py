@@ -43,15 +43,16 @@ class AssignSearchMember(APIView):
     def post(self, request, format=None):
         #승한이가 token을 주면 그 token과 db token을 비교 후 맞으면 memberid를 가져와서 서치
         #assign, calender, permission
-        receive_token = str(request.data["token"])
+        input_token = str(request.data["token"])
         input_memberid = str(request.data["memberid"])
-
-        if Session.objects.filter(token = receive_token, memberid = input_memberid).exists():
+        a=Session.objects.all().filter(token = input_token)
+        print(a)
+        if Session.objects.filter(token = input_token).exists():
+            print(1)
             data = list(Assign.objects.all().filter(memberid = input_memberid))
             assign_list = []
             str_data = str(data)
             power_list = regex.parse_assign(str_data)
-            print("ㅇㅋ")
 
             for i in power_list:
                 json_tmp = {}
@@ -62,7 +63,9 @@ class AssignSearchMember(APIView):
             assign_list=json.dumps(assign_list)
             return HttpResponse(assign_list, content_type="application/json")
         else:
-            print("안맞음")
+            print(2)
+            assign_list = []
+            return HttpResponse(assign_list, content_type="application/json")
         
 class AssignSearchContent(APIView):
     parser_classes = (JSONParser,)
@@ -842,28 +845,29 @@ class SessionCreate(APIView):
         expiretime = datetime.datetime.now() + datetime.timedelta(hours=2)
         key = str(expiretime)
         
-        encoded = ""
         input_memberid=request.data["memberid"]
         input_memberpwd=request.data["memberpwd"]
 
         if Member.objects.filter(memberid=input_memberid, memberpwd=input_memberpwd).exists():
             if Session.objects.filter(memberid=input_memberid).exists():
                 encoded = jwt.encode({'memberid': input_memberid}, key, algorithm='HS256')
+                encoded = encoded.decode('utf-8') 
                 member = Member.objects.get(memberid=input_memberid)
                 Session.objects.filter(memberid= member).update(memberid= member,token=encoded, expiretime = expiretime)
                 login_list = []
                 login_json = {}
-                login_json['token'] = encoded.decode('utf-8') 
+                login_json['token'] = encoded
                 login_list.append(login_json)
                 login_list=json.dumps(login_list)
                 return HttpResponse(login_list, content_type="application/json")
             else:
                 encoded = jwt.encode({'memberid': input_memberid}, key, algorithm='HS256')
+                encoded = encoded.decode('utf-8') 
                 member = Member.objects.get(memberid=input_memberid)
                 Session.objects.create(memberid =member, token=encoded, expiretime=expiretime)
                 login_list = []
                 login_json = {}
-                login_json['token'] = encoded.decode('utf-8') 
+                login_json['token'] = encoded
                 login_list.append(login_json)
                 login_list=json.dumps(login_list)
                 return HttpResponse(login_list, content_type="application/json")
