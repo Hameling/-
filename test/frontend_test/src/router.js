@@ -7,15 +7,21 @@ import HelloWorld from './components/HelloWorld'
 import login from './components/login'
 import content from './components/ContentForm'
 
+import Empty_Page from './components/Empty_Page'
+
 
 Vue.use(Router)
 
 export default new Router({
   routes: [
     {
-      path: '/',
+      path : '',
+      component : Empty_Page
+    },
+    {
+      path: '/workspace',
       //name: 'workspace',
-      component: content,
+      component: Workspace,
       children: [
         {
           path: '',

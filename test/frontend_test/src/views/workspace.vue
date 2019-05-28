@@ -1,6 +1,30 @@
 <template>
   <!--routing 시작부분 -->
   <div id="content-wrapper">
+
+        <!--Modal 선언부 -->
+    <b-modal
+      id="create-title"
+      title="Create Title"
+      centered
+      ok-only
+      ref = 'modal'
+      @show="resetModal"
+      @hidden="resetModal"
+      @ok="handleOk"
+    >
+      <form ref="form" @submit.stop.prevent="handleSubmit">
+        <b-form-group
+          :state="nameState"
+          label="Title Name"
+          label-for="name-input"
+          invalid-feedback="Name is required"
+        >
+          <b-form-input id="name-input" v-model="name" :state="nameState" required></b-form-input>
+        </b-form-group>
+      </form>
+    </b-modal>
+
     <div class="container-fluid">
       <div class="container show-grid" style="width: 1080px;">
         <div class="row">
@@ -22,7 +46,7 @@
                         </div>
                         <div>Project selection area</div>
                       </div>
-                      <a class="card-footer text-white clearfix small z-1">
+                      <a class="card-footer text-white clearfix small z-1" @click="$bvModal.show('create-title')">
                         <!--프로젝트 생성 페이지 링크-->
                         <span class="float-left">Create New Project</span>
                         <span class="float-right">
@@ -36,45 +60,7 @@
                   <br>
                 </div>
                 <!--카드와 카드 사이줄-->
-                <div class="col-md-10 offset-md-1">
-                  <!--프로젝트 01-->
-                  <router-link to="/project">
-                    <div class="card text-white bg-primary o-hidden h-100">
-                      <div class="card-body">
-                        <div class="card-body-icon">
-                          <i class="fas fa-fw fa-comments"></i>
-                        </div>
-                        <div>
-                          <!--<a class="text-white" href="#">Project 01</a>-->
-                          <a class="text-white">Project 01</a>
-                        </div>
-                      </div>
-                    </div>
-                  </router-link>
-                </div>
-                <div>
-                  <br>
-                </div>
-                <!--카드와 카드 사이줄-->
-                <div class="col-md-10 offset-md-1">
-                  <!--프로젝트 02-->
-                  <router-link to="/content">
-                    <div class="card text-white bg-primary o-hidden h-100">
-                      <div class="card-body">
-                        <div class="card-body-icon">
-                          <i class="fas fa-fw fa-comments"></i>
-                        </div>
-                        <div>
-                          <a class="text-white">Project 02</a>
-                        </div>
-                      </div>
-                    </div>
-                  </router-link>
-                </div>
-                
-                
-
-
+                <Project v-bind:titles="enrollList"></Project>
               </div>
             </div>
           </div>
@@ -105,21 +91,7 @@
                     <a href="#">Assigned Tasks</a>
                   </li>
                 </ol>
-                <div class="col-md-10 offset-md-1">
-                  <!--프로젝트 02-->
-                  <router-link to="Assigned01">  
-                    <div class="card text-white bg-danger o-hidden h-100">
-                      <div class="card-body">
-                        <div class="card-body-icon">
-                          <i class="fas fa-fw fa-comments"></i>
-                        </div>
-                        <div>
-                          <a class="text-white">Assigned 01</a>
-                        </div>
-                      </div>
-                    </div>
-                  </router-link>
-                </div>
+                <Assign v-bind:assigns="assignList"></Assign>
               </div>
             </div>
           </div>
@@ -144,7 +116,53 @@
 </template>
 
 <script>
+import Project from "@/components/Project";
+import Assign from "@/components/Assign";
 export default {
-  name: "workspace"
+  name: "workspace",
+  data: () => ({
+    enrollList: [],
+    assignList: []
+  }),
+  methods: {
+    getBaseData() {
+      this.enrollList = this.$store.getters.getEnroll;
+      this.assignList = this.$store.getters.getAssign;
+    },
+    
+    //Modal 관련코드
+    checkFormValidity() {
+      const valid = this.$refs.form.checkValidity();
+      this.nameState = valid ? "valid" : "invalid";
+      return valid;
+    },
+    resetModal() {
+      this.name = "";
+      this.nameState = null;
+    },
+    handleOk(bvModalEvt) {
+      bvModalEvt.preventDefault();
+      this.handleSubmit();
+    },
+    handleSubmit() {
+      // Exit when the form isn't valid
+      if (!this.checkFormValidity()) {
+        return;
+      }
+      // Hide the modal manually
+      this.$nextTick(() => {
+        this.$refs.modal.hide();
+        createContent(this.name)
+      })
+    }
+  },
+  mounted() {
+    this.getBaseData();
+    console.log(this.$store.getters.getUID);
+  },
+  components: {
+    Project: Project,
+    Assign: Assign
+  }
 };
 </script>

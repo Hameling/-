@@ -1,10 +1,10 @@
 <template>
   <div id="app">
-
-     <b-modal id='test' title = 'Login' hide-footer hide-header centered> 
+    <!--로그인 Modal 시작부-->
+    <b-modal id="test" title="Login" hide-footer hide-header centered>
       <div class="login-card-header">Login</div>
       <div class="card-body">
-        <form role="form" @submit.prevent = "onSubmit(id, pwd)">
+        <form role="form" @submit.prevent="onSubmit(id, pwd)">
           <div class="form-group">
             <div class="form-label-group">
               
@@ -33,23 +33,19 @@
               </label>
             </div>
           </div>
-          <input type = "submit" class="btn btn-primary btn-block" value = 'Login'>
+          <input type="submit" class="btn btn-primary btn-block" value="Login">
         </form>
         <!--<button type = "button" class="btn btn-primary btn-block" v-on:click="addEmail(id, pwd)">Login</button>-->
-        
+
         <div class="text-center">
           <a class="d-block small mt-3" href="register.html">Register an Account</a>
           <a class="d-block small" href="forgot-password.html">Forgot Password?</a>
         </div>
       </div>
-
     </b-modal>
 
     <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
-      <router-link to="/" class="navbar-brand mr-1">HOME
-
-      </router-link>
-      
+      <router-link to="/" class="navbar-brand mr-1">HOME</router-link>
 
       <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
         <i class="fas fa-bars"></i>
@@ -161,7 +157,7 @@
           </a>
           <div class="dropdown-menu" aria-labelledby="pagesDropdown">
             <h6 class="dropdown-header">Login Screens:</h6>
-            <div class="dropdown-item" @click='$bvModal.show("test")'>Login</div>
+            <div class="dropdown-item" @click="$bvModal.show('test')">Login</div>
             <a class="dropdown-item" href="register.html">Register</a>
             <a class="dropdown-item" href="forgot-password.html">Forgot Password</a>
             <div class="dropdown-divider"></div>
@@ -183,7 +179,7 @@
           <span>Tables</span></a>
         </li>-->
       </ul>
-      
+
       <router-view/>
 
       <!-- Scroll to Top Button-->
@@ -226,39 +222,34 @@
 export default {
   name: "app",
   data: () => ({
-        id: '',
-        pwd: '',
-    }),
-  methods:{
-    upload(name, files) {
-        const formData = new FormData();
-        formData.append(name, files[0], files[0].name);
-        const url = "http://211.109.53.216:20000/file/fileupload/";
-        this.$http.post(url, formData).then(res => {
-          console.log("Sucess");
+    id: "",
+    pwd: ""
+  }),
+  methods: {
+    async onSubmit(id, pwd) {
+      await this.$store
+        .dispatch("LOGIN", { id, pwd })
+        .then(() => {
+          this.id = "";
+          this.pwd = "";
+          this.$bvModal.hide("test");
+          this.$router.push("workspace");
         })
-        .catch(res => {
-          console.log("Fail");
-        })
-    },
-    onSubmit(id, pwd){
-        // this.$store.dispatch('LOGIN', {id, pwd})
-        // .then(() => tis.redirect())
-        // .catch(({message}) => this.msg = message)
-        if(id){
-        this.$http.post('http://211.109.53.216:20000/member/login/', {
-          memberid:id, memberpwd:pwd
-        }).then((res)=>{
-          alert(res)
-          this.id = ""
-          this.pwd = ""
-        })
-       }
-      },
+        .catch(msg => {
+          if (msg == "Not Matched") {
+            this.pwd = "";
+            alert("아이디 혹은 비밀번호가 잘못되었습니다 ");
+          }
+        });
+      // console.log(this.$store.state.uid);
+      // console.log(this.$store.state.accessToken);
+      // console.log(this.$store.state.enrollList);
+      // console.log(this.$store.state.assignList);
+
+    }
   },
 
-  components:{
-    //Modal_Test
+  components: {
   }
 };
 </script>

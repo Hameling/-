@@ -28,7 +28,7 @@ class CommentSerializer(serializers.ModelSerializer):
 #Content
 class ContentSerializer(serializers.ModelSerializer):
     class Meta:
-        fields = ('contentid','contentname','contentinfo','contentpos','contentheight','contentstate','sectionid')
+        fields = ('contentid','contentname','contentinfo','contentstate','sectionid')
         model = models.Content
 
 #Contentstate
@@ -46,7 +46,7 @@ class EnrollSerializer(serializers.ModelSerializer):
 #File
 class FileSerializer(serializers.ModelSerializer):
     class Meta:
-        fields = ('fileaddress','filename','fileformat','contentid',)
+        fields = ('fileformat','contentid','fileid','filename',)
         model = models.File
 
 class FileUpdateSerializer(serializers.ModelSerializer):
@@ -63,7 +63,7 @@ class MemberSerializer(serializers.ModelSerializer):
 #Permission
 class PermissionSerializer(serializers.ModelSerializer):
     class Meta:
-        fields = ('priority','memberid','contentid','fileaddress','permissionid',)
+        fields = ('priority','memberid','fileid','permissionid','contentid',)
         model = models.Permission
 
 

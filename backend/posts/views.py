@@ -16,7 +16,7 @@ from rest_framework import generics, permissions
 from django.views.generic import DetailView
 
 from .models import Assign,Checklist,Calender,Comment,Content,Contentstate,Enroll,File,Member,Permission,Section,Title, Permissionstate, Session
-from .serializers import AssignSerializer,ChecklistSerializer,CalenderSerializer,CommentSerializer,ContentSerializer,ContentstateSerializer,EnrollSerializer,FileSerializer,MemberSerializer,PermissionSerializer,SectionSerializer,TitleSerializer,PermissionstateSerializer
+from .serializers import AssignSerializer,ChecklistSerializer,CalenderSerializer,CommentSerializer,ContentSerializer,ContentstateSerializer,EnrollSerializer,FileSerializer,MemberSerializer,PermissionSerializer,SectionSerializer,TitleSerializer,PermissionstateSerializer,SessionSerializer
 # Create your views here.
 #Assign
 class AssignList(generics.ListAPIView):
@@ -56,6 +56,7 @@ class AssignSearchMember(APIView):
             assign_list.append(json_tmp)
         assign_list=json.dumps(assign_list)
         return HttpResponse(assign_list, content_type="application/json")
+        
 class AssignSearchContent(APIView):
     parser_classes = (JSONParser,)
 
@@ -349,10 +350,10 @@ class ContentCreate(APIView):
             
             if(input_sectionid == "NULL"):
                 print(input_sectionid)
-                Content.objects.create(contentname=input_contentname, contentinfo = input_contentinfo, contentpos= 0, contentheight=0, contentstate = contentstatename)
+                Content.objects.create(contentname=input_contentname, contentinfo = input_contentinfo, contentstate = contentstatename)
             else:
                 section = Section.objects.get(sectionid = input_sectionid)
-                Content.objects.create(contentname=input_contentname, contentinfo = input_contentinfo, contentpos= 0, contentheight=0, contentstate = contentstatename, sectionid =section)
+                Content.objects.create(contentname=input_contentname, contentinfo = input_contentinfo, contentstate = contentstatename, sectionid =section)
                 print(section)
             return JsonResponse({'Create': 'Create success'})
         except:
@@ -372,12 +373,12 @@ class ContentSearch(APIView):
             json_tmp['contentid'] = i[0]
             json_tmp['contentname'] = i[1]
             json_tmp['contentinfo'] = i[2]
-            json_tmp['contentpos'] = i[3]
-            json_tmp['contentheight'] = i[4]
-            json_tmp['contentstate'] = i[5]
-            str_sectionid = str(i[6])
+            json_tmp['contentstate'] = i[3]
+            str_sectionid = str(i[4])
+            print(str_sectionid)
             only_sectionid = regex.parse_getsectionid(str_sectionid)
-            json_tmp['sectionid'] = only_sectionid[0][0]
+            print(only_sectionid)
+            json_tmp['sectionid'] = i[4]
             comment_data = list(Comment.objects.all().filter(contentid = input_contentid))
             str_commentdata = str(comment_data)
             comment_list = regex.parse_text(str_commentdata)
@@ -497,8 +498,8 @@ class EnrollSearchTitle(APIView):
         for i in power_list:
             json_tmp = {}
             json_tmp['titleid'] = i[0]
-            json_tmp['memeberid'] = i[1]
-            json_tmp['enrollid'] = i[2]
+            json_tmp['memeberid'] = i[3]
+            json_tmp['enrollid'] = i[4]
             enroll_list.append(json_tmp)
         enroll_list=json.dumps(enroll_list)
         return HttpResponse(enroll_list, content_type="application/json")
@@ -515,8 +516,8 @@ class EnrollSearchMember(APIView):
         for i in power_list:
             json_tmp = {}
             json_tmp['titleid'] = i[0]
-            json_tmp['memeberid'] = i[1]
-            json_tmp['enrollid'] = i[2]
+            json_tmp['memeberid'] = i[3]
+            json_tmp['enrollid'] = i[4]
             comment_list.append(json_tmp)
         comment_list=json.dumps(comment_list)
         return HttpResponse(comment_list, content_type="application/json")
@@ -622,52 +623,129 @@ class MemberUpdate(APIView):
         except:
             return JsonResponse({'update': 'fail'})
 
-class Login(APIView):
+class MemberSearch(APIView):
     parser_classes = (JSONParser,)
 
     def post(self, request, format=None):
-        expiretime = datetime.datetime.now() + datetime.timedelta(hours=2)
-        key = str(expiretime)
-        
-        encoded = ""
         input_memberid=request.data["memberid"]
-        input_memberpwd=request.data["memberpwd"]
 
-        #session member가 존재할 경우.
-        if Session.objects.filter(memberid=input_memberid).exists():
-            encoded = jwt.encode({'memberid': input_memberid}, key, algorithm='HS256')
-            member = Member.objects.get(memberid=input_memberid)
-            queryset = Session.objects.filter(memberid= member).update(memberid= member,token=encoded, expiretime = expiretime)
-            return JsonResponse({'token': encoded.decode('utf-8')}) 
-        #session member가 없을 경우.
-        else :
-            if Member.objects.filter(memberid=input_memberid, memberpwd=input_memberpwd).exists():
-                encoded = jwt.encode({'memberid': input_memberid}, key, algorithm='HS256')
-                member = Member.objects.get(memberid=input_memberid)
-                queryset = Session.objects.create(memberid =member, token=encoded, expiretime=expiretime)
-                return JsonResponse({'token': encoded.decode('utf-8')}) 
-        return JsonResponse({'token': encoded})
+        login_list = []
+        login_json = {}
+        data = list(Enroll.objects.all().filter(memberid = input_memberid))
+        str_data = str(data)
+        enrolltitle_list = regex.parse_enroll(str_data)
+        enroll_list = []
+        for i in enrolltitle_list:
+            json_tmp = {}
+            json_tmp['titleid'] = i[0]
+            json_tmp['titlename'] = i[1]
+            json_tmp['titleinfo'] = i[2]
+            json_tmp['enrollid'] = i[4]
+            enroll_list.append(json_tmp)
+        login_json['enrollTitle'] = enroll_list
+        assign_data = list(Assign.objects.all().filter(memberid = input_memberid))
+        str_assigndata = str(assign_data)
+        assigncontent_list = regex.parse_assign(str_assigndata)
+        assign_list = []
+        for j in assigncontent_list:
+            json_assigntmp = {}
+            json_assigntmp['contentid'] = j[0]
+            json_assigntmp['assignid'] = j[2]
+            json_assigntmp['contentname'] = j[3]
+            json_assigntmp['contentinfo'] = j[4]
+            calender_data = list(Calender.objects.all().filter(contentid = j[0]))
+            str_calenerdata = str(calender_data)
+            calender_list = regex.parse_calender(str_calenerdata)
+            calender_jlist = []
+            for l in calender_list:
+                json_catmp = {}
+                json_catmp['indexnumber'] = l[3]
+                json_catmp['starttime'] = l[0]
+                json_catmp['duetime'] = l[1]
+                calender_jlist.append(json_catmp)
+            json_assigntmp['calender'] = calender_jlist
+            assign_list.append(json_assigntmp)
+        login_json['assignContent'] = assign_list
+        login_list.append(login_json)
+        login_list=json.dumps(login_list)
+        return HttpResponse(login_list, content_type="application/json")
+
+
 
 #Permission
 class PermissionList(generics.ListAPIView):
     queryset = Permission.objects.all()
     serializer_class = PermissionSerializer
 
-class PermissionCreate(generics.CreateAPIView):
-    queryset = Permission.objects.all()
-    serializer_class = PermissionSerializer
+class PermissionCreate(APIView):
+    parser_classes = (JSONParser,)
+    def post(self, request, format = None):
+        input_priority = request.data["priority"]
+        input_memberid = request.data["memberid"]
+        input_contentid = request.data["contentid"]
+        input_fileid = request.data["fileid"]
 
-class PermissionSearch(generics.RetrieveAPIView):
-    queryset = Permission.objects.all()
-    serializer_class = PermissionSerializer
+        try:
+            priority = Permissionstate.objects.get(perstatenumber=input_priority)
+            member = Member.objects.get(memberid=input_memberid)
+            content = Content.objects.get(contentid=input_contentid)
+            fileid = File.objects.get(fileid=input_fileid)
+            Permission.objects.create(priority = priority, memberid = member, contentid = content, fileid = fileid)
+            return JsonResponse({'create': 'success'}) 
+        except:
+            return JsonResponse({'create': 'fail'})
 
-class PermissionDelete(generics.DestroyAPIView):
-    queryset = Permission.objects.all()
-    serializer_class = PermissionSerializer
+class PermissionSearchMember(APIView):
+     parser_classes = (JSONParser,)
 
-class PermissionUpdate(generics.UpdateAPIView):
-    queryset = Permission.objects.all()
-    serializer_class = PermissionSerializer
+     def post(self, request, format=None):
+        input_memberid = str(request.data["memberid"])
+        data = list(Permission.objects.all().filter(memberid = input_memberid))
+        Permission_list = []
+        str_data = str(data)
+        power_list = regex.parse_Permission(str_data)
+        for i in power_list:
+            json_tmp = {}
+            json_tmp['priority'] = i[0]
+            json_tmp['contentid'] = i[1]
+            json_tmp['memeberid'] = i[2]
+            json_tmp['filename'] = i[3]
+            json_tmp['fileid'] = i[4]
+            Permission_list.append(json_tmp)
+        Permission_list=json.dumps(Permission_list)
+        return HttpResponse(Permission_list, content_type="application/json")
+
+class PermissionSearchContent(APIView):
+     parser_classes = (JSONParser,)
+
+     def post(self, request, format=None):
+        input_contentid = str(request.data["contentid"])
+        data = list(Permission.objects.all().filter(contentid = input_contentid))
+        Permission_list = []
+        str_data = str(data)
+        power_list = regex.parse_Permission(str_data)
+        for i in power_list:
+            json_tmp = {}
+            json_tmp['priority'] = i[0]
+            json_tmp['contentid'] = i[1]
+            json_tmp['memeberid'] = i[2]
+            json_tmp['filename'] = i[3]
+            json_tmp['fileid'] = i[4]
+            Permission_list.append(json_tmp)
+        Permission_list=json.dumps(Permission_list)
+        return HttpResponse(Permission_list, content_type="application/json")
+
+class PermissionDelete(APIView):
+    parser_classes = (JSONParser,)
+
+    def post(self, request, format=None):
+        input_fileid = request.data["fileid"]
+        try:
+            del_per = Permission.objects.all().filter(fileid = input_fileid)
+            del_per.delete()
+            return JsonResponse({'delete': 'Delete success'})
+        except:
+            return JsonResponse({'delete': 'fail'})
 
 #Permissionstate
 class PermissionstateList(generics.ListAPIView):
@@ -753,20 +831,46 @@ class SectionUpdate(APIView):
 
 #Session
 class SessionList(generics.ListAPIView):
-    def post(self, request, format=None):
-        return JsonResponse({'nothing': 'nothing'})
+    queryset = Session.objects.all()
+    serializer_class = SessionSerializer
 
-class SessionCreate(generics.CreateAPIView):
+class SessionCreate(APIView):
     def post(self, request, format=None):
-        return JsonResponse({'nothing': 'nothing'})
+        expiretime = datetime.datetime.now() + datetime.timedelta(hours=2)
+        key = str(expiretime)
+        
+        encoded = ""
+        input_memberid=request.data["memberid"]
+        input_memberpwd=request.data["memberpwd"]
 
-class SessionSearch(generics.RetrieveAPIView):
-    def post(self, request, format=None):
-        return JsonResponse({'nothing': 'nothing'})
-
-class SessionDelete(generics.DestroyAPIView):
-    def post(self, request, format=None):
-        return JsonResponse({'nothing': 'nothing'})
+        if Member.objects.filter(memberid=input_memberid, memberpwd=input_memberpwd).exists():
+            if Session.objects.filter(memberid=input_memberid).exists():
+                encoded = jwt.encode({'memberid': input_memberid}, key, algorithm='HS256')
+                member = Member.objects.get(memberid=input_memberid)
+                Session.objects.filter(memberid= member).update(memberid= member,token=encoded, expiretime = expiretime)
+                login_list = []
+                login_json = {}
+                login_json['token'] = encoded.decode('utf-8') 
+                login_list.append(login_json)
+                login_list=json.dumps(login_list)
+                return HttpResponse(login_list, content_type="application/json")
+            else:
+                encoded = jwt.encode({'memberid': input_memberid}, key, algorithm='HS256')
+                member = Member.objects.get(memberid=input_memberid)
+                Session.objects.create(memberid =member, token=encoded, expiretime=expiretime)
+                login_list = []
+                login_json = {}
+                login_json['token'] = encoded.decode('utf-8') 
+                login_list.append(login_json)
+                login_list=json.dumps(login_list)
+                return HttpResponse(login_list, content_type="application/json")
+        else: 
+            login_list = []
+            login_tmp = {}
+            login_tmp['token'] = "Not Matched"
+            login_list.append(login_tmp)
+            login_list=json.dumps(login_list)
+            return HttpResponse(login_list, content_type="application/json")
 
 #Title
 class TitleList(generics.ListAPIView):
@@ -843,7 +947,6 @@ class SearchAll(APIView):
             json_section = {}
             json_section['sectionid'] = j[0]
             json_section['sectionname'] = j[1]
-
             content_data = list(Content.objects.all().filter(sectionid = j[0]))
             str_contentdata = str(content_data)
             content_list= regex.parse_content(str_contentdata)
@@ -856,7 +959,6 @@ class SearchAll(APIView):
                 json_content['pos'] = k[3]
                 json_content['height'] = k[4]
                 json_content['state'] = k[5]
-
                 checklist_data = list(Checklist.objects.all().filter(contentid = k[0]))
                 str_cheklistdata = str(checklist_data)
                 checklist_list = regex.parse_checklist(str_cheklistdata)
@@ -868,7 +970,6 @@ class SearchAll(APIView):
                     json_checktmp['checked'] = l[2]
                     checklist_jlist.append(json_checktmp)
                 json_content['includeChecklist'] = checklist_jlist
-
                 comment_data = list(Comment.objects.all().filter(contentid = k[0]))
                 str_commentdata = str(comment_data)
                 comment_list = regex.parse_text(str_commentdata)
@@ -881,7 +982,6 @@ class SearchAll(APIView):
                     json_comment['commenttime'] = m[3]
                     comment_jlist.append(json_comment)
                 json_content['includeComment'] = comment_jlist
-
                 calender_data = list(Calender.objects.all().filter(contentid = k[0]))
                 str_calenerdata = str(calender_data)
                 calender_list = regex.parse_calender(str_calenerdata)
@@ -893,13 +993,8 @@ class SearchAll(APIView):
                     json_calender['duetime'] = n[1]
                     calender_jlist.append(json_calender)
                 json_content['includeCalender'] = calender_jlist
-
                 content_jlist.append(json_content)
             json_section['includeContent'] = content_jlist
             section_jlist.append(json_section)
         section_jlist=json.dumps(section_jlist)
         return HttpResponse(section_jlist, content_type="application/json")
-
-
-
-        
