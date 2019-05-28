@@ -10,7 +10,6 @@
             <a class="text-white">{{title.titlename}}</a>
           </div>
         </div>
-
     </router-link>
   </div>
 </template>

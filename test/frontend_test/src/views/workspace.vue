@@ -17,9 +17,16 @@
           :state="nameState"
           label="Title Name"
           label-for="name-input"
-          invalid-feedback="Name is required"
+          invalid-feedback="Title Name is required"
         >
-          <b-form-input id="name-input" v-model="name" :state="nameState" required></b-form-input>
+          <b-form-input id="name-input" v-model="titlename" :state="nameState" required></b-form-input>
+        </b-form-group>
+
+        <b-form-group
+          label="Title Info(Optional)"
+          label-for="info-input"
+        >
+          <b-form-input id="info-input" v-model="titleinfo"></b-form-input>
         </b-form-group>
       </form>
     </b-modal>
@@ -123,7 +130,8 @@ import Assign from "@/components/Assign";
 export default {
   name: "workspace",
   data: () => ({
-    name: "",
+    titlename: "",
+    titleinfo: "",
     nameState: null,
     enrollList: [],
     assignList: []
@@ -132,12 +140,21 @@ export default {
     getBaseData() {
       this.$http
         .post("http://211.109.53.216:20000/member/search-member/", {
-          memberid: sessionStorage.uid
+          token: sessionStorage.accessToken
         })
         .then(res => {
           this.enrollList = res.data[0].enrollTitle;
           this.assignList = res.data[0].assignContent;
-        });
+        })
+    },
+
+    createProject() {
+      this.$http.post("http://211.109.53.216:20000/title/create-title/", {
+        token: sessionStorage.accessToken,titlename: this.titlename, titleinfo: this.titleinfo
+      })
+      .then(res => {
+        this.getBaseData()
+      })
     },
 
     //Modal 관련코드
@@ -147,7 +164,8 @@ export default {
       return valid;
     },
     resetModal() {
-      this.name = "";
+      this.titlename = "";
+      this.titleinfo = "";
       this.nameState = null;
     },
     handleOk(bvModalEvt) {
@@ -162,7 +180,7 @@ export default {
       // Hide the modal manually
       this.$nextTick(() => {
         this.$refs.modal.hide();
-        createContent(this.name);
+        this.createProject();
       });
     }
   },
