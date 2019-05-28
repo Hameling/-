@@ -16,6 +16,7 @@ export default {
       sections: []
     };
   },
+  props:["select_item"],
   methods: {
     getAllElement() {
       this.$http.post("http://211.109.53.216:20000/member/call-all/", {
@@ -31,6 +32,7 @@ export default {
   },
   mounted() {
     this.getAllElement();
+    //console.log(select_item)
   },
 
   components: {
