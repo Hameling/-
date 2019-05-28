@@ -53,7 +53,6 @@ class AssignSearchMember(APIView):
 
             data = list(Assign.objects.all().filter(memberid = get_memberid))
             str_data = str(data)
-            print(str_data)
             
             power_list = regex.parse_assign(str_data)
             assign_list = []
