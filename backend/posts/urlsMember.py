@@ -8,5 +8,5 @@ urlpatterns = [
     path('delete-member/', views.MemberDelete.as_view()),
     path('update-member/', views.MemberUpdate.as_view()),
     path('call-all/', views.SearchAll.as_view()),
-    path('login/',views.Login.as_view()),
+    path('search-member/',views.MemberSearch.as_view()),
 ]
