@@ -7,29 +7,22 @@
         <form role="form" @submit.prevent="onSubmit(id, pwd)">
           <div class="form-group">
             <div class="form-label-group">
+              
+              <input type="ID" id="inputID" class="form-control" placeholder="ID" required="required" autofocus="autofocus"
+                v-model="id">
               <label for="inputID">ID</label>
-              <input
-                type="ID"
-                id="inputID"
-                class="form-control"
-                placeholder="ID"
-                required="required"
-                autofocus="autofocus"
-                v-model="id"
-              >
+
+       
             </div>
           </div>
           <div class="form-group">
             <div class="form-label-group">
+             
+              <input type="password" id="inputPassword" class="form-control" placeholder="Password" required="required"
+                v-model="pwd"> 
               <label for="inputPassword">Password</label>
-              <input
-                type="password"
-                id="inputPassword"
-                class="form-control"
-                placeholder="Password"
-                required="required"
-                v-model="pwd"
-              >
+
+              
             </div>
           </div>
           <div class="form-group">

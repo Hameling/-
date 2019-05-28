@@ -41,10 +41,14 @@ class AssignSearchMember(APIView):
     parser_classes = (JSONParser,)
 
     def post(self, request, format=None):
+        #승한이가 token을 주면 그 token과 db token을 비교 후 맞으면 memberid를 가져와서 서치
+        #assign, calender, permission
+        # receive_token = str(request.data["token"])
         input_memberid = str(request.data["memberid"])
+
+        #if Session.objects.filter(token = receive_token, memberid = input_memberid).exists():
         data = list(Assign.objects.all().filter(memberid = input_memberid))
         assign_list = []
-
         str_data = str(data)
         power_list = regex.parse_assign(str_data)
 
