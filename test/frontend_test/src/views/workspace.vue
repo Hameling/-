@@ -189,7 +189,6 @@ export default {
     this.$nextTick(() => {
       this.getBaseData();
     });
-    console.log(sessionStorage.uid);
   },
   components: {
     Project: Project,
