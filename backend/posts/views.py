@@ -41,21 +41,28 @@ class AssignSearchMember(APIView):
     parser_classes = (JSONParser,)
 
     def post(self, request, format=None):
+        #승한이가 token을 주면 그 token과 db token을 비교 후 맞으면 memberid를 가져와서 서치
+        #assign, calender, permission
+        receive_token = str(request.data["token"])
         input_memberid = str(request.data["memberid"])
-        data = list(Assign.objects.all().filter(memberid = input_memberid))
-        assign_list = []
 
-        str_data = str(data)
-        power_list = regex.parse_assign(str_data)
+        if Session.objects.filter(token = receive_token, memberid = input_memberid).exists():
+            data = list(Assign.objects.all().filter(memberid = input_memberid))
+            assign_list = []
+            str_data = str(data)
+            power_list = regex.parse_assign(str_data)
+            print("ㅇㅋ")
 
-        for i in power_list:
-            json_tmp = {}
-            json_tmp['contentid'] = i[0]
-            json_tmp['memberid'] = i[1]
-            json_tmp['assignid'] = i[2]
-            assign_list.append(json_tmp)
-        assign_list=json.dumps(assign_list)
-        return HttpResponse(assign_list, content_type="application/json")
+            for i in power_list:
+                json_tmp = {}
+                json_tmp['contentid'] = i[0]
+                json_tmp['memberid'] = i[1]
+                json_tmp['assignid'] = i[2]
+                assign_list.append(json_tmp)
+            assign_list=json.dumps(assign_list)
+            return HttpResponse(assign_list, content_type="application/json")
+        else:
+            print("안맞음")
         
 class AssignSearchContent(APIView):
     parser_classes = (JSONParser,)
