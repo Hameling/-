@@ -28,7 +28,7 @@ class CommentSerializer(serializers.ModelSerializer):
 #Content
 class ContentSerializer(serializers.ModelSerializer):
     class Meta:
-        fields = ('contentid','contentname','contentinfo','contentpos','contentheight','contentstate','sectionid')
+        fields = ('contentid','contentname','contentinfo','contentstate','sectionid')
         model = models.Content
 
 #Contentstate

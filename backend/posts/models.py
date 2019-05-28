@@ -61,8 +61,6 @@ class Content(models.Model):
     contentid = models.AutoField(primary_key=True)
     contentname = models.CharField(max_length=45, blank=True, null=True)
     contentinfo = models.CharField(max_length=200, blank=True, null=True)
-    contentpos = models.IntegerField(blank=True, null=True)
-    contentheight = models.IntegerField(blank=True, null=True)
     contentstate = models.ForeignKey('Contentstate', on_delete=models.CASCADE, db_column='contentstate')
     sectionid = models.ForeignKey('Section', on_delete=models.CASCADE, db_column='sectionid', blank=True, null=True)
 
@@ -70,7 +68,7 @@ class Content(models.Model):
         managed = False
         db_table = 'Content'
     def __str__(self):
-        return '{}na{}in{}pos{}he{}st{}sec{}'.format(self.contentid,self.contentname,self.contentinfo, self.contentpos, self.contentheight, self.contentstate, self.sectionid)
+        return '{}na{}in{}st{}sec{}'.format(self.contentid,self.contentname,self.contentinfo, self.contentstate, self.sectionid)
 
 
 class Contentstate(models.Model):
