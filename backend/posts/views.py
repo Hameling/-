@@ -41,8 +41,6 @@ class AssignSearchMember(APIView):
     parser_classes = (JSONParser,)
 
     def post(self, request, format=None):
-        #승한이가 token을 주면 그 token과 db token을 비교 후 맞으면 memberid를 가져와서 서치
-        #assign, calender, permission
         input_token = str(request.data["token"])
         if Session.objects.filter(token = input_token).exists():
 
@@ -638,11 +636,15 @@ class MemberSearch(APIView):
     parser_classes = (JSONParser,)
 
     def post(self, request, format=None):
-        input_memberid=request.data["memberid"]
+        input_token = str(request.data["token"])
+        session_member = Session.objects.get(token = input_token)
+        str_sessiondata = str(session_member)
+        rejex_session = regex.parse_session(str_sessiondata)
+        get_memberid = rejex_session[0][1]
 
         login_list = []
         login_json = {}
-        data = list(Enroll.objects.all().filter(memberid = input_memberid))
+        data = list(Enroll.objects.all().filter(memberid = get_memberid))
         str_data = str(data)
         enrolltitle_list = regex.parse_enroll(str_data)
         enroll_list = []
@@ -654,7 +656,7 @@ class MemberSearch(APIView):
             json_tmp['enrollid'] = i[4]
             enroll_list.append(json_tmp)
         login_json['enrollTitle'] = enroll_list
-        assign_data = list(Assign.objects.all().filter(memberid = input_memberid))
+        assign_data = list(Assign.objects.all().filter(memberid = get_memberid))
         str_assigndata = str(assign_data)
         assigncontent_list = regex.parse_assign(str_assigndata)
         assign_list = []
