@@ -45,15 +45,6 @@ def parse_section(text):
         true_result.append((i[0],i[1],i[2]))
     return true_result
 
-def parse_getsectionid(text):
-    field = re.compile("(\d+)na([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)id(\d+)sp([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)na([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)")
-    result = field.findall(text)
-    true_result = []
-
-    for i in result:
-        true_result.append((i[0],i[1],i[2]))
-    return true_result
-
 #<QuerySet [<Enroll: 8sp종합 프로젝트na소프트웨어 개발idjjhw9882idd8>]>
 #[<Enroll: 8sp종합 프로젝트na소프트웨어 개발idjjhw9882psm4321na테스트2emtest02@naver.comidd27>]
 def parse_enroll(text):
