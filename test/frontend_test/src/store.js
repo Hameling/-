@@ -4,26 +4,14 @@ import axios from 'axios'
 
 Vue.use(Vuex)
 
-// const refreshAll = () => {
-//   const {uid} = localStorage.uid
-//   const {accessToken} = localStorage.accessToken
-//   const {enrollList} = localStorage.enrollList
-//   const {assignList} = localStorage.assignList
-// }
-// refreshAll()
-
 export default new Vuex.Store({
   state: {
     uid: '',
     accessToken: null,
-    enrollList : [],
-    assignList : []
   },
   getters:{
     getUID: state => state.uid,
     getToken : state => state.accessToken,
-    getEnroll : state => state.enrollList,
-    getAssign : state => state.assignList
   },
   mutations: {
     LOGIN(state, { id, accessToken }) {
@@ -39,15 +27,11 @@ export default new Vuex.Store({
       delete sessionStorage.uid
       delete sessionStorage.accessToken
     },
-    SETBASE_DATA(state, {enrollList, assignList}){
-      state.enrollList = enrollList
-      state.assignList = assignList
-    }
   },
   actions: {
     LOGIN({ commit }, { id, pwd }) {
       return new Promise((resolve, reject) => {
-        axios.post('http://211.109.53.216:20000/member/login/', {
+        axios.post('http://211.109.53.216:20000/session/create-session/', {
           memberid: id, memberpwd: pwd
         }).then(res => {
           if (res.data[0].token == "Not Matched") {
@@ -57,10 +41,6 @@ export default new Vuex.Store({
             commit('LOGIN', {
               id: id,
               accessToken: res.data[0].token
-            })
-            commit('SETBASE_DATA', {
-              enrollList : res.data[0].enrollTitle,
-              assignList : res.data[0].assignContent
             })
             resolve()
           }

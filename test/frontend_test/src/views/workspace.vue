@@ -1,14 +1,13 @@
 <template>
   <!--routing 시작부분 -->
   <div id="content-wrapper">
-
-        <!--Modal 선언부 -->
+    <!--Modal 선언부 -->
     <b-modal
       id="create-title"
       title="Create Title"
       centered
       ok-only
-      ref = 'modal'
+      ref="modal"
       @show="resetModal"
       @hidden="resetModal"
       @ok="handleOk"
@@ -46,7 +45,10 @@
                         </div>
                         <div>Project selection area</div>
                       </div>
-                      <a class="card-footer text-white clearfix small z-1" @click="$bvModal.show('create-title')">
+                      <a
+                        class="card-footer text-white clearfix small z-1"
+                        @click="$bvModal.show('create-title')"
+                      >
                         <!--프로젝트 생성 페이지 링크-->
                         <span class="float-left">Create New Project</span>
                         <span class="float-right">
@@ -121,15 +123,23 @@ import Assign from "@/components/Assign";
 export default {
   name: "workspace",
   data: () => ({
+    name: "",
+    nameState: null,
     enrollList: [],
     assignList: []
   }),
   methods: {
     getBaseData() {
-      this.enrollList = this.$store.getters.getEnroll;
-      this.assignList = this.$store.getters.getAssign;
+      this.$http
+        .post("http://211.109.53.216:20000/member/search-member/", {
+          memberid: sessionStorage.uid
+        })
+        .then(res => {
+          this.enrollList = res.data[0].enrollTitle;
+          this.assignList = res.data[0].assignContent;
+        });
     },
-    
+
     //Modal 관련코드
     checkFormValidity() {
       const valid = this.$refs.form.checkValidity();
@@ -152,13 +162,16 @@ export default {
       // Hide the modal manually
       this.$nextTick(() => {
         this.$refs.modal.hide();
-        createContent(this.name)
-      })
+        createContent(this.name);
+      });
     }
   },
+
   mounted() {
-    this.getBaseData();
-    console.log(this.$store.getters.getUID);
+    this.$nextTick(() => {
+      this.getBaseData();
+    });
+    console.log(sessionStorage.uid);
   },
   components: {
     Project: Project,
