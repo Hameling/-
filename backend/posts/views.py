@@ -926,10 +926,10 @@ class TitleCreate(APIView):
         get_memberid = rejex_session[0][1]
 
         try:
-            Title.objects.create(titlename = input_titlename, titleinfo = input_titleinfo)
+            model_instance = Title(titlename = input_titlename, titleinfo = input_titleinfo)
+            model_instance.save()
             member = Member.objects.get(memberid=get_memberid)
-            title = Title.objects.get(titleid=input_titleid)
-            Enroll.objects.create(memberid=member, titleid=title)
+            Enroll.objects.create(memberid=member, titleid=model_instance)
             return JsonResponse({'create': 'success'}) 
         except:
             return JsonResponse({'create': 'fail'})
