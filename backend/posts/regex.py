@@ -120,3 +120,14 @@ def parse_session(text):
     for i in result:
         true_result.append((i[0],i[1]))
     return true_result
+
+def parse_midbar(text):
+    field = re.compile("(\d+)-(\d+)-(\d+)")
+    result = field.findall(text)
+    true_result = []
+
+    #print(result)
+
+    for i in result:
+        true_result.append((i[0],i[1],i[2]))
+    return true_result
