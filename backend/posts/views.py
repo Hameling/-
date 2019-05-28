@@ -44,16 +44,19 @@ class AssignSearchMember(APIView):
         #승한이가 token을 주면 그 token과 db token을 비교 후 맞으면 memberid를 가져와서 서치
         #assign, calender, permission
         input_token = str(request.data["token"])
-        input_memberid = str(request.data["memberid"])
-        a=Session.objects.all().filter(token = input_token)
-        print(a)
         if Session.objects.filter(token = input_token).exists():
-            print(1)
-            data = list(Assign.objects.all().filter(memberid = input_memberid))
-            assign_list = []
-            str_data = str(data)
-            power_list = regex.parse_assign(str_data)
 
+            session_member = Session.objects.get(token = input_token)
+            str_sessiondata = str(session_member)
+            rejex_session = regex.parse_session(str_sessiondata)
+            get_memberid = rejex_session[0][1]
+
+            data = list(Assign.objects.all().filter(memberid = get_memberid))
+            str_data = str(data)
+            print(str_data)
+            
+            power_list = regex.parse_assign(str_data)
+            assign_list = []
             for i in power_list:
                 json_tmp = {}
                 json_tmp['contentid'] = i[0]
@@ -63,26 +66,8 @@ class AssignSearchMember(APIView):
             assign_list=json.dumps(assign_list)
             return HttpResponse(assign_list, content_type="application/json")
         else:
-            print(2)
             assign_list = []
             return HttpResponse(assign_list, content_type="application/json")
-        # receive_token = str(request.data["token"])
-        input_memberid = str(request.data["memberid"])
-
-        #if Session.objects.filter(token = receive_token, memberid = input_memberid).exists():
-        data = list(Assign.objects.all().filter(memberid = input_memberid))
-        assign_list = []
-        str_data = str(data)
-        power_list = regex.parse_assign(str_data)
-
-        for i in power_list:
-            json_tmp = {}
-            json_tmp['contentid'] = i[0]
-            json_tmp['memberid'] = i[1]
-            json_tmp['assignid'] = i[2]
-            assign_list.append(json_tmp)
-        assign_list=json.dumps(assign_list)
-        return HttpResponse(assign_list, content_type="application/json")
         
 class AssignSearchContent(APIView):
     parser_classes = (JSONParser,)

@@ -162,8 +162,8 @@ class Session(models.Model):
     class Meta:
         managed = False
         db_table = 'Session'
-    def __self__(self):
-        return self.sessionid
+    def __str__(self):
+        return '{}mid{}'.format(self.sessionid,self.memberid)
 
 class Title(models.Model):
     titleid = models.AutoField(primary_key=True)
