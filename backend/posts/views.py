@@ -26,11 +26,16 @@ class AssignList(generics.ListAPIView):
 class AssignCreate(APIView):
     parser_classes = (JSONParser,)
     def post(self, request, format=None):
-        input_memberid = request.data["memberid"]
         input_contentid =request.data["contentid"]
+        input_token = str(request.data["token"])
+
+        session_member = Session.objects.get(token = input_token)
+        str_sessiondata = str(session_member)
+        rejex_session = regex.parse_session(str_sessiondata)
+        get_memberid = rejex_session[0][1]
 
         try:
-            member = Member.objects.get(memberid=input_memberid)
+            member = Member.objects.get(memberid=get_memberid)
             content = Content.objects.get(contentid=input_contentid)
             Assign.objects.create(memberid = member, contentid = content)
             return JsonResponse({'create': 'success'}) 
@@ -90,17 +95,22 @@ class AssignDelete(APIView):
     parser_classes = (JSONParser,)
 
     def post(self, request, format=None):
-        input_memberid = str(request.data["memberid"])
+        input_token = str(request.data["token"])
+        session_member = Session.objects.get(token = input_token)
+        str_sessiondata = str(session_member)
+        rejex_session = regex.parse_session(str_sessiondata)
+        get_memberid = rejex_session[0][1]
+
         input_contentid = str(request.data["contentid"])
         try:
-            del_assign = Assign.objects.all().filter(memberid = input_memberid, contentid = input_contentid)
+            del_assign = Assign.objects.all().filter(memberid = get_memberid, contentid = input_contentid)
             str_data = str(del_assign)
 
             power_list = regex.parse_assign(str_data)
             acquire_assigncid = str(power_list[0][0])
             acquire_assignid = str(power_list[0][1])
 
-            if((acquire_assignid == input_memberid) and (acquire_assigncid == input_contentid)):
+            if((acquire_assignid == get_memberid) and (acquire_assigncid == input_contentid)):
                 del_assign.delete()
                 return JsonResponse({'delete': 'success'})
             else:
@@ -486,9 +496,13 @@ class EnrollCreate(APIView):
 
     def post(self, request, format=None):
         input_titleid = str(request.data["titleid"])
-        input_memberid = str(request.data["memberid"])
+        input_token = str(request.data["token"])
+        session_member = Session.objects.get(token = input_token)
+        str_sessiondata = str(session_member)
+        rejex_session = regex.parse_session(str_sessiondata)
+        get_memberid = rejex_session[0][1]
         try:
-            member = Member.objects.get(memberid=input_memberid)
+            member = Member.objects.get(memberid=get_memberid)
             title = Title.objects.get(titleid=input_titleid)
             Enroll.objects.create(memberid=member, titleid=title)
             return JsonResponse({'create': 'success'}) 
@@ -499,8 +513,12 @@ class EnrollSearchTitle(APIView):
     parser_classes = (JSONParser,)
 
     def post(self, request, format=None):  
-        input_memberid = str(request.data["memberid"])
-        data = list(Enroll.objects.all().filter(memberid = input_memberid))
+        input_token = str(request.data["token"])
+        session_member = Session.objects.get(token = input_token)
+        str_sessiondata = str(session_member)
+        rejex_session = regex.parse_session(str_sessiondata)
+        get_memberid = rejex_session[0][1]
+        data = list(Enroll.objects.all().filter(memberid = get_memberid))
         enroll_list = []
         str_data = str(data)
         power_list = regex.parse_enroll(str_data)
@@ -536,14 +554,18 @@ class EnrollDelete(APIView):
 
     def post(self, request, format=None):
         input_titleid = str(request.data["titleid"])
-        input_memberid = str(request.data["memberid"])
+        input_token = str(request.data["token"])
+        session_member = Session.objects.get(token = input_token)
+        str_sessiondata = str(session_member)
+        rejex_session = regex.parse_session(str_sessiondata)
+        get_memberid = rejex_session[0][1]
         try:
-            del_enroll = Enroll.objects.all().filter(memberid = input_memberid, titleid = input_titleid)
+            del_enroll = Enroll.objects.all().filter(memberid = get_memberid, titleid = input_titleid)
             str_data = str(del_enroll)
             power_list = regex.parse_enroll(str_data)
             ac_titleid = str(power_list[0][0])
-            ac_memberid = str(power_list[0][1])
-            if((ac_memberid == input_memberid) and (ac_titleid == input_titleid)):
+            ac_memberid = str(power_list[0][3])
+            if((ac_memberid == get_memberid) and (ac_titleid == input_titleid)):
                 del_enroll.delete()
                 return JsonResponse({'delete': 'success'})
             else:
@@ -897,9 +919,17 @@ class TitleCreate(APIView):
     def post(self, request, format=None):
         input_titlename=request.data["titlename"]
         input_titleinfo = request.data["titleinfo"]
+        input_token = str(request.data["token"])
+        session_member = Session.objects.get(token = input_token)
+        str_sessiondata = str(session_member)
+        rejex_session = regex.parse_session(str_sessiondata)
+        get_memberid = rejex_session[0][1]
 
         try:
-            Title.objects.create(titlename = input_titlename, titleinfo = input_titleinfo)
+            model_instance = Title(titlename = input_titlename, titleinfo = input_titleinfo)
+            model_instance.save()
+            member = Member.objects.get(memberid=get_memberid)
+            Enroll.objects.create(memberid=member, titleid=model_instance)
             return JsonResponse({'create': 'success'}) 
         except:
             return JsonResponse({'create': 'fail'})
