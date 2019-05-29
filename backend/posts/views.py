@@ -235,18 +235,25 @@ class CalenderUpdate(APIView):
         try:
             str_data2 = str(input_starttime)
             power_list2 = regex.parse_midbar(str_data2)
-            update_contentid = Calender.objects.all().filter(contentid = input_contentid)
-            str_data = str(update_contentid)
-            power_list = regex.parse_calender(str_data)
-            print(power_list)
-            acquire_contentid = power_list[0][2]
-            if(acquire_contentid == input_contentid):
-                update_contentid.update(starttime = input_starttime, duetime = input_duetime, isoverlap = input_isoverlap)
-                return JsonResponse({'update': 'success'})
+            day = int(power_list2[0][2])
+            if(day < 29):
+                print("29일 미만 ok")
+                update_contentid = Calender.objects.all().filter(contentid = input_contentid)
+                str_data = str(update_contentid)
+                power_list = regex.parse_calender(str_data)
+                print(power_list)
+                acquire_contentid = power_list[0][2]
+                if(acquire_contentid == input_contentid):
+                    update_contentid.update(starttime = input_starttime, duetime = input_duetime, isoverlap = input_isoverlap)
+                    return JsonResponse({'update': 'success'})
+                else:
+                    return JsonResponse({'update': 'Not Matched'})
+
             else:
-                return JsonResponse({'update': 'Not Matched'})
+                print("요일이 이상합니다.")
         except:
             return JsonResponse({'update': 'fail'})
+
 
 
 #Comment

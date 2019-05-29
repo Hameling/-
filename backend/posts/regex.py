@@ -126,7 +126,7 @@ def parse_midbar(text):
     result = field.findall(text)
     true_result = []
 
-    #print(result)
+    print("결과",result)
 
     for i in result:
         true_result.append((i[0],i[1],i[2]))
