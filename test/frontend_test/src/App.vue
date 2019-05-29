@@ -54,7 +54,10 @@
     <!--로그인 Modal 끝 -->
 
     <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
-      <router-link to="/" class="navbar-brand mr-1">HOME</router-link>
+      <!--세션이 있을때-->
+      <router-link to="/workspace" class="navbar-brand mr-1" v-if="session_checked">HOME</router-link>
+      <!--세션이 없을때-->
+      <router-link to="/" class="navbar-brand mr-1" v-else>HOME</router-link>
 
       <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
         <i class="fas fa-bars"></i>
@@ -144,6 +147,7 @@
 
     <div id="wrapper">
       <!-- Sidebar -->
+      <!--세션이 있을때-->
       <ul class="sidebar navbar-nav" v-if="session_checked">
         <li class="nav-item active">
           <a class="nav-link" href="index.html">
@@ -188,7 +192,7 @@
           <span>Tables</span></a>
         </li>-->
       </ul>
-
+      <!--세션이 없을때-->
       <ul class="sidebar navbar-nav" v-else>
         <li class="nav-item dropdown">
           <a
