@@ -7,22 +7,29 @@
         <form role="form" @submit.prevent="onSubmit(id, pwd)">
           <div class="form-group">
             <div class="form-label-group">
-              
-              <input type="ID" id="inputID" class="form-control" placeholder="ID" required="required" autofocus="autofocus"
-                v-model="id">
+              <input
+                type="ID"
+                id="inputID"
+                class="form-control"
+                placeholder="ID"
+                required="required"
+                autofocus="autofocus"
+                v-model="id"
+              >
               <label for="inputID">ID</label>
-
-       
             </div>
           </div>
           <div class="form-group">
             <div class="form-label-group">
-             
-              <input type="password" id="inputPassword" class="form-control" placeholder="Password" required="required"
-                v-model="pwd"> 
+              <input
+                type="password"
+                id="inputPassword"
+                class="form-control"
+                placeholder="Password"
+                required="required"
+                v-model="pwd"
+              >
               <label for="inputPassword">Password</label>
-
-              
             </div>
           </div>
           <div class="form-group">
@@ -43,6 +50,8 @@
         </div>
       </div>
     </b-modal>
+
+    <!--로그인 Modal 끝 -->
 
     <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
       <router-link to="/" class="navbar-brand mr-1">HOME</router-link>
@@ -135,13 +144,52 @@
 
     <div id="wrapper">
       <!-- Sidebar -->
-      <ul class="sidebar navbar-nav">
+      <ul class="sidebar navbar-nav" v-if="session_checked">
         <li class="nav-item active">
           <a class="nav-link" href="index.html">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Private Space</span>
           </a>
         </li>
+        <li class="nav-item dropdown">
+          <a
+            class="nav-link dropdown-toggle"
+            href="#"
+            id="pagesDropdown"
+            role="button"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >
+            <i class="fas fa-fw fa-folder"></i>
+            <span>Pages</span>
+          </a>
+          <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+            <h6 class="dropdown-header">Login Screens:</h6>
+            <div class="dropdown-item" @click="$bvModal.show('test')">Login</div>
+            <a class="dropdown-item" href="register.html">Register</a>
+            <a class="dropdown-item" href="forgot-password.html">Forgot Password</a>
+            <div class="dropdown-divider"></div>
+            <h6 class="dropdown-header">Other Pages:</h6>
+            <a class="dropdown-item" href="404.html">404 Page</a>
+            <a class="dropdown-item" href="blank.html">Blank Page</a>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="charts.html">
+            <i class="fas fa-fw fa-chart-area"></i>
+            <span>Charts</span>
+          </a>
+        </li>
+        <!--
+      <li class="nav-item">
+        <a class="nav-link" href="tables.html">
+          <i class="fas fa-fw fa-table"></i>
+          <span>Tables</span></a>
+        </li>-->
+      </ul>
+
+      <ul class="sidebar navbar-nav" v-else>
         <li class="nav-item dropdown">
           <a
             class="nav-link dropdown-toggle"
@@ -215,6 +263,13 @@
         </div>
       </div>
     </div>
+    <footer class="sticky-footer">
+      <div class="container my-auto">
+        <div class="copyright text-center my-auto">
+          <span>Copyright © Your Website 2019</span>
+        </div>
+      </div>
+    </footer>
   </div>
 </template>
 
@@ -223,7 +278,8 @@ export default {
   name: "app",
   data: () => ({
     id: "",
-    pwd: ""
+    pwd: "",
+    session_checked: false
   }),
   methods: {
     async onSubmit(id, pwd) {
@@ -241,15 +297,16 @@ export default {
             alert("아이디 혹은 비밀번호가 잘못되었습니다 ");
           }
         });
-      // console.log(this.$store.state.uid);
-      // console.log(this.$store.state.accessToken);
-      // console.log(this.$store.state.enrollList);
-      // console.log(this.$store.state.assignList);
-
+      if (sessionStorage.accessToken != null) {
+        this.session_checked = true;
+      }
     }
   },
-
-  components: {
-  }
+  mounted() {
+    if (sessionStorage.accessToken != null) {
+      this.session_checked = true;
+    }
+  },
+  components: {}
 };
 </script>
