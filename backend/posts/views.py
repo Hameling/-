@@ -2,22 +2,21 @@ import jwt
 import datetime
 import json
 
-from posts import regex
-from posts import token
+from posts import regex, token
 from pytz import timezone
 
+from rest_framework import generics, permissions
 from rest_framework.exceptions import ParseError
 from rest_framework.parsers import JSONParser
-from django.http import HttpResponse, JsonResponse
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
-from rest_framework import generics, permissions
-from django.views.generic import DetailView
 
 from .models import Assign,Checklist,Calender,Comment,Content,Contentstate,Enroll,File,Member,Permission,Section,Title, Permissionstate, Session
 from .serializers import AssignSerializer,ChecklistSerializer,CalenderSerializer,CommentSerializer,ContentSerializer,ContentstateSerializer,EnrollSerializer,FileSerializer,MemberSerializer,PermissionSerializer,SectionSerializer,TitleSerializer,PermissionstateSerializer,SessionSerializer
+
 # Create your views here.
 #Assign
 class AssignList(generics.ListAPIView):
@@ -29,14 +28,7 @@ class AssignCreate(APIView):
     def post(self, request, format=None):
         input_contentid =request.data["contentid"]
         input_token = str(request.data["token"])
-
-        #session_member = Session.objects.get(token = input_token)
-        #str_sessiondata = str(session_member)
-        #rejex_session = regex.parse_session(str_sessiondata)
-        #get_memberid = rejex_session[0][1]
-        
         get_memberid = token.earn_memberid(input_token)
-        
         try:
             member = Member.objects.get(memberid=get_memberid)
             content = Content.objects.get(contentid=input_contentid)
@@ -51,15 +43,9 @@ class AssignSearchMember(APIView):
     def post(self, request, format=None):
         input_token = str(request.data["token"])
         if Session.objects.filter(token = input_token).exists():
-
-            session_member = Session.objects.get(token = input_token)
-            str_sessiondata = str(session_member)
-            rejex_session = regex.parse_session(str_sessiondata)
-            get_memberid = rejex_session[0][1]
-
+            get_memberid = token.earn_memberid(input_token)
             data = list(Assign.objects.all().filter(memberid = get_memberid))
             str_data = str(data)
-            
             power_list = regex.parse_assign(str_data)
             assign_list = []
             for i in power_list:
@@ -81,10 +67,8 @@ class AssignSearchContent(APIView):
         input_contentid = str(request.data["contentid"])
         data = list(Assign.objects.all().filter(contentid = input_contentid))
         assign_list = []
-
         str_data = str(data)
         power_list = regex.parse_assign(str_data)
-
         for i in power_list:
             json_tmp = {}
             json_tmp['contentid'] = i[0]
@@ -99,20 +83,14 @@ class AssignDelete(APIView):
 
     def post(self, request, format=None):
         input_token = str(request.data["token"])
-        session_member = Session.objects.get(token = input_token)
-        str_sessiondata = str(session_member)
-        rejex_session = regex.parse_session(str_sessiondata)
-        get_memberid = rejex_session[0][1]
-
+        get_memberid = token.earn_memberid(input_token)
         input_contentid = str(request.data["contentid"])
         try:
             del_assign = Assign.objects.all().filter(memberid = get_memberid, contentid = input_contentid)
             str_data = str(del_assign)
-
             power_list = regex.parse_assign(str_data)
             acquire_assigncid = str(power_list[0][0])
             acquire_assignid = str(power_list[0][1])
-
             if((acquire_assignid == get_memberid) and (acquire_assigncid == input_contentid)):
                 del_assign.delete()
                 return JsonResponse({'delete': 'success'})
@@ -132,7 +110,6 @@ class ChecklistCreate(APIView):
     def post(self, request, format=None):
         input_listname = request.data["listname"]
         input_contentid = request.data["contentid"]
-
         try:
             content = Content.objects.get(contentid=input_contentid)
             Checklist.objects.create(listname = input_listname, contentid = content, checked= 0)
@@ -146,7 +123,6 @@ class ChecklistSearch(APIView):
     def post(self, request, format=None):    
         input_contentid = request.data["contentid"]
         comment_list = []
-    
         data = list(Checklist.objects.all().filter(contentid = input_contentid))
         str_data = str(data)
         power_list = regex.parse_checklist(str_data)
@@ -198,7 +174,6 @@ class CalenderCreate(APIView):
         input_starttime=request.data["starttime"]
         input_duetime = request.data["duetime"]
         input_contentid = request.data["contentid"]
-
         try:
             contentid = Content.objects.get(contentid=input_contentid)
             Calender.objects.create(starttime = input_starttime, duetime = input_duetime, contentid = contentid)
@@ -212,7 +187,6 @@ class CalenderSearch(APIView):
     def post(self, request, format=None):    
         input_contentid = request.data["contentid"]
         calender_list = []
-    
         data = list(Calender.objects.all().filter(contentid = input_contentid))
         str_data = str(data)
         power_list = regex.parse_calender(str_data)
@@ -258,11 +232,9 @@ class CalenderUpdate(APIView):
         input_starttime = request.data["starttime"]
         input_duetime = request.data["duetime"]
         input_isoverlap = request.data["isoverlap"]
-
         try:
             str_data2 = str(input_starttime)
             power_list2 = regex.parse_midbar(str_data2)
-
             update_contentid = Calender.objects.all().filter(contentid = input_contentid)
             str_data = str(update_contentid)
             power_list = regex.parse_calender(str_data)
@@ -290,7 +262,6 @@ class CommentCreate(APIView):
         input_memberid=request.data["memberid"]
         input_contentid = request.data["contentid"]
         cur_time = datetime.datetime.now()
-
         try:
             content = Content.objects.get(contentid=input_contentid)
             member = Member.objects.get(memberid=input_memberid)
@@ -343,11 +314,9 @@ class CheckComment(APIView):
     def post(self, request, format=None):    
         input_contentid = request.data["contentid"]
         comment_list = []
-    
         data = list(Comment.objects.all().filter(contentid = input_contentid))
         str_data = str(data)
         power_list = regex.parse_text(str_data)
-            
         for i in power_list:
             json_tmp = {}
             json_tmp['comnumber'] = i[0]
@@ -464,8 +433,6 @@ class ContentUpdate(APIView):
         input_contentstate = request.data["contentstate"]
         try:
             update_content = Content.objects.all().filter(contentid = input_contentid)
-            str_data = str(update_content)
-            power_list = regex.parse_content(str_data)
             update_content.update(contentname = input_contentname,contentinfo = input_contentinfo, contentstate = input_contentstate)
             return JsonResponse({'update': 'update success'})
         except:
@@ -503,10 +470,7 @@ class EnrollCreate(APIView):
     def post(self, request, format=None):
         input_titleid = str(request.data["titleid"])
         input_token = str(request.data["token"])
-        session_member = Session.objects.get(token = input_token)
-        str_sessiondata = str(session_member)
-        rejex_session = regex.parse_session(str_sessiondata)
-        get_memberid = rejex_session[0][1]
+        get_memberid = token.earn_memberid(input_token)
         try:
             member = Member.objects.get(memberid=get_memberid)
             title = Title.objects.get(titleid=input_titleid)
@@ -520,10 +484,7 @@ class EnrollSearchTitle(APIView):
 
     def post(self, request, format=None):  
         input_token = str(request.data["token"])
-        session_member = Session.objects.get(token = input_token)
-        str_sessiondata = str(session_member)
-        rejex_session = regex.parse_session(str_sessiondata)
-        get_memberid = rejex_session[0][1]
+        get_memberid = token.earn_memberid(input_token)
         data = list(Enroll.objects.all().filter(memberid = get_memberid))
         enroll_list = []
         str_data = str(data)
@@ -561,10 +522,7 @@ class EnrollDelete(APIView):
     def post(self, request, format=None):
         input_titleid = str(request.data["titleid"])
         input_token = str(request.data["token"])
-        session_member = Session.objects.get(token = input_token)
-        str_sessiondata = str(session_member)
-        rejex_session = regex.parse_session(str_sessiondata)
-        get_memberid = rejex_session[0][1]
+        get_memberid = token.earn_memberid(input_token)
         try:
             del_enroll = Enroll.objects.all().filter(memberid = get_memberid, titleid = input_titleid)
             str_data = str(del_enroll)
@@ -612,7 +570,6 @@ class MemberCreate(APIView):
         input_memberpwd = request.data["memberpwd"]
         input_membername = request.data["membername"]
         input_memberemail = request.data["memberemail"]
-
         try:
             Member.objects.create(memberid = input_memberid, memberpwd = input_memberpwd, membername = input_membername, memberemail= input_memberemail)
             return JsonResponse({'create': 'success'}) 
@@ -665,11 +622,7 @@ class MemberSearch(APIView):
 
     def post(self, request, format=None):
         input_token = str(request.data["token"])
-        session_member = Session.objects.get(token = input_token)
-        str_sessiondata = str(session_member)
-        rejex_session = regex.parse_session(str_sessiondata)
-        get_memberid = rejex_session[0][1]
-
+        get_memberid = token.earn_memberid(input_token)
         login_list = []
         login_json = {}
         data = list(Enroll.objects.all().filter(memberid = get_memberid))
@@ -725,7 +678,6 @@ class PermissionCreate(APIView):
         input_memberid = request.data["memberid"]
         input_contentid = request.data["contentid"]
         input_fileid = request.data["fileid"]
-
         try:
             priority = Permissionstate.objects.get(perstatenumber=input_priority)
             member = Member.objects.get(memberid=input_memberid)
@@ -819,7 +771,6 @@ class SectionCreate(APIView):
     def post(self, request, format=None):
         input_titleid = request.data["titleid"]
         input_sectionname = request.data["sectionname"]
-
         try:
             thistitle = Title.objects.get(titleid=input_titleid)
             Section.objects.create(titleid = thistitle, sectionname = input_sectionname)
@@ -877,34 +828,14 @@ class SessionList(generics.ListAPIView):
 
 class SessionCreate(APIView):
     def post(self, request, format=None):
-        expiretime = datetime.datetime.now() + datetime.timedelta(hours=2)
-        key = str(expiretime)
-        
         input_memberid=request.data["memberid"]
         input_memberpwd=request.data["memberpwd"]
-
         if Member.objects.filter(memberid=input_memberid, memberpwd=input_memberpwd).exists():
             if Session.objects.filter(memberid=input_memberid).exists():
-                encoded = jwt.encode({'memberid': input_memberid}, key, algorithm='HS256')
-                encoded = encoded.decode('utf-8') 
-                member = Member.objects.get(memberid=input_memberid)
-                Session.objects.filter(memberid= member).update(memberid= member,token=encoded, expiretime = expiretime)
-                login_list = []
-                login_json = {}
-                login_json['token'] = encoded
-                login_list.append(login_json)
-                login_list=json.dumps(login_list)
+                login_list= token.create_token(input_memberid)
                 return HttpResponse(login_list, content_type="application/json")
             else:
-                encoded = jwt.encode({'memberid': input_memberid}, key, algorithm='HS256')
-                encoded = encoded.decode('utf-8') 
-                member = Member.objects.get(memberid=input_memberid)
-                Session.objects.create(memberid =member, token=encoded, expiretime=expiretime)
-                login_list = []
-                login_json = {}
-                login_json['token'] = encoded
-                login_list.append(login_json)
-                login_list=json.dumps(login_list)
+                login_list= token.create_token(input_memberid)
                 return HttpResponse(login_list, content_type="application/json")
         else: 
             login_list = []
@@ -926,10 +857,7 @@ class TitleCreate(APIView):
         input_titlename=request.data["titlename"]
         input_titleinfo = request.data["titleinfo"]
         input_token = str(request.data["token"])
-        session_member = Session.objects.get(token = input_token)
-        str_sessiondata = str(session_member)
-        rejex_session = regex.parse_session(str_sessiondata)
-        get_memberid = rejex_session[0][1]
+        get_memberid = token.earn_memberid(input_token)
 
         try:
             model_instance = Title(titlename = input_titlename, titleinfo = input_titleinfo)
