@@ -8,11 +8,20 @@ import axios from 'axios'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
+import VueCtkDateTimePicker from 'vue-ctk-date-time-picker';
+import 'vue-ctk-date-time-picker/dist/vue-ctk-date-time-picker.css';
+
+import moment from 'moment-timezone'
+
+
 
 Vue.use(BootstrapVue)
 Vue.config.productionTip = false
 Vue.prototype.$http = axios
 
+Vue.component('VueCtkDateTimePicker', VueCtkDateTimePicker);
+
+moment.tz.setDefault('Asia/Seoul')
 
 // axios.defaults.withCredentials = false
 // axios.defaults.proxy = {

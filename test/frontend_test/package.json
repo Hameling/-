@@ -10,7 +10,9 @@
     "axios": "^0.18.0",
     "bootstrap-vue": "^2.0.0-rc.20",
     "core-js": "^2.6.5",
+    "moment-timezone": "^0.5.25",
     "vue": "^2.6.10",
+    "vue-ctk-date-time-picker": "^2.1.1",
     "vue-router": "^3.0.3",
     "vuex": "^3.0.1"
   },

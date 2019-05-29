@@ -80,321 +80,13 @@
                 </div>
 
               <a>Start time </a>
-
-              <div class="dropdown">
-                <button class="dropbtn-start">YYYY</button>
-                <div class="dropdown-content" style="overflow:auto">
-                  <a>2024</a>
-                  <a>2023</a>
-                  <a>2022</a>
-                  <a>2021</a>
-                  <a>2020</a>
-                  <a>2019</a>
-                  <a>2018</a>
-                  <a>2017</a>
-                  <a>2016</a>
-                  <a>2015</a>
-                  <a>2014</a>
-                </div>
-              </div>
-              <div class="dropdown">
-                <button class="dropbtn-start">MM</button>
-                <div class="dropdown-content" style="overflow:auto">
-                  <a >1</a>
-                  <a >2</a>
-                  <a >3</a>
-                  <a >4</a>
-                  <a >5</a>
-                  <a >6</a>
-                  <a >7</a>
-                  <a >8</a>
-                  <a >9</a>
-                  <a >10</a>
-                  <a >11</a>
-                  <a >12</a>
-                </div>
-              </div>
-              <div class="dropdown">
-                <button class="dropbtn-start">DD</button>
-                <div class="dropdown-content" style="overflow:auto">
-                  <a>1</a>
-                  <a>2</a>
-                  <a>3</a>
-                  <a>4</a>
-                  <a>5</a>
-                  <a>6</a>
-                  <a>7</a>
-                  <a>8</a>
-                  <a>9</a>
-                  <a>10</a>
-                  <a>11</a>
-                  <a>12</a>
-                  <a>13</a>
-                  <a>14</a>
-                  <a>15</a>
-                  <a>16</a>
-                  <a>17</a>
-                  <a>18</a>
-                  <a>19</a>
-                  <a>20</a>
-                  <a>21</a>
-                  <a>22</a>
-                  <a>23</a>
-                  <a>24</a>
-                  <a>25</a>
-                  <a>26</a>
-                  <a>27</a>
-                  <a>28</a>
-                  <a>29</a>
-                  <a>30</a>
-                  <a>31</a>
-                </div>
-              </div>
-              <div class="dropdown">
-                <button class="dropbtn-start">H</button>
-                <div class="dropdown-content" style="overflow:auto">
-                  <a>1</a>
-                  <a>2</a>
-                  <a>3</a>
-                  <a>4</a>
-                  <a>5</a>
-                  <a>6</a>
-                  <a>7</a>
-                  <a>8</a>
-                  <a>9</a>
-                  <a>10</a>
-                  <a>11</a>
-                  <a>12</a>
-                  <a>13</a>
-                  <a>14</a>
-                  <a>15</a>
-                  <a>16</a>
-                  <a>17</a>
-                  <a>18</a>
-                  <a>19</a>
-                  <a>20</a>
-                  <a>21</a>
-                  <a>22</a>
-                  <a>23</a>
-                  <a>24</a>
-                </div>
-              </div>
-              <div class="dropdown">
-                <button class="dropbtn-start">M</button>
-                <div class="dropdown-content" style="overflow:auto">
-                  <a>00</a>
-                  <a>01</a>
-                  <a>02</a>
-                  <a>03</a>
-                  <a>04</a>
-                  <a>05</a>
-                  <a>06</a>
-                  <a>07</a>
-                  <a>08</a>
-                  <a>09</a>
-                  <a>10</a>
-                  <a>11</a>
-                  <a>12</a>
-                  <a>13</a>
-                  <a>14</a>
-                  <a>15</a>
-                  <a>16</a>
-                  <a>17</a>
-                  <a>18</a>
-                  <a>19</a>
-                  <a>20</a>
-                  <a>31</a>
-                  <a>32</a>
-                  <a>33</a>
-                  <a>34</a>
-                  <a>35</a>
-                  <a>36</a>
-                  <a>37</a>
-                  <a>38</a>
-                  <a>39</a>
-                  <a>40</a>
-                  <a>41</a>
-                  <a>42</a>
-                  <a>43</a>
-                  <a>44</a>
-                  <a>45</a>
-                  <a>46</a>
-                  <a>47</a>
-                  <a>48</a>
-                  <a>49</a>
-                  <a>50</a>
-                  <a>51</a>
-                  <a>52</a>
-                  <a>53</a>
-                  <a>54</a>
-                  <a>55</a>
-                  <a>56</a>
-                  <a>57</a>
-                  <a>58</a>
-                  <a>59</a>
-                  <a>60</a>
-                </div>
-              </div>
-
+              <VueCtkDateTimePicker v-model='start_date' :no-header='true'  :format="date_form" :no-label="true" :min-date="now_time"/>
+         
               <div><br></div>
-
+              
               <a>End Game </a>
-
-              <div class="dropdown">
-                <button class="dropbtn-finish">YYYY</button>
-                <div class="dropdown-content" style="overflow:auto">
-                  <a>2024</a>
-                  <a>2023</a>
-                  <a>2022</a>
-                  <a>2021</a>
-                  <a>2020</a>
-                  <a>2019</a>
-                  <a>2018</a>
-                  <a>2017</a>
-                  <a>2016</a>
-                  <a>2015</a>
-                  <a>2014</a>
-                </div>
-              </div>
-              <div class="dropdown">
-                <button class="dropbtn-finish">MM</button>
-                <div class="dropdown-content" style="overflow:auto">
-                  <a >1</a>
-                  <a >2</a>
-                  <a >3</a>
-                  <a >4</a>
-                  <a >5</a>
-                  <a >6</a>
-                  <a >7</a>
-                  <a >8</a>
-                  <a >9</a>
-                  <a >10</a>
-                  <a >11</a>
-                  <a >12</a>
-                </div>
-              </div>
-              <div class="dropdown">
-                <button class="dropbtn-finish">DD</button>
-                <div class="dropdown-content" style="overflow:auto">
-                  <a>1</a>
-                  <a>2</a>
-                  <a>3</a>
-                  <a>4</a>
-                  <a>5</a>
-                  <a>6</a>
-                  <a>7</a>
-                  <a>8</a>
-                  <a>9</a>
-                  <a>10</a>
-                  <a>11</a>
-                  <a>12</a>
-                  <a>13</a>
-                  <a>14</a>
-                  <a>15</a>
-                  <a>16</a>
-                  <a>17</a>
-                  <a>18</a>
-                  <a>19</a>
-                  <a>20</a>
-                  <a>21</a>
-                  <a>22</a>
-                  <a>23</a>
-                  <a>24</a>
-                  <a>25</a>
-                  <a>26</a>
-                  <a>27</a>
-                  <a>28</a>
-                  <a>29</a>
-                  <a>30</a>
-                  <a>31</a>
-                </div>
-              </div>
-              <div class="dropdown">
-                <button class="dropbtn-finish">H</button>
-                <div class="dropdown-content" style="overflow:auto">
-                  <a>1</a>
-                  <a>2</a>
-                  <a>3</a>
-                  <a>4</a>
-                  <a>5</a>
-                  <a>6</a>
-                  <a>7</a>
-                  <a>8</a>
-                  <a>9</a>
-                  <a>10</a>
-                  <a>11</a>
-                  <a>12</a>
-                  <a>13</a>
-                  <a>14</a>
-                  <a>15</a>
-                  <a>16</a>
-                  <a>17</a>
-                  <a>18</a>
-                  <a>19</a>
-                  <a>20</a>
-                  <a>21</a>
-                  <a>22</a>
-                  <a>23</a>
-                  <a>24</a>
-                </div>
-              </div>
-              <div class="dropdown">
-                <button class="dropbtn-finish">M</button>
-                <div class="dropdown-content" style="overflow:auto">
-                  <a>00</a>
-                  <a>01</a>
-                  <a>02</a>
-                  <a>03</a>
-                  <a>04</a>
-                  <a>05</a>
-                  <a>06</a>
-                  <a>07</a>
-                  <a>08</a>
-                  <a>09</a>
-                  <a>10</a>
-                  <a>11</a>
-                  <a>12</a>
-                  <a>13</a>
-                  <a>14</a>
-                  <a>15</a>
-                  <a>16</a>
-                  <a>17</a>
-                  <a>18</a>
-                  <a>19</a>
-                  <a>20</a>
-                  <a>31</a>
-                  <a>32</a>
-                  <a>33</a>
-                  <a>34</a>
-                  <a>35</a>
-                  <a>36</a>
-                  <a>37</a>
-                  <a>38</a>
-                  <a>39</a>
-                  <a>40</a>
-                  <a>41</a>
-                  <a>42</a>
-                  <a>43</a>
-                  <a>44</a>
-                  <a>45</a>
-                  <a>46</a>
-                  <a>47</a>
-                  <a>48</a>
-                  <a>49</a>
-                  <a>50</a>
-                  <a>51</a>
-                  <a>52</a>
-                  <a>53</a>
-                  <a>54</a>
-                  <a>55</a>
-                  <a>56</a>
-                  <a>57</a>
-                  <a>58</a>
-                  <a>59</a>
-                  <a>60</a>
-                </div>
-              </div>
-
+              <VueCtkDateTimePicker v-model='end_date' :no-header='true'  :format="date_form" :no-label="true" :min-date="now_time"/>
+            
               </div>
               </section>
               <div><br></div>
@@ -452,12 +144,19 @@
 </template>
 
 <script>
+import moment from 'moment'
 import cChecklist from '@/components/Cont_CheckList'
 import cComment from '@/components/Cont_Comment'
 export default {
   name: 'contentForm',
   data(){
       return {
+        //Day Picker를 위한 변수
+          start_date : moment().format('YYYY-MM-DD HH:mm'),
+          end_date : moment().format('YYYY-MM-DD HH:mm'),
+          date_form : "YYYY-MM-DD HH:mm",
+          now_time: moment().format('YYYY-MM-DD HH:mm'),
+          
           cmt_content: '',
           ckl_content: '',
           comments:[],
@@ -522,6 +221,13 @@ export default {
           .then((res) => {
               this.getCheckLists()
           })
+      },
+
+      addSchedule(start, end) {
+
+      },
+      delSchedule(scehdule_id){
+
       }
   },
   mounted() {
