@@ -3,6 +3,7 @@ import datetime
 import json
 
 from posts import regex
+from posts import token
 from pytz import timezone
 
 from rest_framework.exceptions import ParseError
@@ -29,11 +30,13 @@ class AssignCreate(APIView):
         input_contentid =request.data["contentid"]
         input_token = str(request.data["token"])
 
-        session_member = Session.objects.get(token = input_token)
-        str_sessiondata = str(session_member)
-        rejex_session = regex.parse_session(str_sessiondata)
-        get_memberid = rejex_session[0][1]
-
+        #session_member = Session.objects.get(token = input_token)
+        #str_sessiondata = str(session_member)
+        #rejex_session = regex.parse_session(str_sessiondata)
+        #get_memberid = rejex_session[0][1]
+        
+        get_memberid = token.earn_memberid(input_token)
+        
         try:
             member = Member.objects.get(memberid=get_memberid)
             content = Content.objects.get(contentid=input_contentid)
