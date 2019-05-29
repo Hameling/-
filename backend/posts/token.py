@@ -13,7 +13,7 @@ def earn_memberid(input_token):
     return earn_memberid
 
 def create_token(input_memberid):
-    expiretime = datetime.datetime.now() + datetime.timedelta(hours=2)
+    expiretime = datetime.datetime.now() + datetime.timedelta(hours=1)
     key = str(expiretime)
     encoded = jwt.encode({'memberid': input_memberid}, key, algorithm='HS256')
     encoded = encoded.decode('utf-8') 
@@ -25,3 +25,7 @@ def create_token(input_memberid):
     login_list.append(login_json)
     login_list=json.dumps(login_list)
     return login_list
+
+def extend_token(input_token):
+    expiretime = datetime.datetime.now() + datetime.timedelta(hours=1)
+    Session.objects.filter(token = input_token).update(expiretime = expiretime)
