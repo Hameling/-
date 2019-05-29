@@ -753,7 +753,7 @@ class TitleCreate(APIView):
         input_titleinfo = request.data["titleinfo"]
         input_token = str(request.data["token"])
         get_memberid = token.earn_memberid(input_token)
-
+        token.extend_token(input_token)
         try:
             model_instance = Title(titlename = input_titlename, titleinfo = input_titleinfo)
             model_instance.save()
@@ -816,3 +816,38 @@ class SearchAll(APIView):
         section_jlist=searchfunc.search_all(input_titleid)
         token.extend_token(input_token)
         return HttpResponse(section_jlist, content_type="application/json")
+
+class testFuc(APIView):
+    parser_classes = (JSONParser,)
+
+    def post(self, request, format=None):
+        input_token = str(request.data["token"])
+        ses_data = Session.objects.all().filter(token = input_token)
+        str_data = str(ses_data)
+        true_data = regex.parse_session(str_data)
+
+        exp_year = int(true_data[0][2][:4])
+        exp_month = int(true_data[0][2][5:7])
+        exp_day = int(true_data[0][2][8:10])
+        exp_hour = int(true_data[0][2][11:13])
+        exp_min = int(true_data[0][2][14:16])
+        exp_sec = int(true_data[0][2][17:19])
+
+        exp_total = datetime.datetime(exp_year,exp_month,exp_day,exp_hour,exp_min,exp_sec)
+        now_time = datetime.datetime.now()
+        token_list = []
+        json_tmp = {}
+        if(now_time > exp_total):
+            json_tmp['token'] = "expire"
+            json_tmp['now'] = str(now_time)
+            json_tmp['exprie'] = str(exp_total)
+            token_list.append(json_tmp)
+            token_list=json.dumps(token_list)
+            return HttpResponse(token_list, content_type="application/json")
+        else:
+            json_tmp['token'] = "keep"
+            json_tmp['now'] = str(now_time)
+            json_tmp['exprie'] = str(exp_total)
+            token_list.append(json_tmp)
+            token_list=json.dumps(token_list)
+            return HttpResponse(token_list, content_type="application/json")

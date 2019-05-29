@@ -111,14 +111,14 @@ def parse_Permission(text):
         true_result.append((i[0],i[1],i[6],i[10],i[11]))
     return true_result
 
-#29midjjhw9882psm4321na테스트2emtest02@naver.com
+#29midjjhw9882psm4321na테스트2emtest02@naver.comexp2019-05-29 19:23:03
 def parse_session(text):
-    field = re.compile("(\d+)mid([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)ps([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)na([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)em([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)")
+    field = re.compile("(\d+)mid([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)ps([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)na([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)em([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)exp([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)")
     result = field.findall(text)
     true_result = []
 
     for i in result:
-        true_result.append((i[0],i[1]))
+        true_result.append((i[0],i[1],i[5]))
     return true_result
 
 def parse_midbar(text):

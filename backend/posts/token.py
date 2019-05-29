@@ -29,3 +29,26 @@ def create_token(input_memberid):
 def extend_token(input_token):
     expiretime = datetime.datetime.now() + datetime.timedelta(hours=1)
     Session.objects.filter(token = input_token).update(expiretime = expiretime)
+
+def compare_token(input_token):
+    ses_data = Session.objects.all().filter(token = input_token)
+    str_data = str(ses_data)
+    true_data = regex.parse_session(str_data)
+
+    exp_year = int(true_data[0][2][:4])
+    exp_month = int(true_data[0][2][5:7])
+    exp_day = int(true_data[0][2][8:10])
+    exp_hour = int(true_data[0][2][11:13])
+    exp_min = int(true_data[0][2][14:16])
+    exp_sec = int(true_data[0][2][17:19])
+
+    exp_total = datetime.datetime(exp_year,exp_month,exp_day,exp_hour,exp_min,exp_sec)
+    now_time = datetime.datetime.now()
+    value = False
+    
+    if(now_time > exp_total):
+        return value
+    else:
+        value = True
+        return value
+

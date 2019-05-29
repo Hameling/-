@@ -163,7 +163,7 @@ class Session(models.Model):
         managed = False
         db_table = 'Session'
     def __str__(self):
-        return '{}mid{}'.format(self.sessionid,self.memberid)
+        return '{}mid{}exp{}'.format(self.sessionid,self.memberid,self.expiretime)
 
 class Title(models.Model):
     titleid = models.AutoField(primary_key=True)
