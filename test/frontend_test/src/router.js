@@ -46,7 +46,8 @@ export default new Router({
     {
       path: '/project',
       name: 'project',
-      component: Session2
+      component: Session2,
+      props:true
     },
     {
       path: '/content',

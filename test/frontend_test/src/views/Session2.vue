@@ -8,29 +8,32 @@
 </template>
 
 <script>
-import Section from "@/components/Section"
+import Section from "@/components/Section";
 export default {
   name: "project",
-  data() {
+  props: ["select_item"],
+  data: function() {
     return {
+      selectedid: "",
       sections: []
     };
   },
   methods: {
     getAllElement() {
-      this.$http.post("http://211.109.53.216:20000/member/call-all/", {
-        titleid: "8"
-      })
-      .then(res => {
-        this.sections = res.data;
-      });
+      this.$http
+        .post("http://211.109.53.216:20000/member/call-all/", {
+          titleid: this.select_item
+        })
+        .then(res => {
+          this.sections = res.data;
+        });
     },
-    delSection() {
-      
-    }
+    delSection() {}
   },
   mounted() {
-    this.getAllElement();
+    this.$nextTick(() => {
+      this.getAllElement();
+    });
   },
 
   components: {

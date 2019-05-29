@@ -260,6 +260,9 @@ class CalenderUpdate(APIView):
         input_isoverlap = request.data["isoverlap"]
 
         try:
+            str_data2 = str(input_starttime)
+            power_list2 = regex.parse_midbar(str_data2)
+
             update_contentid = Calender.objects.all().filter(contentid = input_contentid)
             str_data = str(update_contentid)
             power_list = regex.parse_calender(str_data)
@@ -1003,9 +1006,7 @@ class SearchAll(APIView):
                 json_content['contentid'] = k[0]
                 json_content['contentname'] = k[1]
                 json_content['contentinfo'] = k[2]
-                json_content['pos'] = k[3]
-                json_content['height'] = k[4]
-                json_content['state'] = k[5]
+                json_content['state'] = k[3]
                 checklist_data = list(Checklist.objects.all().filter(contentid = k[0]))
                 str_cheklistdata = str(checklist_data)
                 checklist_list = regex.parse_checklist(str_cheklistdata)
