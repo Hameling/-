@@ -28,8 +28,8 @@ class AssignCreate(APIView):
     def post(self, request, format=None):
         input_contentid =request.data["contentid"]
         input_token = str(request.data["token"])
-        get_memberid = token.earn_memberid(input_token)
         try:
+            get_memberid = token.earn_memberid(input_token)
             member = Member.objects.get(memberid=get_memberid)
             content = Content.objects.get(contentid=input_contentid)
             Assign.objects.create(memberid = member, contentid = content)
@@ -813,61 +813,6 @@ class SearchAll(APIView):
     def post(self, request, format=None):    
         input_titleid = request.data["titleid"]
         input_token = str(request.data["token"])
-        section_data = list(Section.objects.all().filter(titleid = input_titleid))
-        str_sectiondata = str(section_data)
-        section_list = regex.parse_section(str_sectiondata)
-        section_jlist = []
-        for j in section_list:
-            json_section = {}
-            json_section['sectionid'] = j[0]
-            json_section['sectionname'] = j[1]
-            content_data = list(Content.objects.all().filter(sectionid = j[0]))
-            str_contentdata = str(content_data)
-            content_list= regex.parse_content(str_contentdata)
-            content_jlist = []
-            for k in content_list:
-                json_content = {}
-                json_content['contentid'] = k[0]
-                json_content['contentname'] = k[1]
-                json_content['contentinfo'] = k[2]
-                json_content['state'] = k[3]
-                checklist_data = list(Checklist.objects.all().filter(contentid = k[0]))
-                str_cheklistdata = str(checklist_data)
-                checklist_list = regex.parse_checklist(str_cheklistdata)
-                checklist_jlist = []
-                for l in checklist_list:
-                    json_checktmp = {}
-                    json_checktmp['listnumber'] = l[0]
-                    json_checktmp['listname'] = l[1]
-                    json_checktmp['checked'] = l[2]
-                    checklist_jlist.append(json_checktmp)
-                json_content['includeChecklist'] = checklist_jlist
-                comment_data = list(Comment.objects.all().filter(contentid = k[0]))
-                str_commentdata = str(comment_data)
-                comment_list = regex.parse_text(str_commentdata)
-                comment_jlist = []
-                for m in comment_list:
-                    json_comment = {}
-                    json_comment['comnumber'] = m[0]
-                    json_comment['memberid'] = m[1]
-                    json_comment['comcomment'] = m[2]
-                    json_comment['commenttime'] = m[3]
-                    comment_jlist.append(json_comment)
-                json_content['includeComment'] = comment_jlist
-                calender_data = list(Calender.objects.all().filter(contentid = k[0]))
-                str_calenerdata = str(calender_data)
-                calender_list = regex.parse_calender(str_calenerdata)
-                calender_jlist = []
-                for n in calender_list:
-                    json_calender = {}
-                    json_calender['indexnumber'] = n[3]
-                    json_calender['starttime'] = n[0]
-                    json_calender['duetime'] = n[1]
-                    calender_jlist.append(json_calender)
-                json_content['includeCalender'] = calender_jlist
-                content_jlist.append(json_content)
-            json_section['includeContent'] = content_jlist
-            section_jlist.append(json_section)
-        section_jlist=json.dumps(section_jlist)
+        section_jlist=searchfunc.search_all(input_titleid)
         token.extend_token(input_token)
         return HttpResponse(section_jlist, content_type="application/json")
