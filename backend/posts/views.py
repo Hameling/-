@@ -33,6 +33,7 @@ class AssignCreate(APIView):
             member = Member.objects.get(memberid=get_memberid)
             content = Content.objects.get(contentid=input_contentid)
             Assign.objects.create(memberid = member, contentid = content)
+            token.extend_token(input_token)
             return JsonResponse({'create': 'success'}) 
         except:
             return JsonResponse({'create': 'fail'})
