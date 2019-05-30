@@ -304,3 +304,18 @@ def search_all(input_titleid):
         section_jlist.append(json_section)
     section_jlist=json.dumps(section_jlist)
     return section_jlist
+
+def searchcomment(input_contentid):
+    comment_list = []
+    data = list(Comment.objects.all().filter(contentid = input_contentid))
+    str_data = str(data)
+    power_list = regex.parse_text(str_data)
+    for i in power_list:
+        json_tmp = {}
+        json_tmp['comnumber'] = i[0]
+        json_tmp['memberid'] = i[1]
+        json_tmp['comcomment'] = i[2]
+        json_tmp['commenttime'] = i[3]
+        comment_list.append(json_tmp)
+    comment_list=json.dumps(comment_list)
+    return comment_list

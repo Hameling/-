@@ -9,5 +9,4 @@ urlpatterns = [
     path('search-title/', views.TitleSearch.as_view()),
     path('delete-title/', views.TitleDelete.as_view()),
     path('update-title/', views.TitleUpdate.as_view()),
-    path('testtitle/', views.testFuc.as_view()),
 ]

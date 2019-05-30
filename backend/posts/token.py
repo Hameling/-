@@ -46,9 +46,17 @@ def compare_token(input_token):
     now_time = datetime.datetime.now()
     value = False
     
-    if(now_time > exp_total):
+    if now_time > exp_total:
         return value
     else:
         value = True
         return value
+
+def expire_token():
+    token_list = []
+    json_tmp = {}
+    json_tmp['token'] = "expire"
+    token_list.append(json_tmp)
+    token_list=json.dumps(token_list)
+    return token_list
 
