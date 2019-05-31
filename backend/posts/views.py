@@ -28,30 +28,36 @@ class AssignCreate(APIView):
     def post(self, request, format=None):
         input_contentid =request.data["contentid"]
         input_token = str(request.data["token"])
-        try:
-            get_memberid = token.earn_memberid(input_token)
-            member = Member.objects.get(memberid=get_memberid)
-            content = Content.objects.get(contentid=input_contentid)
-            Assign.objects.create(memberid = member, contentid = content)
-            token.extend_token(input_token)
-            return JsonResponse({'create': 'success'}) 
-        except:
-            return JsonResponse({'create': 'fail'})
+        if token.compare_token(input_token):
+            try:
+                get_memberid = token.earn_memberid(input_token)
+                member = Member.objects.get(memberid=get_memberid)
+                content = Content.objects.get(contentid=input_contentid)
+                Assign.objects.create(memberid = member, contentid = content)
+                token.extend_token(input_token)
+                return JsonResponse({'create': 'success'}) 
+            except:
+                return JsonResponse({'create': 'fail'})
+        else:
+            return HttpResponse(token.expire_token(), content_type="application/json") 
 
 class AssignSearchMember(APIView):
     parser_classes = (JSONParser,)
 
     def post(self, request, format=None):
         input_token = str(request.data["token"])
-        if Session.objects.filter(token = input_token).exists():
-            get_memberid = token.earn_memberid(input_token)
-            assign_list= searchfunc.assign_searchmember(get_memberid)
-            token.extend_token(input_token)
-            return HttpResponse(assign_list, content_type="application/json")
+        if token.compare_token(input_token):
+            if Session.objects.filter(token = input_token).exists():
+                get_memberid = token.earn_memberid(input_token)
+                assign_list= searchfunc.assign_searchmember(get_memberid)
+                token.extend_token(input_token)
+                return HttpResponse(assign_list, content_type="application/json")
+            else:
+                assign_list = []
+                token.extend_token(input_token)
+                return HttpResponse(assign_list, content_type="application/json")
         else:
-            assign_list = []
-            token.extend_token(input_token)
-            return HttpResponse(assign_list, content_type="application/json")
+            return HttpResponse(token.expire_token(), content_type="application/json") 
         
 class AssignSearchContent(APIView):
     parser_classes = (JSONParser,)
@@ -59,33 +65,39 @@ class AssignSearchContent(APIView):
     def post(self, request, format=None):
         input_contentid = str(request.data["contentid"])
         input_token = str(request.data["token"])
-        assign_list = searchfunc.assign_searchcontent(input_contentid)
-        token.extend_token(input_token)
-        return HttpResponse(assign_list, content_type="application/json")
+        if token.compare_token(input_token):
+            assign_list = searchfunc.assign_searchcontent(input_contentid)
+            token.extend_token(input_token)
+            return HttpResponse(assign_list, content_type="application/json")
+        else:
+            return HttpResponse(token.expire_token(), content_type="application/json") 
 
 class AssignDelete(APIView):
     parser_classes = (JSONParser,)
 
     def post(self, request, format=None):
         input_token = str(request.data["token"])
-        get_memberid = token.earn_memberid(input_token)
         input_contentid = str(request.data["contentid"])
-        try:
-            del_assign = Assign.objects.all().filter(memberid = get_memberid, contentid = input_contentid)
-            str_data = str(del_assign)
-            power_list = regex.parse_assign(str_data)
-            acquire_assigncid = str(power_list[0][0])
-            acquire_assignid = str(power_list[0][1])
-            if((acquire_assignid == get_memberid) and (acquire_assigncid == input_contentid)):
-                del_assign.delete()
+        if token.compare_token(input_token):
+            get_memberid = token.earn_memberid(input_token)
+            try:
+                del_assign = Assign.objects.all().filter(memberid = get_memberid, contentid = input_contentid)
+                str_data = str(del_assign)
+                power_list = regex.parse_assign(str_data)
+                acquire_assigncid = str(power_list[0][0])
+                acquire_assignid = str(power_list[0][1])
+                if((acquire_assignid == get_memberid) and (acquire_assigncid == input_contentid)):
+                    del_assign.delete()
+                    token.extend_token(input_token)
+                    return JsonResponse({'delete': 'success'})
+                else:
+                    token.extend_token(input_token)
+                    return JsonResponse({'delete': 'Not matched'})
+            except:
                 token.extend_token(input_token)
-                return JsonResponse({'delete': 'success'})
-            else:
-                token.extend_token(input_token)
-                return JsonResponse({'delete': 'Not matched'})
-        except:
-            token.extend_token(input_token)
-            return JsonResponse({'delete': 'fail'})
+                return JsonResponse({'delete': 'fail'})
+        else:
+            return HttpResponse(token.expire_token(), content_type="application/json") 
 
 #Checklist
 class ChecklistList(generics.ListAPIView):
@@ -99,14 +111,17 @@ class ChecklistCreate(APIView):
         input_listname = request.data["listname"]
         input_contentid = request.data["contentid"]
         input_token = str(request.data["token"])
-        try:
-            content = Content.objects.get(contentid=input_contentid)
-            Checklist.objects.create(listname = input_listname, contentid = content, checked= 0)
-            token.extend_token(input_token)
-            return JsonResponse({'create': 'success'}) 
-        except:
-            token.extend_token(input_token)
-            return JsonResponse({'create': 'fail'})
+        if token.compare_token(input_token):
+            try:
+                content = Content.objects.get(contentid=input_contentid)
+                Checklist.objects.create(listname = input_listname, contentid = content, checked= 0)
+                token.extend_token(input_token)
+                return JsonResponse({'create': 'success'}) 
+            except:
+                token.extend_token(input_token)
+                return JsonResponse({'create': 'fail'})
+        else:
+           return HttpResponse(token.expire_token(), content_type="application/json") 
 
 class ChecklistSearch(APIView):
     parser_classes = (JSONParser,)
@@ -114,10 +129,12 @@ class ChecklistSearch(APIView):
     def post(self, request, format=None):    
         input_contentid = request.data["contentid"]
         input_token = str(request.data["token"])
-        comment_list = searchfunc.check_list_search(input_contentid)
-        token.extend_token(input_token)
-        return HttpResponse(comment_list, content_type="application/json")
-
+        if token.compare_token(input_token):
+            comment_list = searchfunc.check_list_search(input_contentid)
+            token.extend_token(input_token)
+            return HttpResponse(comment_list, content_type="application/json")
+        else:
+            return HttpResponse(token.expire_token(), content_type="application/json")
 
 class ChecklistDelete(APIView):
     parser_classes = (JSONParser,)
@@ -125,14 +142,17 @@ class ChecklistDelete(APIView):
     def post(self, request, format=None):
         input_listnumber = request.data["listnumber"]
         input_token = str(request.data["token"])
-        try:
-            del_checklist = Checklist.objects.all().filter(listnumber = input_listnumber)    
-            del_checklist.delete()
-            token.extend_token(input_token)
-            return JsonResponse({'delete': 'Delete success'})
-        except:
-            token.extend_token(input_token)
-            return JsonResponse({'delete': 'fail'})
+        if token.compare_token(input_token):
+            try:
+                del_checklist = Checklist.objects.all().filter(listnumber = input_listnumber)    
+                del_checklist.delete()
+                token.extend_token(input_token)
+                return JsonResponse({'delete': 'Delete success'})
+            except:
+                token.extend_token(input_token)
+                return JsonResponse({'delete': 'fail'})
+        else:
+            return HttpResponse(token.expire_token(), content_type="application/json")
 
 class ChecklistUpdate(APIView):
     parser_classes = (JSONParser,)
@@ -142,14 +162,17 @@ class ChecklistUpdate(APIView):
         input_listnumber = request.data["listnumber"]
         input_checked = request.data["checked"]
         input_token = str(request.data["token"])
-        try:
-            update_checklist = Checklist.objects.all().filter(listnumber = input_listnumber)
-            update_checklist.update(listname = input_listname, checked = input_checked)
-            token.extend_token(input_token)
-            return JsonResponse({'update': 'success'})
-        except:
-            token.extend_token(input_token)
-            return JsonResponse({'update': 'fail'})
+        if token.compare_token(input_token):
+            try:
+                update_checklist = Checklist.objects.all().filter(listnumber = input_listnumber)
+                update_checklist.update(listname = input_listname, checked = input_checked)
+                token.extend_token(input_token)
+                return JsonResponse({'update': 'success'})
+            except:
+                token.extend_token(input_token)
+                return JsonResponse({'update': 'fail'})
+        else:
+            return HttpResponse(token.expire_token(), content_type="application/json")
 
 #Calender
 class CalenderList(generics.ListAPIView):
@@ -164,14 +187,16 @@ class CalenderCreate(APIView):
         input_duetime = request.data["duetime"]
         input_contentid = request.data["contentid"]
         input_token = str(request.data["token"])
-        try:
-            contentid = Content.objects.get(contentid=input_contentid)
-            Calender.objects.create(starttime = input_starttime, duetime = input_duetime, contentid = contentid)
-            token.extend_token(input_token)
-            return JsonResponse({'create': 'success'}) 
-        except:
-            token.extend_token(input_token)
-            return JsonResponse({'create': 'fail'})
+        if token.compare_token(input_token):
+            try:
+                contentid = Content.objects.get(contentid=input_contentid)
+                Calender.objects.create(starttime = input_starttime, duetime = input_duetime, contentid = contentid)
+                token.extend_token(input_token)
+                return JsonResponse({'create': 'success'}) 
+            except:
+                token.extend_token(input_token)
+                return JsonResponse({'create': 'fail'})
+        return HttpResponse(token.expire_token(), content_type="application/json")
 
 class CalenderSearch(APIView):
     parser_classes = (JSONParser,)
@@ -179,10 +204,12 @@ class CalenderSearch(APIView):
     def post(self, request, format=None):    
         input_contentid = request.data["contentid"]
         input_token = str(request.data["token"])
-        calender_list = searchfunc.calender_searhch(input_contentid)
-        token.extend_token(input_token)
-        return HttpResponse(calender_list, content_type="application/json")
-
+        if token.compare_token(input_token):
+            calender_list = searchfunc.calender_searhch(input_contentid)
+            token.extend_token(input_token)
+            return HttpResponse(calender_list, content_type="application/json")
+        else:
+            return HttpResponse(token.expire_token(), content_type="application/json")
 
 class CalenderDelete(APIView):
     parser_classes = (JSONParser,)
@@ -191,22 +218,25 @@ class CalenderDelete(APIView):
         input_indexnumber = str(request.data["indexnumber"])
         input_contentid = str(request.data["contentid"])
         input_token = str(request.data["token"])
-        try:
-            del_calender = Calender.objects.all().filter(indexnumber = input_indexnumber, contentid = input_contentid)
-            str_data = str(del_calender)
-            power_list = regex.parse_calender(str_data)
-            acquire_contentid = str(power_list[0][2])
-            acquire_indexnumber = str(power_list[0][3])
-            if((acquire_indexnumber == input_indexnumber) and ( acquire_contentid == input_contentid)):
-                del_calender.delete()
+        if token.compare_token(input_token):
+            try:
+                del_calender = Calender.objects.all().filter(indexnumber = input_indexnumber, contentid = input_contentid)
+                str_data = str(del_calender)
+                power_list = regex.parse_calender(str_data)
+                acquire_contentid = str(power_list[0][2])
+                acquire_indexnumber = str(power_list[0][3])
+                if((acquire_indexnumber == input_indexnumber) and ( acquire_contentid == input_contentid)):
+                    del_calender.delete()
+                    token.extend_token(input_token)
+                    return JsonResponse({'delete': 'Delete success'})
+                else:
+                    token.extend_token(input_token)
+                    return JsonResponse({'delete': 'Not Matched'}) 
+            except:
                 token.extend_token(input_token)
-                return JsonResponse({'delete': 'Delete success'})
-            else:
-                token.extend_token(input_token)
-                return JsonResponse({'delete': 'Not Matched'}) 
-        except:
-            token.extend_token(input_token)
-            return JsonResponse({'delete': 'fail'})
+                return JsonResponse({'delete': 'fail'})
+        else:
+            return HttpResponse(token.expire_token(), content_type="application/json")
 
 
 class CalenderUpdate(APIView):
@@ -259,16 +289,19 @@ class CommentCreate(APIView):
         input_comcomment = request.data["comcomment"]
         input_memberid=request.data["memberid"]
         input_contentid = request.data["contentid"]
-        cur_time = datetime.datetime.now()
-        try:
-            content = Content.objects.get(contentid=input_contentid)
-            member = Member.objects.get(memberid=input_memberid)
-            Comment.objects.create(comcomment=input_comcomment, contentid = content, memberid = member, commenttime = cur_time)
-            token.extend_token(input_token)
-            return JsonResponse({'create': 'success'}) 
-        except:
-            token.extend_token(input_token)
-            return JsonResponse({'create': 'fail'})
+        if token.compare_token(input_token):
+            cur_time = datetime.datetime.now()
+            try:
+                content = Content.objects.get(contentid=input_contentid)
+                member = Member.objects.get(memberid=input_memberid)
+                Comment.objects.create(comcomment=input_comcomment, contentid = content, memberid = member, commenttime = cur_time)
+                token.extend_token(input_token)
+                return JsonResponse({'create': 'success'}) 
+            except:
+                token.extend_token(input_token)
+                return JsonResponse({'create': 'fail'})
+        else:
+            return HttpResponse(token.expire_token(), content_type="application/json")
 
 class CommentDelete(APIView):
     parser_classes = (JSONParser,)
@@ -277,21 +310,24 @@ class CommentDelete(APIView):
         input_token = str(request.data["token"])
         input_comnumber = request.data["comnumber"]
         input_memberid=request.data["memberid"]
-        try:
-            del_comment = Comment.objects.all().filter(comnumber = input_comnumber)
-            str_data = str(del_comment)
-            power_list = regex.parse_text(str_data)
-            acquire_memberid = power_list[0][1]
-            if acquire_memberid == input_memberid:
-                del_comment.delete()
+        if token.compare_token(input_token):
+            try:
+                del_comment = Comment.objects.all().filter(comnumber = input_comnumber)
+                str_data = str(del_comment)
+                power_list = regex.parse_text(str_data)
+                acquire_memberid = power_list[0][1]
+                if acquire_memberid == input_memberid:
+                    del_comment.delete()
+                    token.extend_token(input_token)
+                    return JsonResponse({'delete': 'Delete success'})
+                else:
+                    token.extend_token(input_token)
+                    return JsonResponse({'delete': 'Not Matched'}) 
+            except:
                 token.extend_token(input_token)
-                return JsonResponse({'delete': 'Delete success'})
-            else:
-                token.extend_token(input_token)
-                return JsonResponse({'delete': 'Not Matched'}) 
-        except:
-            token.extend_token(input_token)
-            return JsonResponse({'delete': 'fail'})
+                return JsonResponse({'delete': 'fail'})
+        else:
+            return HttpResponse(token.expire_token(), content_type="application/json")
 
 class CommentUpdate(APIView):
     parser_classes = (JSONParser,)
@@ -301,22 +337,26 @@ class CommentUpdate(APIView):
         input_comnumber = request.data["comnumber"]
         input_memberid=request.data["memberid"]
         input_comcomment = request.data["comcomment"]
-        cur_time = datetime.datetime.now()
-        try:
-            update_comment = Comment.objects.all().filter(comnumber = input_comnumber)
-            str_data = str(update_comment)
-            power_list = regex.parse_text(str_data)
-            acquire_memberid = power_list[0][1]
-            if acquire_memberid == input_memberid:
-                update_comment.update(comcomment = input_comcomment,commenttime = cur_time)
+        if token.compare_token(input_token):
+            cur_time = datetime.datetime.now()
+            try:
+                update_comment = Comment.objects.all().filter(comnumber = input_comnumber)
+                str_data = str(update_comment)
+                power_list = regex.parse_text(str_data)
+                acquire_memberid = power_list[0][1]
+                if acquire_memberid == input_memberid:
+                    update_comment.update(comcomment = input_comcomment,commenttime = cur_time)
+                    token.extend_token(input_token)
+                    return JsonResponse({'delete': 'Update success'})
+                else:
+                    token.extend_token(input_token)
+                    return JsonResponse({'delete': 'Not Matched'}) 
+            except:
                 token.extend_token(input_token)
-                return JsonResponse({'delete': 'Update success'})
-            else:
-                token.extend_token(input_token)
-                return JsonResponse({'delete': 'Not Matched'}) 
-        except:
-            token.extend_token(input_token)
-            return JsonResponse({'delete': 'fail'})
+                return JsonResponse({'delete': 'fail'})
+        else:
+            return HttpResponse(token.expire_token(), content_type="application/json")
+
 
 class CheckComment(APIView):
     parser_classes = (JSONParser,)
@@ -324,20 +364,12 @@ class CheckComment(APIView):
     def post(self, request, format=None):
         input_token = str(request.data["token"])    
         input_contentid = request.data["contentid"]
-        comment_list = []
-        data = list(Comment.objects.all().filter(contentid = input_contentid))
-        str_data = str(data)
-        power_list = regex.parse_text(str_data)
-        for i in power_list:
-            json_tmp = {}
-            json_tmp['comnumber'] = i[0]
-            json_tmp['memberid'] = i[1]
-            json_tmp['comcomment'] = i[2]
-            json_tmp['commenttime'] = i[3]
-            comment_list.append(json_tmp)
-        comment_list=json.dumps(comment_list)
-        token.extend_token(input_token)
-        return HttpResponse(comment_list, content_type="application/json")
+        if token.compare_token(input_token):
+            comment_list=searchfunc.searchcomment(input_contentid)
+            token.extend_token(input_token)
+            return HttpResponse(comment_list, content_type="application/json")
+        else:
+            return HttpResponse(token.expire_token(), content_type="application/json") 
 #Content
 class ContentList(generics.ListAPIView):
     queryset = Content.objects.all()
@@ -352,19 +384,22 @@ class ContentCreate(APIView):
         input_contentinfo = request.data["contentinfo"]
         input_contentstate = request.data["contentstate"]
         input_sectionid = request.data["sectionid"]
-        try:
-            contentstatename = Contentstate.objects.get(statenumber=input_contentstate)
-            if(input_sectionid == "NULL"):
-                Content.objects.create(contentname=input_contentname, contentinfo = input_contentinfo, contentstate = contentstatename)
+        if token.compare_token(input_token):
+            try:
+                contentstatename = Contentstate.objects.get(statenumber=input_contentstate)
+                if(input_sectionid == "NULL"):
+                    Content.objects.create(contentname=input_contentname, contentinfo = input_contentinfo, contentstate = contentstatename)
+                    token.extend_token(input_token)
+                else:
+                    section = Section.objects.get(sectionid = input_sectionid)
+                    Content.objects.create(contentname=input_contentname, contentinfo = input_contentinfo, contentstate = contentstatename, sectionid =section)
+                    token.extend_token(input_token)
+                return JsonResponse({'Create': 'Create success'})
+            except:
                 token.extend_token(input_token)
-            else:
-                section = Section.objects.get(sectionid = input_sectionid)
-                Content.objects.create(contentname=input_contentname, contentinfo = input_contentinfo, contentstate = contentstatename, sectionid =section)
-                token.extend_token(input_token)
-            return JsonResponse({'Create': 'Create success'})
-        except:
-            token.extend_token(input_token)
-            return JsonResponse({'Create': 'fail'})
+                return JsonResponse({'Create': 'fail'})
+        else:
+           return HttpResponse(token.expire_token(), content_type="application/json") 
     
 class ContentSearch(APIView):
     parser_classes = (JSONParser,)
@@ -372,24 +407,30 @@ class ContentSearch(APIView):
     def post(self, request, format=None):    
         input_token = str(request.data["token"])  
         input_contentid = request.data["contentid"]
-        content_list=searchfunc.content_search(input_contentid)
-        token.extend_token(input_token)
-        return HttpResponse(content_list, content_type="application/json")
+        if token.compare_token(input_token):
+            content_list=searchfunc.content_search(input_contentid)
+            token.extend_token(input_token)
+            return HttpResponse(content_list, content_type="application/json")
+        else:
+            return HttpResponse(token.expire_token(), content_type="application/json")
 
 class ContentDelete(APIView):
     parser_classes = (JSONParser,)
 
     def post(self, request, format=None):
         input_contentid = request.data["contentid"]
-        input_token = str(request.data["token"])  
-        try:
-            del_content = Content.objects.all().filter(contentid = input_contentid)
-            del_content.delete()
-            token.extend_token(input_token)
-            return JsonResponse({'delete': 'Delete success'})
-        except:
-            token.extend_token(input_token)
-            return JsonResponse({'delete': 'fail'})
+        input_token = str(request.data["token"]) 
+        if token.compare_token(input_token):
+            try:
+                del_content = Content.objects.all().filter(contentid = input_contentid)
+                del_content.delete()
+                token.extend_token(input_token)
+                return JsonResponse({'delete': 'Delete success'})
+            except:
+                token.extend_token(input_token)
+                return JsonResponse({'delete': 'fail'})
+        else:
+            return HttpResponse(token.expire_token(), content_type="application/json")
 
 class ContentUpdate(APIView):
     parser_classes = (JSONParser,)
@@ -399,15 +440,18 @@ class ContentUpdate(APIView):
         input_contentname = request.data["contentname"]
         input_contentinfo = request.data["contentinfo"]
         input_contentstate = request.data["contentstate"]
-        input_token = str(request.data["token"])  
-        try:
-            update_content = Content.objects.all().filter(contentid = input_contentid)
-            update_content.update(contentname = input_contentname,contentinfo = input_contentinfo, contentstate = input_contentstate)
-            token.extend_token(input_token)
-            return JsonResponse({'update': 'update success'})
-        except:
-            token.extend_token(input_token)
-            return JsonResponse({'update': 'fail'})
+        input_token = str(request.data["token"])
+        if token.compare_token(input_token):
+            try:
+                update_content = Content.objects.all().filter(contentid = input_contentid)
+                update_content.update(contentname = input_contentname,contentinfo = input_contentinfo, contentstate = input_contentstate)
+                token.extend_token(input_token)
+                return JsonResponse({'update': 'update success'})
+            except:
+                token.extend_token(input_token)
+                return JsonResponse({'update': 'fail'})
+        else:
+            return HttpResponse(token.expire_token(), content_type="application/json")
 
 #Contentstate
 class ContentstateList(generics.ListAPIView):
@@ -441,16 +485,19 @@ class EnrollCreate(APIView):
     def post(self, request, format=None):
         input_titleid = str(request.data["titleid"])
         input_token = str(request.data["token"])
-        get_memberid = token.earn_memberid(input_token)
-        try:
-            member = Member.objects.get(memberid=get_memberid)
-            title = Title.objects.get(titleid=input_titleid)
-            Enroll.objects.create(memberid=member, titleid=title)
-            token.extend_token(input_token)
-            return JsonResponse({'create': 'success'}) 
-        except:
-            token.extend_token(input_token)
-            return JsonResponse({'create': 'fail'})
+        if token.compare_token(input_token):
+            get_memberid = token.earn_memberid(input_token)
+            try:
+                member = Member.objects.get(memberid=get_memberid)
+                title = Title.objects.get(titleid=input_titleid)
+                Enroll.objects.create(memberid=member, titleid=title)
+                token.extend_token(input_token)
+                return JsonResponse({'create': 'success'}) 
+            except:
+                token.extend_token(input_token)
+                return JsonResponse({'create': 'fail'})
+        else:
+            return HttpResponse(token.expire_token(), content_type="application/json")
 
 class EnrollSearchTitle(APIView):
     parser_classes = (JSONParser,)
@@ -458,18 +505,24 @@ class EnrollSearchTitle(APIView):
     def post(self, request, format=None):  
         input_titleid = str(request.data["titleid"])
         input_token = str(request.data["token"])
-        comment_list = searchfunc.enroll_searchtitle(input_titleid)
-        token.extend_token(input_token)
-        return HttpResponse(comment_list, content_type="application/json")
+        if token.compare_token(input_token):
+            comment_list = searchfunc.enroll_searchtitle(input_titleid)
+            token.extend_token(input_token)
+            return HttpResponse(comment_list, content_type="application/json")
+        else:
+            return HttpResponse(token.expire_token(), content_type="application/json")
 
 class EnrollSearchMember(APIView):
     parser_classes = (JSONParser,)
 
     def post(self, request, format=None):   
         input_token = str(request.data["token"])
-        enroll_list = searchfunc.enroll_searchmember(input_token)
-        token.extend_token(input_token)
-        return HttpResponse(enroll_list, content_type="application/json")
+        if token.compare_token(input_token):
+            enroll_list = searchfunc.enroll_searchmember(input_token)
+            token.extend_token(input_token)
+            return HttpResponse(enroll_list, content_type="application/json")
+        else:
+            return HttpResponse(token.expire_token(), content_type="application/json")
 
 class EnrollDelete(APIView):
     parser_classes = (JSONParser,)
@@ -477,23 +530,26 @@ class EnrollDelete(APIView):
     def post(self, request, format=None):
         input_titleid = str(request.data["titleid"])
         input_token = str(request.data["token"])
-        get_memberid = token.earn_memberid(input_token)
-        try:
-            del_enroll = Enroll.objects.all().filter(memberid = get_memberid, titleid = input_titleid)
-            str_data = str(del_enroll)
-            power_list = regex.parse_enroll(str_data)
-            ac_titleid = str(power_list[0][0])
-            ac_memberid = str(power_list[0][3])
-            if((ac_memberid == get_memberid) and (ac_titleid == input_titleid)):
-                del_enroll.delete()
+        if token.compare_token(input_token):
+            get_memberid = token.earn_memberid(input_token)
+            try:
+                del_enroll = Enroll.objects.all().filter(memberid = get_memberid, titleid = input_titleid)
+                str_data = str(del_enroll)
+                power_list = regex.parse_enroll(str_data)
+                ac_titleid = str(power_list[0][0])
+                ac_memberid = str(power_list[0][3])
+                if((ac_memberid == get_memberid) and (ac_titleid == input_titleid)):
+                    del_enroll.delete()
+                    token.extend_token(input_token)
+                    return JsonResponse({'delete': 'success'})
+                else:
+                    token.extend_token(input_token)
+                    return JsonResponse({'delete': 'Not matched'})
+            except:
                 token.extend_token(input_token)
-                return JsonResponse({'delete': 'success'})
-            else:
-                token.extend_token(input_token)
-                return JsonResponse({'delete': 'Not matched'})
-        except:
-            token.extend_token(input_token)
-            return JsonResponse({'delete': 'fail'})
+                return JsonResponse({'delete': 'fail'})
+        else:
+            return HttpResponse(token.expire_token(), content_type="application/json")
 
 #File
 class FileList(generics.ListAPIView):
@@ -540,19 +596,23 @@ class MemberDelete(APIView):
     def post(self, request, format=None):
         input_memberid = request.data["memberid"]
         input_memberpwd = request.data["memberpwd"]
-        try:
-            del_member = Member.objects.all().filter(memberid = input_memberid, memberpwd = input_memberpwd)
-            str_data = str(del_member)
-            power_list = regex.parse_member(str_data)
-            ac_memberid = str(power_list[0][0])
-            ac_memberpwd = str(power_list[0][1])
-            if((ac_memberid == input_memberid) and (ac_memberpwd == input_memberpwd)):
-               del_member.delete()
-               return JsonResponse({'delete': 'success'})
-            else:
-                return JsonResponse({'delete': 'Not matched'})
-        except:
-            return JsonResponse({'delete': 'fail'})
+        input_token = str(request.data["token"])
+        if token.compare_token(input_token):
+            try:
+                del_member = Member.objects.all().filter(memberid = input_memberid, memberpwd = input_memberpwd)
+                str_data = str(del_member)
+                power_list = regex.parse_member(str_data)
+                ac_memberid = str(power_list[0][0])
+                ac_memberpwd = str(power_list[0][1])
+                if((ac_memberid == input_memberid) and (ac_memberpwd == input_memberpwd)):
+                    del_member.delete()
+                    return JsonResponse({'delete': 'success'})
+                else:
+                    return JsonResponse({'delete': 'Not matched'})
+            except:
+                return JsonResponse({'delete': 'fail'})
+        else:
+            return HttpResponse(token.expire_token(), content_type="application/json")
 
 class MemberUpdate(APIView):
     parser_classes = (JSONParser,)
@@ -562,27 +622,34 @@ class MemberUpdate(APIView):
         input_memberpwd = request.data["memberpwd"]
         input_membername = request.data["membername"]
         input_memberemail = request.data["memberemail"]
-        try:
-            update_member = Member.objects.all().filter(memberid = input_memberid)
-            str_data = str(update_member)
-            power_list = regex.parse_member(str_data)
-            ac_memberid = str(power_list[0][0])
-            if ac_memberid == input_memberid:
-               update_member.update(membername = input_membername, memberemail = input_memberemail, memberpwd = input_memberpwd)
-               return JsonResponse({'update': 'success'})
-            else:
-                return JsonResponse({'update': 'Not matched'})
-        except:
-            return JsonResponse({'update': 'fail'})
+        input_token = str(request.data["token"])
+        if token.compare_token(input_token):
+            try:
+                update_member = Member.objects.all().filter(memberid = input_memberid)
+                str_data = str(update_member)
+                power_list = regex.parse_member(str_data)
+                ac_memberid = str(power_list[0][0])
+                if ac_memberid == input_memberid:
+                    update_member.update(membername = input_membername, memberemail = input_memberemail, memberpwd = input_memberpwd)
+                    return JsonResponse({'update': 'success'})
+                else:
+                    return JsonResponse({'update': 'Not matched'})
+            except:
+                return JsonResponse({'update': 'fail'})
+        else:
+            return HttpResponse(token.expire_token(), content_type="application/json")
 
 class MemberSearch(APIView):
     parser_classes = (JSONParser,)
 
     def post(self, request, format=None):
         input_token = str(request.data["token"])
-        login_list = searchfunc.member_search(input_token)
-        token.extend_token(input_token)
-        return HttpResponse(login_list, content_type="application/json")
+        if token.compare_token(input_token):
+            login_list = searchfunc.member_search(input_token)
+            token.extend_token(input_token)
+            return HttpResponse(login_list, content_type="application/json")
+        else:
+            return HttpResponse(token.expire_token(), content_type="application/json")
 
 #Permission
 class PermissionList(generics.ListAPIView):
@@ -666,14 +733,17 @@ class SectionCreate(APIView):
         input_titleid = request.data["titleid"]
         input_sectionname = request.data["sectionname"]
         input_token = str(request.data["token"])
-        try:
-            thistitle = Title.objects.get(titleid=input_titleid)
-            Section.objects.create(titleid = thistitle, sectionname = input_sectionname)
-            token.extend_token(input_token)
-            return JsonResponse({'create': 'success'}) 
-        except:
-            token.extend_token(input_token)
-            return JsonResponse({'create': 'fail'})
+        if token.compare_token(input_token):
+            try:
+                thistitle = Title.objects.get(titleid=input_titleid)
+                Section.objects.create(titleid = thistitle, sectionname = input_sectionname)
+                token.extend_token(input_token)
+                return JsonResponse({'create': 'success'}) 
+            except:
+                token.extend_token(input_token)
+                return JsonResponse({'create': 'fail'})
+        else:
+            return HttpResponse(token.expire_token(), content_type="application/json")
 
 class SectionSearch(APIView):
     parser_classes = (JSONParser,)
@@ -681,9 +751,12 @@ class SectionSearch(APIView):
     def post(self, request, format=None):    
         input_sectionid = request.data["sectionid"]
         input_token = str(request.data["token"])
-        comment_list=searchfunc.section_search(input_sectionid)
-        token.extend_token(input_token)
-        return HttpResponse(comment_list, content_type="application/json")
+        if token.compare_token(input_token):
+            comment_list=searchfunc.section_search(input_sectionid)
+            token.extend_token(input_token)
+            return HttpResponse(comment_list, content_type="application/json")
+        else:
+            return HttpResponse(token.expire_token(), content_type="application/json")
 
 class SectionDelete(APIView):
     parser_classes = (JSONParser,)
@@ -691,14 +764,17 @@ class SectionDelete(APIView):
     def post(self, request, format=None):
         input_sectionid = request.data["sectionid"]
         input_token = str(request.data["token"])
-        try:
-            del_sec = Section.objects.all().filter(sectionid = input_sectionid)
-            del_sec.delete()
-            token.extend_token(input_token)
-            return JsonResponse({'delete': 'Delete success'})
-        except:
-            token.extend_token(input_token)
-            return JsonResponse({'delete': 'fail'})
+        if token.compare_token(input_token):
+            try:
+                del_sec = Section.objects.all().filter(sectionid = input_sectionid)
+                del_sec.delete()
+                token.extend_token(input_token)
+                return JsonResponse({'delete': 'Delete success'})
+            except:
+                token.extend_token(input_token)
+                return JsonResponse({'delete': 'fail'})
+        else:
+            return HttpResponse(token.expire_token(), content_type="application/json")
 
 class SectionUpdate(APIView):
     parser_classes = (JSONParser,)
@@ -707,14 +783,17 @@ class SectionUpdate(APIView):
         input_sectionid = request.data["sectionid"]
         input_sectionname = request.data["sectionname"]
         input_token = str(request.data["token"])
-        try:
-            update_section = Section.objects.all().filter(sectionid = input_sectionid)
-            update_section.update(sectionname = input_sectionname)
-            token.extend_token(input_token)
-            return JsonResponse({'update': 'success'})
-        except:
-            token.extend_token(input_token)
-            return JsonResponse({'update': 'fail'})
+        if token.compare_token(input_token):
+            try:
+                update_section = Section.objects.all().filter(sectionid = input_sectionid)
+                update_section.update(sectionname = input_sectionname)
+                token.extend_token(input_token)
+                return JsonResponse({'update': 'success'})
+            except:
+                token.extend_token(input_token)
+                return JsonResponse({'update': 'fail'})
+        else:
+            return HttpResponse(token.expire_token(), content_type="application/json")
 
 #Session
 class SessionList(generics.ListAPIView):
@@ -725,20 +804,23 @@ class SessionCreate(APIView):
     def post(self, request, format=None):
         input_memberid=request.data["memberid"]
         input_memberpwd=request.data["memberpwd"]
-        if Member.objects.filter(memberid=input_memberid, memberpwd=input_memberpwd).exists():
-            if Session.objects.filter(memberid=input_memberid).exists():
-                login_list= token.create_token(input_memberid)
+        if token.compare_token(input_token):
+            if Member.objects.filter(memberid=input_memberid, memberpwd=input_memberpwd).exists():
+                if Session.objects.filter(memberid=input_memberid).exists():
+                    login_list= token.create_token(input_memberid)
+                    return HttpResponse(login_list, content_type="application/json")
+                else:
+                    login_list= token.create_token(input_memberid)
+                    return HttpResponse(login_list, content_type="application/json")
+            else: 
+                login_list = []
+                login_tmp = {}
+                login_tmp['token'] = "Not Matched"
+                login_list.append(login_tmp)
+                login_list=json.dumps(login_list)
                 return HttpResponse(login_list, content_type="application/json")
-            else:
-                login_list= token.create_token(input_memberid)
-                return HttpResponse(login_list, content_type="application/json")
-        else: 
-            login_list = []
-            login_tmp = {}
-            login_tmp['token'] = "Not Matched"
-            login_list.append(login_tmp)
-            login_list=json.dumps(login_list)
-            return HttpResponse(login_list, content_type="application/json")
+        else:
+            return HttpResponse(token.expire_token(), content_type="application/json")
 
 #Title
 class TitleList(generics.ListAPIView):
@@ -752,18 +834,21 @@ class TitleCreate(APIView):
         input_titlename=request.data["titlename"]
         input_titleinfo = request.data["titleinfo"]
         input_token = str(request.data["token"])
-        get_memberid = token.earn_memberid(input_token)
-        token.extend_token(input_token)
-        try:
-            model_instance = Title(titlename = input_titlename, titleinfo = input_titleinfo)
-            model_instance.save()
-            member = Member.objects.get(memberid=get_memberid)
-            Enroll.objects.create(memberid=member, titleid=model_instance)
+        if token.compare_token(input_token):
+            get_memberid = token.earn_memberid(input_token)
             token.extend_token(input_token)
-            return JsonResponse({'create': 'success'}) 
-        except:
-            token.extend_token(input_token)
-            return JsonResponse({'create': 'fail'})
+            try:
+                model_instance = Title(titlename = input_titlename, titleinfo = input_titleinfo)
+                model_instance.save()
+                member = Member.objects.get(memberid=get_memberid)
+                Enroll.objects.create(memberid=member, titleid=model_instance)
+                token.extend_token(input_token)
+                return JsonResponse({'create': 'success'}) 
+            except:
+                token.extend_token(input_token)
+                return JsonResponse({'create': 'fail'})
+        else:
+            return HttpResponse(token.expire_token(), content_type="application/json")
 
 class TitleSearch(APIView):
     parser_classes = (JSONParser,)
@@ -771,9 +856,12 @@ class TitleSearch(APIView):
     def post(self, request, format=None):    
         input_titleid = request.data["titleid"]
         input_token = str(request.data["token"])
-        comment_list=searchfunc.title_search(input_titleid)
-        token.extend_token(input_token)
-        return HttpResponse(comment_list, content_type="application/json")
+        if token.compare_token(input_token):
+            comment_list=searchfunc.title_search(input_titleid)
+            token.extend_token(input_token)
+            return HttpResponse(comment_list, content_type="application/json")
+        else :
+            return HttpResponse(token.expire_token(), content_type="application/json")
 
 class TitleDelete(APIView):
     parser_classes = (JSONParser,)
@@ -781,14 +869,17 @@ class TitleDelete(APIView):
     def post(self, request, format=None):
         input_titleid = request.data["titleid"]
         input_token = str(request.data["token"])
-        try:
-            del_title = Title.objects.all().filter(titleid = input_titleid)
-            del_title.delete()
-            token.extend_token(input_token)
-            return JsonResponse({'delete': 'Delete success'})
-        except:
-            token.extend_token(input_token)
-            return JsonResponse({'delete': 'fail'})
+        if token.compare_token(input_token):
+            try:
+                del_title = Title.objects.all().filter(titleid = input_titleid)
+                del_title.delete()
+                token.extend_token(input_token)
+                return JsonResponse({'delete': 'Delete success'})
+            except:
+                token.extend_token(input_token)
+                return JsonResponse({'delete': 'fail'})
+        else:
+            return HttpResponse(token.expire_token(), content_type="application/json")
 
 class TitleUpdate(APIView):
     parser_classes = (JSONParser,)
@@ -798,14 +889,17 @@ class TitleUpdate(APIView):
         input_titleinfo = request.data["titleinfo"]
         input_titleid = request.data["titleid"]
         input_token = str(request.data["token"])
-        try:
-            update_title = Title.objects.all().filter(titleid = input_titleid)
-            update_title.update(titlename = input_titlename, titleinfo = input_titleinfo)
-            token.extend_token(input_token)
-            return JsonResponse({'update': 'success'})
-        except:
-            token.extend_token(input_token)
-            return JsonResponse({'update': 'fail'})
+        if token.compare_token(input_token):
+            try:
+                update_title = Title.objects.all().filter(titleid = input_titleid)
+                update_title.update(titlename = input_titlename, titleinfo = input_titleinfo)
+                token.extend_token(input_token)
+                return JsonResponse({'update': 'success'})
+            except:
+                token.extend_token(input_token)
+                return JsonResponse({'update': 'fail'})
+        else:
+            return HttpResponse(token.expire_token(), content_type="application/json")
 
 class SearchAll(APIView):
     parser_classes = (JSONParser,)
@@ -813,41 +907,9 @@ class SearchAll(APIView):
     def post(self, request, format=None):    
         input_titleid = request.data["titleid"]
         input_token = str(request.data["token"])
-        section_jlist=searchfunc.search_all(input_titleid)
-        token.extend_token(input_token)
-        return HttpResponse(section_jlist, content_type="application/json")
-
-class testFuc(APIView):
-    parser_classes = (JSONParser,)
-
-    def post(self, request, format=None):
-        input_token = str(request.data["token"])
-        ses_data = Session.objects.all().filter(token = input_token)
-        str_data = str(ses_data)
-        true_data = regex.parse_session(str_data)
-
-        exp_year = int(true_data[0][2][:4])
-        exp_month = int(true_data[0][2][5:7])
-        exp_day = int(true_data[0][2][8:10])
-        exp_hour = int(true_data[0][2][11:13])
-        exp_min = int(true_data[0][2][14:16])
-        exp_sec = int(true_data[0][2][17:19])
-
-        exp_total = datetime.datetime(exp_year,exp_month,exp_day,exp_hour,exp_min,exp_sec)
-        now_time = datetime.datetime.now()
-        token_list = []
-        json_tmp = {}
-        if(now_time > exp_total):
-            json_tmp['token'] = "expire"
-            json_tmp['now'] = str(now_time)
-            json_tmp['exprie'] = str(exp_total)
-            token_list.append(json_tmp)
-            token_list=json.dumps(token_list)
-            return HttpResponse(token_list, content_type="application/json")
+        if token.compare_token(input_token):
+            section_jlist=searchfunc.search_all(input_titleid)
+            token.extend_token(input_token)
+            return HttpResponse(section_jlist, content_type="application/json")
         else:
-            json_tmp['token'] = "keep"
-            json_tmp['now'] = str(now_time)
-            json_tmp['exprie'] = str(exp_total)
-            token_list.append(json_tmp)
-            token_list=json.dumps(token_list)
-            return HttpResponse(token_list, content_type="application/json")
+            return HttpResponse(token.expire_token(), content_type="application/json")
