@@ -1,22 +1,29 @@
 <template>
-  <router-link to="/content">
+  <!-- <router-link to="/content"> -->
     <!--작성된 컨텐트-->
-    <div
+    <div>    
+      <div
       v-for="(content, i) in contents"
       :key="i"
+      @click="$bvModal.show('contentForm')"
       class="card-footer text-white clearfix small z-1"
     >
       <span class="float-left">{{content.contentname}}</span>
       <span class="float-right">
         <i class="fas fa-angle-right"></i>
       </span>
-    </div>
-  </router-link>
+    </div></div>
+
+  <!-- </router-link> -->
 </template>
 
 <script>
+import ContentForm from '@/components/modal/ContentForm';
 export default {
   name: "Content",
-  props: ["contents"]
+  props: ["contents"],
+  components: {
+    ContentForm: ContentForm
+  }
 };
 </script>
