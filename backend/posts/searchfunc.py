@@ -168,16 +168,13 @@ def content_search(input_contentid):
     data = Content.objects.all().filter(contentid = input_contentid)
     str_data = str(data)
     power_list = regex.parse_content(str_data)
+    print(power_list)
     for i in power_list:
         json_tmp = {}
         json_tmp['contentid'] = i[0]
         json_tmp['contentname'] = i[1]
         json_tmp['contentinfo'] = i[2]
         json_tmp['contentstate'] = i[3]
-        str_sectionid = str(i[4])
-        print(str_sectionid)
-        only_sectionid = regex.parse_section(str_sectionid)
-        print(only_sectionid)
         json_tmp['sectionid'] = i[4]
         comment_data = list(Comment.objects.all().filter(contentid = input_contentid))
         str_commentdata = str(comment_data)
