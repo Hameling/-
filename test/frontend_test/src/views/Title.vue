@@ -1,6 +1,11 @@
   <template>
   <div class="container-fluid main-container">
-    <SectionList v-bind:sections="sections" v-bind:select_item="select_item" v-on:del-section="delSection"></SectionList>
+    <SectionList 
+    v-bind:sections="sections" 
+    v-bind:select_item="select_item" 
+    v-on:get-element=" getAllElement"
+    v-on:del-section="delSection"
+    ></SectionList>
   </div>
   <!--content-fulid-->
 
@@ -22,7 +27,7 @@ export default {
     getAllElement() {
       this.$http
         .post("http://211.109.53.216:20000/member/call-all/", {
-          titleid: this.select_item
+          titleid: sessionStorage.titleid
         })
         .then(res => {
           this.sections = res.data;
@@ -32,6 +37,9 @@ export default {
   },
   mounted() {
     this.$nextTick(() => {
+      if(this.select_item != undefined){
+          this.$store.commit('selectedTitle', this.select_item)
+      }
       this.getAllElement();
     });
   },

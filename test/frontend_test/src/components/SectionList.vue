@@ -1,12 +1,12 @@
 <template>
   <div class="row inner-row">
-    <!--Modal 선언부 -->
+    <!--Section Modal 선언부 -->
     <b-modal
       id="create-section"
       title="Create Section"
       centered
       ok-only
-      ref = 'modal'
+      ref="modal"
       @show="resetModal"
       @hidden="resetModal"
       @ok="handleOk"
@@ -22,6 +22,8 @@
         </b-form-group>
       </form>
     </b-modal>
+    <!--Content Modal 선언부 -->
+     <createContent v-on:get-element="getSection"/>
 
     <!--메인 코드 시작부-->
     <div class="col-md-2" id="sessionbar">
@@ -45,7 +47,7 @@
 
           <Content v-bind:contents="section.includeContent" v-on:del-content="delContent"></Content>
 
-          <div class="card-footer text-white clearfix small z-1">
+          <div @click="createCont(section.sectionid)" class="card-footer text-white clearfix small z-1">
             <!--새 컨텐트 작성-->
             <span class="float-left">Create New content</span>
             <span class="float-right">
@@ -60,18 +62,21 @@
 
 <script>
 import Content from "@/components/Content";
+import createContent from '@/components/modal/createContent';
 export default {
   name: "Section",
   props: ["sections", "select_item"],
   data() {
     return {
       sectionname: "",
+      contentname: "",
+      contentinfo: "",
       nameState: null,
     };
   },
   methods: {
     getSection() {
-      //기존과 조금 다르게 emit을 이용하여 모든 정보를 로드해야할듯
+      this.$emit('get-element')
     },
     
     createSection() {
@@ -81,6 +86,12 @@ export default {
               this.getSection()
           })
     },
+
+    createCont(sectionid){
+        this.$store.commit('selectedSection', sectionid)
+        this.$bvModal.show('create-content')
+    },
+
     delContent() {},
 
     //Modal 관련코드
@@ -90,7 +101,7 @@ export default {
       return valid;
     },
     resetModal() {
-      this.name = "";
+      this.sectionname = "";
       this.nameState = null;
     },
     handleOk(bvModalEvt) {
@@ -113,7 +124,8 @@ export default {
 
   },
   components: {
-    Content: Content
+    Content: Content,
+    createContent: createContent
   }
 };
 </script>
