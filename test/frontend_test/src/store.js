@@ -8,6 +8,9 @@ export default new Vuex.Store({
   state: {
     uid: '',
     accessToken: null,
+    titleid : "",
+    sectionid : "",
+    contentid : ""
   },
   getters:{
     getUID: state => state.uid,
@@ -27,6 +30,18 @@ export default new Vuex.Store({
       delete sessionStorage.uid
       delete sessionStorage.accessToken
     },
+    selectedTitle(state, titleid){
+      state.titleid = titleid
+      sessionStorage.titleid = titleid
+    },
+    selectedSection(state, sectionid){
+      state.sectionid = sectionid
+      sessionStorage.sectionid = sectionid
+    },
+    selectedContent(state, contentid){
+      state.contentid = contentid
+      sessionStorage.contentid = contentid
+    }
   },
   actions: {
     LOGIN({ commit }, { id, pwd }) {

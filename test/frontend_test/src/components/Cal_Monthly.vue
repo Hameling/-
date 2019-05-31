@@ -10,7 +10,6 @@
     <div>
       <a class="text-center">케에에에에에에리이이이이이이이인더어어어어엉어어어어어어어어</a>
       <p></p>
-      <router-link :to="{name: 'login'}">test</router-link>
     </div>
     <div class="card-footer small text-muted"></div>
   </div>

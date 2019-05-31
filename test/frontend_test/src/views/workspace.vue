@@ -69,7 +69,7 @@
                   <br>
                 </div>
                 <!--카드와 카드 사이줄-->
-                <Project v-bind:titles="enrollList"></Project>
+                <TitleList v-bind:titles="enrollList"></TitleList>
               </div>
             </div>
           </div>
@@ -100,7 +100,7 @@
                     <a href="#">Assigned Tasks</a>
                   </li>
                 </ol>
-                <Assign v-bind:assigns="assignList"></Assign>
+                <AssignList v-bind:assigns="assignList"></AssignList>
               </div>
             </div>
           </div>
@@ -111,13 +111,7 @@
       <!-- /.container-fluid -->
 
       <!-- Sticky Footer -->
-      <footer class="sticky-footer">
-        <div class="container my-auto">
-          <div class="copyright text-center my-auto">
-            <span>Copyright © Your Website 2019</span>
-          </div>
-        </div>
-      </footer>
+
     </div>
     <!-- /.content-wrapper -->
   </div>
@@ -125,8 +119,8 @@
 </template>
 
 <script>
-import Project from "@/components/Project";
-import Assign from "@/components/Assign";
+import TitleList from "@/components/TitleList";
+import AssignList from "@/components/AssignList";
 export default {
   name: "workspace",
   data: () => ({
@@ -191,8 +185,8 @@ export default {
     });
   },
   components: {
-    Project: Project,
-    Assign: Assign
+    TitleList: TitleList,
+    AssignList: AssignList
   }
 };
 </script>

@@ -1,6 +1,11 @@
   <template>
   <div class="container-fluid main-container">
-    <Section v-bind:sections="sections" v-on:del-section="delSection"></Section>
+    <SectionList 
+    v-bind:sections="sections" 
+    v-bind:select_item="select_item" 
+    v-on:get-element=" getAllElement"
+    v-on:del-section="delSection"
+    ></SectionList>
   </div>
   <!--content-fulid-->
 
@@ -8,9 +13,9 @@
 </template>
 
 <script>
-import Section from "@/components/Section";
+import SectionList from "@/components/SectionList";
 export default {
-  name: "project",
+  name: "Title",
   props: ["select_item"],
   data: function() {
     return {
@@ -22,7 +27,7 @@ export default {
     getAllElement() {
       this.$http
         .post("http://211.109.53.216:20000/member/call-all/", {
-          titleid: this.select_item
+          titleid: sessionStorage.titleid
         })
         .then(res => {
           this.sections = res.data;
@@ -32,12 +37,15 @@ export default {
   },
   mounted() {
     this.$nextTick(() => {
+      if(this.select_item != undefined){
+          this.$store.commit('selectedTitle', this.select_item)
+      }
       this.getAllElement();
     });
   },
 
   components: {
-    Section: Section
+    SectionList: SectionList
   }
 };
 </script>
