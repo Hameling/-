@@ -1,6 +1,6 @@
   <template>
   <div class="container-fluid main-container">
-    <Section v-bind:sections="sections" v-on:del-section="delSection"></Section>
+    <SectionList v-bind:sections="sections" v-bind:select_item="select_item" v-on:del-section="delSection"></SectionList>
   </div>
   <!--content-fulid-->
 
@@ -8,9 +8,9 @@
 </template>
 
 <script>
-import Section from "@/components/Section";
+import SectionList from "@/components/SectionList";
 export default {
-  name: "project",
+  name: "Title",
   props: ["select_item"],
   data: function() {
     return {
@@ -37,7 +37,7 @@ export default {
   },
 
   components: {
-    Section: Section
+    SectionList: SectionList
   }
 };
 </script>

@@ -1,6 +1,6 @@
 <template>
   <div class="col-md-10 offset-md-1">
-    <router-link :to="{name: 'project', params:{select_item:title.titleid}}" 
+    <router-link :to="{name: 'title', params:{select_item:title.titleid}}" 
     v-for="(title,i) in titles" :key="i" 
     class="card text-white bg-primary o-hidden h-100"
     >
@@ -18,7 +18,7 @@
 
 <script>
 export default {
-  name: "Project",
+  name: "TitleList",
   props: ["titles"]
 };
 </script>

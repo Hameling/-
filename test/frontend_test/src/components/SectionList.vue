@@ -16,9 +16,9 @@
           :state="nameState"
           label="Section Name"
           label-for="name-input"
-          invalid-feedback="Name is required"
+          invalid-feedback="Section Name is required"
         >
-          <b-form-input id="name-input" v-model="name" :state="nameState" required></b-form-input>
+          <b-form-input id="name-input" v-model="sectionname" :state="nameState" required></b-form-input>
         </b-form-group>
       </form>
     </b-modal>
@@ -62,10 +62,10 @@
 import Content from "@/components/Content";
 export default {
   name: "Section",
-  props: ["sections"],
+  props: ["sections", "select_item"],
   data() {
     return {
-      name: "",
+      sectionname: "",
       nameState: null,
     };
   },
@@ -73,9 +73,10 @@ export default {
     getSection() {
       //기존과 조금 다르게 emit을 이용하여 모든 정보를 로드해야할듯
     },
-    createContent(scname) {
-      this.$http.post('http://211.109.53.216:20000/comment/checkcomment/', {
-           titleid: "8", sectionname:scname
+    
+    createSection() {
+      this.$http.post('http://211.109.53.216:20000/section/create-section/', {
+           titleid: this.select_item, sectionname:this.sectionname, token:sessionStorage.accessToken
           }).then((res) => {
               this.getSection()
           })
@@ -104,11 +105,13 @@ export default {
       // Hide the modal manually
       this.$nextTick(() => {
         this.$refs.modal.hide();
-        createContent(this.name)
+        this.createSection()
       })
     }
   },
-  mounted() {},
+  mounted() {
+
+  },
   components: {
     Content: Content
   }
