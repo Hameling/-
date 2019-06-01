@@ -94,10 +94,9 @@ class Enroll(models.Model):
         return '{}id{}idd{}'.format(self.titleid, self.memberid, self.enrollid)
 
 class File(models.Model):
-    fileformat = models.CharField(max_length=45)
     contentid = models.ForeignKey(Content, on_delete=models.CASCADE, db_column='contentid')
     fileid = models.AutoField(primary_key=True)
-    filename = models.CharField(max_length=45)
+    filename = models.BinaryField(blank=True, null=True)
 
     class Meta:
         managed = False
@@ -179,7 +178,7 @@ class Title(models.Model):
 class Uploadfilemodel(models.Model):
     fileid = models.AutoField(primary_key=True)
     filename = models.CharField(max_length=32)
-    fileex = models.FileField(blank=False, null=False)
+    fileex = models.BinaryField(blank=True, null=True)
 
     class Meta:
         managed = False
