@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Workspace from './views/Workspace'
 import Title from './views/Title'
-import Cal_Monthly from './components/Cal_Monthly'
+import Cal_Monthly from './components/calendar/Cal_Monthly'
 import content from './components/ContentForm'
 
 import Empty_Page from './components/Empty_Page'

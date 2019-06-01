@@ -24,6 +24,9 @@
     </b-modal>
     <!--Content Modal 선언부 -->
      <createContent v-on:get-element="getSection"/>
+     <ContentForm/>
+
+     
 
     <!--메인 코드 시작부-->
     <div class="col-md-2" id="sessionbar">
@@ -45,7 +48,7 @@
             </div>
           </div>
 
-          <Content v-bind:contents="section.includeContent" v-on:del-content="delContent"></Content>
+          <ContentList v-bind:contents="section.includeContent" v-on:del-content="delContent"></ContentList>
 
           <div @click="createCont(section.sectionid)" class="card-footer text-white clearfix small z-1">
             <!--새 컨텐트 작성-->
@@ -61,8 +64,9 @@
 </template>
 
 <script>
-import Content from "@/components/Content";
+import ContentList from "@/components/ContentList";
 import createContent from '@/components/modal/createContent';
+import ContentForm from '@/components/modal/ContentForm';
 export default {
   name: "Section",
   props: ["sections", "select_item"],
@@ -124,8 +128,9 @@ export default {
 
   },
   components: {
-    Content: Content,
-    createContent: createContent
+    ContentList: ContentList,
+    createContent: createContent,
+    ContentForm: ContentForm
   }
 };
 </script>

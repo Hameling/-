@@ -1,6 +1,5 @@
   <template>
-  <div class="bg-dark">
-    <div class="container">
+  <b-modal id="contentForm" size="xl" scrollable hide-footer centered>
       <div class="card card-content mx-auto 5grid-layout">
         <div class="card-header">Content</div>
         <div class="card-body 5grid-layout">
@@ -83,7 +82,7 @@
               <VueCtkDateTimePicker v-model='start_date' :no-header='true'  :format="date_form" :no-label="true" :min-date="now_time"/>
          
               <div><br></div>
-
+              
               <a>End Game </a>
               <VueCtkDateTimePicker v-model='end_date' :no-header='true'  :format="date_form" :no-label="true" :min-date="now_time"/>
             
@@ -139,8 +138,7 @@
         </div>
         <!--<a class="btn btn-primary btn-block" href="#">Confirm</a>-->
       </div>
-    </div>
-  </div>
+  </b-modal>
 </template>
 
 <script>
@@ -236,8 +234,8 @@ export default {
     },
 
   components: {
+    'CommentList': CommentList,
     'Checklist': Checklist,
-    'CommentList' : CommentList
   }
 }
 </script>

@@ -13,7 +13,7 @@
 
 <script>
 export default {
-  name: 'cComment',
+  name: 'CommentList',
   props: ['comments'],
   methods: {
     delComment (comment) {

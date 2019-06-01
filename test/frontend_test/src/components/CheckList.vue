@@ -13,7 +13,7 @@
 
 <script>
 export default {
-  name: 'cChecklist',
+  name: 'Checklist',
   props: ['checklists'],
   methods: {
     delCheckList (checklist) {
