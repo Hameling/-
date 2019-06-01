@@ -165,7 +165,7 @@ export default {
     //코멘트
       getComments() {
           this.$http.post('http://211.109.53.216:20000/comment/checkcomment/', {
-            memberid:"jjhw9882", contentname:"사전조사(1)", contentid:"8"
+            memberid:"jjhw9882", contentname:"사전조사(1)", contentid:"8", token: sessionStorage.accessToken
           }).then((res) => {
               //console.log('getTodos:', res.data)
               this.comments = res.data
@@ -174,7 +174,7 @@ export default {
       addComment(cmt_content){
           if(cmt_content){
               this.$http.post('http://211.109.53.216:20000/comment/create-comment/',{
-                  comcomment:cmt_content, memberid:"jjhw9882", contentid:"8"
+                  comcomment:cmt_content, memberid:"jjhw9882", contentid:"8", token: sessionStorage.accessToken
               }).then((res) => {
                   //this.comments.push(res.data);
                   //this.comments = res.data
@@ -185,7 +185,7 @@ export default {
       },
       delComment(comment_id){
           this.$http.post('http://211.109.53.216:20000/comment/delete-comment/',{
-            comnumber : comment_id, memberid:'jjhw9882'
+            comnumber : comment_id, memberid:'jjhw9882', token: sessionStorage.accessToken
           })
           .then((res) => {
               this.getComments()
@@ -196,7 +196,7 @@ export default {
     //체크리스트
       getCheckLists() {
           this.$http.post('http://211.109.53.216:20000/checklist/search-checklist/', {
-            contentid: "8"
+            contentid: "8", token: sessionStorage.accessToken
           })
           .then((res) => {
               this.checklists = res.data
@@ -205,7 +205,7 @@ export default {
       addCheckList(ckl_content){
           if(ckl_content){
               this.$http.post('http://211.109.53.216:20000/checklist/create-checklist/',{
-                  contentid:"8" , listname:ckl_content
+                  contentid:"8" , listname:ckl_content, token: sessionStorage.accessToken
               }).then((res) => {
                   this.getCheckLists()
                   this.ckl_content = ''
@@ -214,7 +214,7 @@ export default {
       },
       delCheckList(checklist_id){
           this.$http.post('http://211.109.53.216:20000/checklist/delete-checklist/',{
-            listnumber: checklist_id
+            listnumber: checklist_id, token: sessionStorage.accessToken
           })
           .then((res) => {
               this.getCheckLists()

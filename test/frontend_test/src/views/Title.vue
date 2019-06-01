@@ -27,7 +27,7 @@ export default {
     getAllElement() {
       this.$http
         .post("http://211.109.53.216:20000/member/call-all/", {
-          titleid: sessionStorage.titleid
+          titleid: sessionStorage.titleid, token: sessionStorage.accessToken
         })
         .then(res => {
           this.sections = res.data;
