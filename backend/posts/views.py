@@ -804,23 +804,20 @@ class SessionCreate(APIView):
     def post(self, request, format=None):
         input_memberid=request.data["memberid"]
         input_memberpwd=request.data["memberpwd"]
-        if token.compare_token(input_token):
-            if Member.objects.filter(memberid=input_memberid, memberpwd=input_memberpwd).exists():
-                if Session.objects.filter(memberid=input_memberid).exists():
-                    login_list= token.create_token(input_memberid)
-                    return HttpResponse(login_list, content_type="application/json")
-                else:
-                    login_list= token.create_token(input_memberid)
-                    return HttpResponse(login_list, content_type="application/json")
-            else: 
-                login_list = []
-                login_tmp = {}
-                login_tmp['token'] = "Not Matched"
-                login_list.append(login_tmp)
-                login_list=json.dumps(login_list)
+        if Member.objects.filter(memberid=input_memberid, memberpwd=input_memberpwd).exists():
+            if Session.objects.filter(memberid=input_memberid).exists():
+                login_list= token.create_token(input_memberid)
                 return HttpResponse(login_list, content_type="application/json")
-        else:
-            return HttpResponse(token.expire_token(), content_type="application/json")
+            else:
+                login_list= token.create_token(input_memberid)
+                return HttpResponse(login_list, content_type="application/json")
+        else: 
+            login_list = []
+            login_tmp = {}
+            login_tmp['token'] = "Not Matched"
+            login_list.append(login_tmp)
+            login_list=json.dumps(login_list)
+            return HttpResponse(login_list, content_type="application/json")
 
 #Title
 class TitleList(generics.ListAPIView):
