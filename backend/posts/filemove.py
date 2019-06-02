@@ -2,7 +2,7 @@ import shutil
 import os
 
 
-def file_movedir(file_ex,dir_name):
+def file_movedir(filename,dir_name):
     dir_path = "D:/final/backend/data"
     if not os.path.isdir(dir_path):
             os.mkdir(dir_path)
@@ -10,4 +10,4 @@ def file_movedir(file_ex,dir_name):
     if not os.path.isdir(dir_path+"/"+dir_name):
             os.mkdir(dir_path+"/"+dir_name)
 
-    shutil.move("D:/final/backend/media/" +file_ex, dir_path + "/" + dir_name + "/" + file_ex)
+    shutil.move("D:/final/backend/media/" +filename, dir_path + "/" + dir_name + "/" + filename)

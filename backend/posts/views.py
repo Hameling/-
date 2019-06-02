@@ -561,17 +561,17 @@ class FileCreate(APIView):
     parser_classes = (MultiPartParser, FormParser)
 
     def post(self, request, *args, **kwargs):
-        file_ex = request.data['fileex']
+        filename = request.data['filename']
         input_contentid = request.data["contentid"]
         file_list = []
         if request.method == 'POST':
             try:
                 #파일 저장
                 content = Content.objects.get(contentid=input_contentid)
-                File.objects.create(contentid = content, filename = file_ex, filerealname = str(file_ex))
+                File.objects.create(contentid = content, filename = filename, filerealname = str(filename))
 
                 #media 폴더에서 다른 폴더로 이동
-                filemove.file_movedir(str(file_ex),input_contentid)
+                filemove.file_movedir(str(filename),input_contentid)
                 
                 file_tmp = {}
                 file_tmp['upload'] = "success"
