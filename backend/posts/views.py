@@ -242,38 +242,27 @@ class CalenderDelete(APIView):
 
 class CalenderUpdate(APIView):
     parser_classes = (JSONParser,)
-
     def post(self, request, format=None):
         input_contentid = request.data["contentid"]
         input_starttime = request.data["starttime"]
         input_duetime = request.data["duetime"]
         input_isoverlap = request.data["isoverlap"]
-        input_token = str(request.data["token"])
-        try:
-            str_data2 = str(input_starttime)
-            power_list2 = regex.parse_midbar(str_data2)
-            day = int(power_list2[0][2])
-            if(day < 29):
-                print("29일 미만 ok")
-                update_contentid = Calender.objects.all().filter(contentid = input_contentid)
-                str_data = str(update_contentid)
-                power_list = regex.parse_calender(str_data)
-                print(power_list)
-                acquire_contentid = power_list[0][2]
-                if(acquire_contentid == input_contentid):
-                    update_contentid.update(starttime = input_starttime, duetime = input_duetime, isoverlap = input_isoverlap)
-                    token.extend_token(input_token)
-                    return JsonResponse({'update': 'success'})
-                else:
-                    token.extend_token(input_token)
-                    return JsonResponse({'update': 'Not Matched'})
 
+        try:
+            update_contentid = Calender.objects.all().filter(contentid = input_contentid)
+            str_data = str(update_contentid)
+            power_list = regex.parse_calender(str_data)
+            print(power_list)
+            acquire_contentid = power_list[0][2]
+            print("1",acquire_contentid)
+            if(acquire_contentid == input_contentid):
+                update_contentid.update(starttime = input_starttime, duetime = input_duetime, isoverlap = input_isoverlap)
+                return JsonResponse({'update': 'success'})
             else:
-                token.extend_token(input_token)
-                print("요일이 이상합니다.")
+                return JsonResponse({'update': 'Not Matched'})
         except:
-            token.extend_token(input_token)
             return JsonResponse({'update': 'fail'})
+
 
 
 
