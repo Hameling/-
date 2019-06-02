@@ -6,20 +6,22 @@
         <div class="row">
           <div class="7u" id="leftcontent">
             <section>
-              <div class="form-label-group">
+              <div v-if="nameState" class="form-label-group">
                 <input
                   type="text"
+                  v-model="contentname"
                   id="ContentTitle"
                   class="form-control"
                   placeholder="Title"
                   required="required"
                   autofocus="autofocus"
+                  @keyup.enter="setNameState"
                 >
-                <!-- 빈문자열 검토하려고 이렇게 씀. 아래가 원본
-                <label for="ContentTitle">{{contentname}}</label>
-                -->
-                <label v-if='contentname==""' for="ContentTitle">Content Title</label>
-                <label v-else for="ContentTitle">{{contentname}}</label>
+                <label for="ContentTitle">Content Title</label>
+              </div>
+              <div v-else class="form-label-group">
+                <label for="ContentTitle" @click="setNameState" class="form-control">{{contentname}}</label>
+                <br><br>
               </div>
             </section>
             <div>
@@ -195,6 +197,9 @@ export default {
       //Comment&CheckList 입력을 위한 변수
       cmt_content: "",
       ckl_content: "",
+
+      //input <-> Label을 위한 변수
+      nameState : false
     };
   },
   methods: {
@@ -290,7 +295,12 @@ export default {
     },
 
     addSchedule(start, end) {},
-    delSchedule(scehdule_id) {}
+    delSchedule(scehdule_id) {},
+
+    //값 수정을 위한 함수
+    setNameState(){
+      this.nameState = !this.nameState
+    }
   },
   mounted() {
     //console.log(this.contents);
