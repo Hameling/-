@@ -5,7 +5,7 @@
       <div
       v-for="(content, i) in contents"
       :key="i"
-      @click="$bvModal.show('contentForm')"
+      @click="showContentForm(content.contentid)"
       class="card-footer text-white clearfix small z-1"
     >
       <span class="float-left">{{content.contentname}}</span>
@@ -22,6 +22,12 @@ import ContentForm from '@/components/modal/ContentForm';
 export default {
   name: "Content",
   props: ["contents"],
+  methods: {
+    showContentForm(select_item){
+      this.$store.commit('selectedContent', select_item)
+      this.$bvModal.show('contentForm')
+    }
+  },
   components: {
     ContentForm: ContentForm
   }
