@@ -30,6 +30,7 @@ export default {
           titleid: sessionStorage.titleid, token: sessionStorage.accessToken
         })
         .then(res => {
+          this.checkToken(res.data)
           this.sections = res.data;
         });
     },

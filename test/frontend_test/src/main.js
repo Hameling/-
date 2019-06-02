@@ -23,6 +23,20 @@ Vue.component('VueCtkDateTimePicker', VueCtkDateTimePicker);
 
 moment.tz.setDefault('Asia/Seoul')
 
+
+Vue.mixin({
+  methods: {
+    async checkToken(data){
+      if(data.token === "expire"){
+        //modal
+        console.log("세션이 만료되었습니다.")
+        await this.$store.dispatch("LOGOUT")
+        this.$router.push("/");
+      }
+    }
+  },
+})
+
 new Vue({
   router,
   store,

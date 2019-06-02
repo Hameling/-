@@ -139,6 +139,7 @@ export default {
           token: sessionStorage.accessToken
         })
         .then(res => {
+          this.checkToken(res.data[0])
           this.enrollList = res.data[0].enrollTitle;
           this.assignList = res.data[0].assignContent;
         })

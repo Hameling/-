@@ -210,6 +210,7 @@ export default {
           token: sessionStorage.accessToken
         })
         .then(res => {
+          this.checkToken(res.data)
           this.contentname = res.data[0].contentname
           this.contentinfo = res.data[0].contentinfo
           this.comments = res.data[0].commentlist
