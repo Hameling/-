@@ -2,14 +2,15 @@ import jwt
 import datetime
 import json
 
-from posts import regex, token,searchfunc
+from posts import regex, token,searchfunc,filemove
 from pytz import timezone
 
 from rest_framework import generics, permissions
 from rest_framework.exceptions import ParseError
-from rest_framework.parsers import JSONParser
+from rest_framework.parsers import JSONParser, MultiPartParser, FormParser
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework import status
 
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
@@ -556,21 +557,42 @@ class FileList(generics.ListAPIView):
     queryset = File.objects.all()
     serializer_class = FileSerializer
 
-class FileCreate(generics.CreateAPIView):
-    queryset = File.objects.all()
-    serializer_class = FileSerializer
+class FileCreate(APIView):
+    parser_classes = (MultiPartParser, FormParser)
 
-class FileSearch(generics.RetrieveAPIView):
-    queryset = File.objects.all()
-    serializer_class = FileSerializer
+    def post(self, request, *args, **kwargs):
+        file_ex = request.data['fileex']
+        input_contentid = request.data["contentid"]
+        file_list = []
+        if request.method == 'POST':
+            try:
+                #파일 저장
+                content = Content.objects.get(contentid=input_contentid)
+                File.objects.create(contentid = content, filename = file_ex, filerealname = str(file_ex))
 
-class FileDelete(generics.DestroyAPIView):
-    queryset = File.objects.all()
-    serializer_class = FileSerializer
+                #media 폴더에서 다른 폴더로 이동
+                filemove.file_movedir(str(file_ex),input_contentid)
+                
+                file_tmp = {}
+                file_tmp['upload'] = "success"
+                file_list.append(file_tmp)
+                file_list = json.dumps(file_list)
+                return HttpResponse(file_list, content_type="application/json")
+            except:
+                file_tmp = {}
+                file_tmp['upload'] = "fail"
+                file_list.append(file_tmp)
+                file_list = json.dumps(file_list)
+                return HttpResponse(file_list, content_type="application/json")
 
-class FileUpdate(generics.UpdateAPIView):
-    queryset = File.objects.all()
-    serializer_class = FileSerializer
+#class FileSearch(APIView):
+
+
+#class FileDelete(APIView):
+
+
+#class FileUpdate(APIView):
+    
 
 #Member
 class MemberList(generics.ListAPIView):

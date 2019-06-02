@@ -94,15 +94,13 @@ class Enroll(models.Model):
         return '{}id{}idd{}'.format(self.titleid, self.memberid, self.enrollid)
 
 class File(models.Model):
-    contentid = models.ForeignKey(Content, on_delete=models.CASCADE, db_column='contentid')
+    contentid = models.ForeignKey(Content, models.DO_NOTHING, db_column='contentid')
     fileid = models.AutoField(primary_key=True)
-    filename = models.SizedBinaryField(blank=True, null=True)
-
+    filename = models.FileField(blank=True, null=True)
+    filerealname = models.CharField(max_length=20, blank=True, null=True)
     class Meta:
         managed = False
         db_table = 'File'
-    def __str__(self):
-        return self.filename
 
 
 
