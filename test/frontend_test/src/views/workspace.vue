@@ -30,6 +30,7 @@
         </b-form-group>
       </form>
     </b-modal>
+    <ContentForm/>
 
     <div class="container-fluid">
       <div class="container show-grid" style="width: 1080px;">
@@ -121,6 +122,7 @@
 <script>
 import TitleList from "@/components/TitleList";
 import AssignList from "@/components/AssignList";
+import ContentForm from "@/components/modal/ContentForm";
 export default {
   name: "workspace",
   data: () => ({
@@ -186,7 +188,8 @@ export default {
   },
   components: {
     TitleList: TitleList,
-    AssignList: AssignList
+    AssignList: AssignList,
+    ContentForm: ContentForm
   }
 };
 </script>

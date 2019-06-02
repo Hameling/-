@@ -12,6 +12,7 @@
     "core-js": "^2.6.5",
     "moment-timezone": "^0.5.25",
     "vue": "^2.6.10",
+    "vue-cal": "^1.59.0",
     "vue-ctk-date-time-picker": "^2.1.1",
     "vue-router": "^3.0.3",
     "vuex": "^3.0.1"

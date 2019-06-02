@@ -150,7 +150,7 @@
       <!--세션이 있을때-->
       <ul class="sidebar navbar-nav" v-if="session_checked">
         <li class="nav-item active">
-          <a class="nav-link" href="index.html">
+          <a class="nav-link" href="/workspace">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Private Space</span>
           </a>
