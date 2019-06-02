@@ -25,11 +25,16 @@ moment.tz.setDefault('Asia/Seoul')
 
 
 Vue.mixin({
+  data: () => ({
+    session_checked: false
+  }),
   methods: {
     async checkToken(data){
+      console.log(data.token)
       if(data.token === "expire"){
         //modal
         console.log("세션이 만료되었습니다.")
+        this.session_checked = false
         await this.$store.dispatch("LOGOUT")
         this.$router.push("/");
       }
