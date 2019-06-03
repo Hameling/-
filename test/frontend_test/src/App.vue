@@ -1,7 +1,8 @@
 <template>
   <div id="app">
     <!--로그인 Modal 시작부-->
-    <LoginForm/>
+    <LoginForm v-on:sessionCheck="sessionCheck"/>
+    <LogoutForm v-on:sessionCheck="sessionCheck"/>
     <!--로그인 Modal 끝 -->
 
     <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
@@ -99,7 +100,7 @@
     <div id="wrapper">
       <!-- Sidebar -->
       <!--세션이 있을때-->
-      <ul class="sidebar navbar-nav" v-if="session_checked">
+      <ul class="sidebar navbar-nav" v-show="session_checked">
         <li class="nav-item active">
           <a class="nav-link" href="/workspace">
             <i class="fas fa-fw fa-tachometer-alt"></i>
@@ -121,7 +122,7 @@
           </a>
           <div class="dropdown-menu" aria-labelledby="pagesDropdown">
             <h6 class="dropdown-header">Login Screens:</h6>
-            <div class="dropdown-item" @click="$bvModal.show('test')">Login</div>
+            <div class="dropdown-item" @click="$bvModal.show('Logout')">Logout</div>
             <a class="dropdown-item" href="register.html">Register</a>
             <a class="dropdown-item" href="forgot-password.html">Forgot Password</a>
             <div class="dropdown-divider"></div>
@@ -144,7 +145,7 @@
         </li>-->
       </ul>
       <!--세션이 없을때-->
-      <ul class="sidebar navbar-nav" v-else>
+      <ul class="sidebar navbar-nav" v-show="!session_checked">
         <li class="nav-item dropdown">
           <a
             class="nav-link dropdown-toggle"
@@ -160,7 +161,7 @@
           </a>
           <div class="dropdown-menu" aria-labelledby="pagesDropdown">
             <h6 class="dropdown-header">Login Screens:</h6>
-            <div class="dropdown-item" @click="$bvModal.show('test')">Login</div>
+            <div class="dropdown-item" @click="$bvModal.show('Login')">Login</div>
             <a class="dropdown-item" href="register.html">Register</a>
             <a class="dropdown-item" href="forgot-password.html">Forgot Password</a>
             <div class="dropdown-divider"></div>
@@ -230,19 +231,38 @@
 
 <script>
 import LoginForm from "@/components/modal/LoginForm"
+import LogoutForm from "@/components/modal/LogoutForm"
+
 export default {
   name: "app",
   data: () => ({
+    session_checked:false
   }),
   methods: {
-  },
-  mounted() {
-    if (sessionStorage.accessToken != null) {
-      this.session_checked = true;
+    sessionCheck(value){
+      this.session_checked = value
     }
   },
+  mounted() {
+    //console.log(session_checked())
+    // if (sessionStorage.accessToken != null) {
+    //   this.session_checked = true;
+    // }
+  },
+  computed: {
+    // session_checked:{
+    //   get:() => {
+    //     console.log(sessionStorage.accessToken != null)
+    //     return sessionStorage.accessToken != null
+    //   },
+    //   set:(value) => {
+    //     console.log("값 변경")
+    //   }
+    // }
+  },
   components: {
-    LoginForm: LoginForm
+    LoginForm: LoginForm,
+    LogoutForm : LogoutForm
   }
 };
 </script>

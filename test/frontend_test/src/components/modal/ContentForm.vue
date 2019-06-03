@@ -21,7 +21,8 @@
               </div>
               <div v-else class="form-label-group">
                 <label for="ContentTitle" @click="setNameState" class="form-control">{{contentname}}</label>
-                <br><br>
+                <br>
+                <br>
               </div>
             </section>
             <div>
@@ -189,8 +190,8 @@ export default {
       now_time: moment().format("YYYY-MM-DD HH:mm"),
 
       //Content 내부 변수
-      contentname :"",
-      contentinfo :"",
+      contentname: "",
+      contentinfo: "",
       comments: [],
       checklists: [],
 
@@ -199,23 +200,29 @@ export default {
       ckl_content: "",
 
       //input <-> Label을 위한 변수
-      nameState : false
+      nameState: false
     };
   },
   methods: {
     getContent() {
-      this.$http
-        .post("http://211.109.53.216:20000/content/search-content/", {
-          contentid: sessionStorage.contentid,
-          token: sessionStorage.accessToken
-        })
-        .then(res => {
-          this.checkToken(res.data)
-          this.contentname = res.data[0].contentname
-          this.contentinfo = res.data[0].contentinfo
-          this.comments = res.data[0].commentlist
-          this.checklists = res.data[0].checklistlist
-        });
+      if (sessionStorage.getItem("accessToken") != null) {
+        this.$http
+          .post("http://211.109.53.216:20000/content/search-content/", {
+            contentid: sessionStorage.contentid,
+            token: sessionStorage.accessToken
+          })
+          .then(res => {
+            this.checkToken(res.data);
+            this.contentname = res.data[0].contentname;
+            this.contentinfo = res.data[0].contentinfo;
+            this.comments = res.data[0].commentlist;
+            this.checklists = res.data[0].checklistlist;
+          });
+      } else {
+        console.log("잘못된 접근입니다.");
+        this.session_checked = false;
+        this.$router.push("/");
+      }
     },
 
     //코멘트
@@ -299,8 +306,8 @@ export default {
     delSchedule(scehdule_id) {},
 
     //값 수정을 위한 함수
-    setNameState(){
-      this.nameState = !this.nameState
+    setNameState() {
+      this.nameState = !this.nameState;
     }
   },
   mounted() {
