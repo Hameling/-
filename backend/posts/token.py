@@ -60,3 +60,11 @@ def expire_token():
     token_list=json.dumps(token_list)
     return token_list
 
+
+def exist_token(input_token):
+    value = True
+    if Session.objects.filter(token = input_token).exists():
+       return value
+    else:
+        value = False
+        return value
