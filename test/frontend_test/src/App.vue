@@ -130,6 +130,28 @@
             <a class="dropdown-item" href="blank.html">Blank Page</a>
           </div>
         </li>
+
+        <li class="nav-item">
+          <div class="nav-link" @click="$bvModal.show('test')">
+            <i class="fas fa-fw"></i>   <!--fa-chart-area 버튼 이미지 -->
+            <span>Project</span>
+          </div>
+        </li> 
+
+        <li class="nav-item">
+          <div class="nav-link" @click="$bvModal.show('Cal')">
+            <i class="fas fa-fw fa-chart-area"></i>
+            <span>Calander</span>
+          </div>
+        </li>
+
+        <li class="nav-item">
+          <div class="nav-link" @click="$bvModal.show('test')">
+            <i class="fas fa-fw"></i>   <!--fa-chart-area 버튼 이미지 -->
+            <span>Logout</span>
+          </div>
+        </li> 
+
         <!--
       <li class="nav-item">
         <a class="nav-link" href="tables.html">
@@ -137,19 +159,21 @@
           <span>Tables</span></a>
         </li>-->
       </ul>
+
+
       <!--세션이 없을때-->
       <ul class="sidebar navbar-nav" v-else>
         <li class="nav-item">
           <div class="nav-link" @click="$bvModal.show('test')">
             <i class="fas fa-fw"></i>   <!--fa-chart-area 버튼 이미지 -->
-            <span>Login</span>
+            <span>Sign in</span>
           </div>
         </li> 
 
         <li class="nav-item">
-          <div class="nav-link" href="#" @click="$bvModal.show('test')">
+          <div class="nav-link" @click="$bvModal.show('SignUP')">
             <i class="fas fa-fw fa-chart-area"></i>
-            <span>Register</span>
+            <span>Sign UP</span>
           </div>
         </li> 
 
