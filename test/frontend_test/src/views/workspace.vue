@@ -185,7 +185,8 @@ export default {
 
     //Calendar 관련코드
     onEventClick(){
-      
+      //클릭하면 커져요
+      //popover 적용하기
     },
 
 
