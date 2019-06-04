@@ -30,64 +30,22 @@
     <ContentForm/>
 
     <div class="container-fluid">
-      <div class="container show-grid" style="width: 1080px;">
-        <div class="row">
-          <div class="col-md-3">
-            <!--프로젝트 목록 구역 시작-->
-            <div class="row">
-              <div class="col-md-11">
+      <div class="container">
+        <div class="mx-auto 5grid-layout">
+          <div class="row">
+            <div class="8u">
+              <section>
                 <ol class="breadcrumb">
                   <li class="breadcrumb-item">
-                    <a href="#">Project Space</a>
-                  </li>
-                </ol>
-                <div class="column">
-                  <div class="col-md-10 offset-md-1">
-                    <div class="card text-white bg-primary o-hidden h-100">
-                      <div class="card-body">
-                        <div class="card-body-icon">
-                          <i class="fas fa-fw fa-comments"></i>
-                        </div>
-                        <div>Project selection area</div>
-                      </div>
-                      <a
-                        class="card-footer text-white clearfix small z-1"
-                        @click="$bvModal.show('create-title')"
-                      >
-                        <!--프로젝트 생성 페이지 링크-->
-                        <span class="float-left">Create New Project</span>
-                        <span class="float-right">
-                          <i class="fas fa-angle-right"></i>
-                        </span>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-                <div>
-                  <br>
-                </div>
-                <!--카드와 카드 사이줄-->
-                <TitleList v-bind:titles="enrollList"></TitleList>
-              </div>
-            </div>
-          </div>
-          <!--프로젝트 목록 구역 끝-->
-
-          <div class="col-md-6">
-            <!--일정체크 구역-->
-            <div class="row">
-              <div class="col-md-12">
-                <ol class="breadcrumb">
-                  <li class="breadcrumb-item">
-                    <a href="#">Calender Check</a>
+                    <a>Calender Check</a>
                   </li>
                 </ol>
                 <div class="column">
                   <!--기존 라우트 뷰 영역
                     <router-view/>-->
-                  <div class="card mb-3">
+                  <div class="8u">
                     <vue-cal
-                      style="height: 500px"
+                      style="height: 700px "
                       :time-from="7*60"
                       :time-to="22*60"
                       :time-step="30"
@@ -100,24 +58,27 @@
                     <div class="card-footer small text-muted"></div>
                   </div>
                 </div>
-              </div>
+              </section>
             </div>
-          </div>
 
-          <div class="col-md-3">
-            <!--할당된 작업-->
-            <div class="row">
-              <div class="col-md-11 offset-md-1">
-                <ol class="breadcrumb">
-                  <li class="breadcrumb-item">
-                    <a href="#">Assigned Tasks</a>
-                  </li>
-                </ol>
-                <AssignList v-bind:assigns="assignList"></AssignList>
-              </div>
+
+            <div class="4u" >
+              <section>
+                <!--할당된 작업-->
+                <div class="row">
+                  <div class="col-md-11 offset-md-1">
+                    <ol class="breadcrumb">
+                      <li class="breadcrumb-item">
+                        <a href="#">Assigned Tasks</a>
+                      </li>
+                    </ol>
+                    <AssignList v-bind:assigns="assignList"></AssignList>
+                  </div>
+                </div>
+              </section>
             </div>
+            <!--할당된 작업 끝-->
           </div>
-          <!--할당된 작업 끝-->
         </div>
       </div>
 
