@@ -5,7 +5,7 @@
     <ContentForm/>
 
       <div class="container">
-        <div class="mx-auto 5grid-layout width: 100%">
+        <div class="mx-auto 5grid-layout height: 100%">
           <div class="row">
 
             <div class="2u" >
