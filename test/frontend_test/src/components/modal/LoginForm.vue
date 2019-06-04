@@ -1,5 +1,5 @@
 <template>
-  <b-modal id="test" title="Login" hide-footer hide-header centered>
+  <b-modal id="Login" title="Login" hide-footer hide-header centered>
     <div class="login-card-header">Login</div>
     <div class="card-body">
       <form role="form" @submit.prevent="onSubmit(id, pwd)">
@@ -64,7 +64,7 @@ export default {
         .then(() => {
           this.id = "";
           this.pwd = "";
-          this.$bvModal.hide("test");
+          this.$bvModal.hide("Login");
           this.$router.push("workspace");
         })
         .catch(msg => {
@@ -73,8 +73,8 @@ export default {
             alert("아이디 혹은 비밀번호가 잘못되었습니다 ");
           }
         });
-      if (sessionStorage.accessToken != null) {
-        this.session_checked = true;
+      if (sessionStorage.getItem("accessToken") != null) {
+          this.$emit('sessionCheck', true)
       }
     }
   }
