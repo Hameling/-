@@ -1,5 +1,5 @@
   <template>
-  <b-modal id="contentForm" size="xl" scrollable hide-footer centered @show="getContent">
+  <b-modal id="contentForm" size="xl" scrollable hide-footer hide-header centered @show="getContent">
     <div class="card card-content mx-auto 5grid-layout">
       <div class="card-header">Content</div>
       <div class="card-body 5grid-layout">

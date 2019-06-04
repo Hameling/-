@@ -33,6 +33,23 @@
       <div class="container">
         <div class="mx-auto 5grid-layout width: 100%">
           <div class="row">
+
+            <div class="3u" >
+              <section>
+                <!--할당된 작업-->
+                <div class="row">
+                  <div class="col-md-11">
+                    <ol class="breadcrumb">
+                      <li class="breadcrumb-item">
+                        <a href="#">Assigned Tasks</a>
+                      </li>
+                    </ol>
+                  <AssignList v-bind:assigns="assignList"></AssignList>
+                  </div>
+                </div>
+              </section>
+            </div>
+            
             <div class="8u">
               <section>
                 <ol class="breadcrumb">
@@ -45,7 +62,7 @@
                     <router-view/>-->
                   <div class="card mb-3">
                     <vue-cal
-                      style="height: 700px "
+                      style="height: 750px "
                       class="vuecal--blue-theme"
                       :time-from="7*60"
                       :time-to="22*60"
@@ -62,22 +79,7 @@
               </section>
             </div>
 
-
-            <div class="4u" >
-              <section>
-                <!--할당된 작업-->
-                <div class="row">
-                  <div class="col-md-11 offset-md-1">
-                    <ol class="breadcrumb">
-                      <li class="breadcrumb-item">
-                        <a href="#">Assigned Tasks</a>
-                      </li>
-                    </ol>
-                  <AssignList v-bind:assigns="assignList"></AssignList>
-                  </div>
-                </div>
-              </section>
-            </div>
+  
             <!--할당된 작업 끝-->
           </div>
         </div>

@@ -10717,7 +10717,7 @@ footer.sticky-footer {
   right: 0;
   bottom: 0;
   width: calc(100% - 90px);
-  height: 80px;
+  height: 50px;
   background-color: #e9ecef;
 }
 
@@ -10928,4 +10928,17 @@ body.sidebar-toggled footer.sticky-footer {
   color: inherit;
   background-color: white;
   border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+.logout-footer {
+  position:absolute;
+  bottom: 0;
+}
+
+.sidebar-divider {
+  height: 0;
+  margin: 0.5rem 0;
+  overflow: hidden;
+  border-top: 1px solid #e9ecef;
+  width: 80%;
 }

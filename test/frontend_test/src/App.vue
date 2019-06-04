@@ -108,30 +108,6 @@
             <span>Private Space</span>
           </a>
         </li>
-        <li class="nav-item dropdown">
-          <a
-            class="nav-link dropdown-toggle"
-            href="#"
-            id="pagesDropdown"
-            role="button"
-            data-toggle="dropdown"
-            aria-haspopup="true"
-            aria-expanded="false"
-          >
-            <i class="fas fa-fw fa-folder"></i>
-            <span>Pages</span>
-          </a>
-          <div class="dropdown-menu" aria-labelledby="pagesDropdown">
-            <h6 class="dropdown-header">Login Screens:</h6>
-            <div class="dropdown-item" @click="$bvModal.show('Logout')">Logout</div>
-            <a class="dropdown-item" href="register.html">Register</a>
-            <a class="dropdown-item" href="forgot-password.html">Forgot Password</a>
-            <div class="dropdown-divider"></div>
-            <h6 class="dropdown-header">Other Pages:</h6>
-            <a class="dropdown-item" href="404.html">404 Page</a>
-            <a class="dropdown-item" href="blank.html">Blank Page</a>
-          </div>
-        </li>
 
         <li class="nav-item">
           <div class="nav-link" @click="$bvModal.show('test')">
@@ -139,15 +115,11 @@
             <span>Project</span>
           </div>
         </li> 
+        <center>
+        <div class="sidebar-divider"></div>
+        </center>
 
-        <li class="nav-item">
-          <div class="nav-link" @click="$bvModal.show('Cal')">
-            <i class="fas fa-fw fa-chart-area"></i>
-            <span>Calander</span>
-          </div>
-        </li>
-
-        <li class="nav-item">
+        <li class="nav-item logout-footer">
           <div class="nav-link" @click="$bvModal.show('Logout')">
             <i class="fas fa-fw"></i>   <!--fa-chart-area 버튼 이미지 -->
             <span>Logout</span>
