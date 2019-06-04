@@ -4,6 +4,7 @@
     <LoginForm v-on:sessionCheck="sessionCheck"/>
     <LogoutForm v-on:sessionCheck="sessionCheck"/>
     <RegisterForm/>
+    <createTitle v-on:get-basedata="getBaseData"/>
     <!--로그인 Modal 끝 -->
 
     <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
@@ -110,7 +111,7 @@
         </li>
 
         <li class="nav-item">
-          <div class="nav-link" @click="$bvModal.show('test')">
+          <div class="nav-link">
             <i class="fas fa-fw"></i>   <!--fa-chart-area 버튼 이미지 -->
             <span>Project</span>
           </div>
@@ -118,6 +119,18 @@
         <center>
         <div class="sidebar-divider"></div>
         </center>
+
+        <li class="nav-item">
+          <div class="nav-link" @click="$bvModal.show('create-title')">
+            <i class="fas fa-fw"></i>   <!--fa-chart-area 버튼 이미지 -->
+            <span>Create Project</span>
+          </div>
+        </li> 
+
+        <center>
+        <div class="sidebar-divider"></div>
+        </center>
+        <TitleList v-bind:titles="titleList"/>
 
         <li class="nav-item logout-footer">
           <div class="nav-link" @click="$bvModal.show('Logout')">
@@ -209,15 +222,22 @@
 import LoginForm from "@/components/modal/LoginForm"
 import LogoutForm from "@/components/modal/LogoutForm"
 import RegisterForm from "@/components/modal/RegisterForm"
+import createTitle from "@/components/modal/createTitle"
+import TitleList from "@/components/TitleList";
+import {bus} from "@/eventbus"
 
 export default {
   name: "app",
   data: () => ({
-    session_checked:false
+    session_checked:false,
+    titleList : []
   }),
   methods: {
     sessionCheck(value){
       this.session_checked = value
+    },
+    getBaseData(){
+      bus.$emit('get-basedata')
     }
   },
   mounted() {
@@ -226,21 +246,17 @@ export default {
       this.session_checked = true;
     }
   },
-  computed: {
-    // session_checked:{
-    //   get:() => {
-    //     console.log(sessionStorage.accessToken != null)
-    //     return sessionStorage.accessToken != null
-    //   },
-    //   set:(value) => {
-    //     console.log("값 변경")
-    //   }
-    // }
+  created() {
+    bus.$on('getTitle', (enrollList) => {
+      this.titleList = enrollList
+    })
   },
   components: {
     LoginForm: LoginForm,
     LogoutForm : LogoutForm,
-    RegisterForm : RegisterForm
+    RegisterForm : RegisterForm,
+    TitleList: TitleList,
+    createTitle: createTitle
   }
 };
 </script>

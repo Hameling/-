@@ -17,21 +17,11 @@ export default new Router({
     },
     {
       path: '/workspace',
-      //name: 'workspace',
+      name: 'workspace',
       component: Workspace,
-      children: [
-        {
-          path: '',
-          name: 'Cal_Monthly',
-          component: Cal_Monthly
-        },
-        //캘린더 두개 더 추가
-      ],
-      //다른 path추가 login, project
-      //create project는 어떤식으로 할것인가?
     },
     {
-      path: '/title',
+      path: '/title',  //path: '/title/:titleid' 고려중
       name: 'title',
       component: Title,
       props:true

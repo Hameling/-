@@ -15,6 +15,7 @@
 
 <script>
 import SectionList from "@/components/SectionList";
+import {bus} from "@/eventbus"
 export default {
   name: "Title",
   props: ["select_item"],
@@ -64,6 +65,7 @@ export default {
     }
   },
   mounted() {
+    console.log(this.select_item)
     this.$nextTick(() => {
       if (this.select_item != undefined) {
         this.$store.commit("selectedTitle", this.select_item);
