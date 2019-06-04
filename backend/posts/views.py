@@ -625,27 +625,49 @@ class FileCreate(APIView):
     def post(self, request, *args, **kwargs):
         filename = request.data['filename']
         input_contentid = request.data["contentid"]
+        input_token = str(request.data["token"])
         file_list = []
         if request.method == 'POST':
-            try:
-                #파일 저장
-                content = Content.objects.get(contentid=input_contentid)
-                File.objects.create(contentid = content, filename = filename, filerealname = str(filename))
+            if token.exist_token(input_token) :
+                if token.compare_token(input_token):
+                    try:
+                        #파일 저장
+                        content = Content.objects.get(contentid=input_contentid)
+                        File.objects.create(contentid = content, filename = filename, filerealname = str(filename))
 
-                #media 폴더에서 다른 폴더로 이동
-                filemove.file_movedir(str(filename),input_contentid)
+                        #media 폴더에서 다른 폴더로 이동
+                        filemove.file_movedir(str(filename),input_contentid)
                 
-                file_tmp = {}
-                file_tmp['upload'] = "success"
-                file_list.append(file_tmp)
-                file_list = json.dumps(file_list)
-                return HttpResponse(file_list, content_type="application/json")
-            except:
+                        file_tmp = {}
+                        file_tmp['upload'] = "success"
+                        file_list.append(file_tmp)
+                        file_list = json.dumps(file_list)
+                        return HttpResponse(file_list, content_type="application/json")
+                    except:
+                        file_tmp = {}
+                        file_tmp['upload'] = "fail"
+                        file_list.append(file_tmp)
+                        file_list = json.dumps(file_list)
+                        return HttpResponse(file_list, content_type="application/json")
+                else:
+                    file_tmp = {}
+                    file_tmp['upload'] = "fail"
+                    file_list.append(file_tmp)
+                    file_list = json.dumps(file_list)
+                    return HttpResponse(file_list, content_type="application/json")
+            else:
                 file_tmp = {}
                 file_tmp['upload'] = "fail"
                 file_list.append(file_tmp)
                 file_list = json.dumps(file_list)
                 return HttpResponse(file_list, content_type="application/json")
+        else:
+            file_tmp = {}
+            file_tmp['upload'] = "fail"
+            file_list.append(file_tmp)
+            file_list = json.dumps(file_list)
+            return HttpResponse(file_list, content_type="application/json")
+            
 
 #class FileSearch(APIView):
 
