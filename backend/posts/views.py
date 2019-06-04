@@ -1,6 +1,7 @@
 import jwt
 import datetime
 import json
+import os
 
 from posts import regex, token,searchfunc,filemove
 from pytz import timezone
@@ -12,8 +13,10 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
 
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, Http404
 from django.shortcuts import render
+
+from django.conf import settings
 
 from .models import Assign,Checklist,Calender,Comment,Content,Contentstate,Enroll,File,Member,Permission,Section,Title, Permissionstate, Session
 from .serializers import AssignSerializer,ChecklistSerializer,CalenderSerializer,CommentSerializer,ContentSerializer,ContentstateSerializer,EnrollSerializer,FileSerializer,MemberSerializer,PermissionSerializer,SectionSerializer,TitleSerializer,PermissionstateSerializer,SessionSerializer
@@ -1053,3 +1056,21 @@ class SearchAll(APIView):
                 return HttpResponse(token.expire_token(), content_type="application/json")
         else:
             return HttpResponse(token.expire_token(), content_type="application/json")
+
+class FileDownload(APIView):
+    parser_classes = (MultiPartParser, FormParser)
+
+    def post(self, request, *args, **kwargs):
+        #file_path = os.path. 만들기
+        input_contentid = request.data["contentid"]
+        input_token = str(request.data["token"])
+        input_filename = str(request.data["filename"])
+        file_path = "D:/final/backend/data" + "/" + input_contentid + "/" + input_filename
+        if os.path.exists(file_path):
+            print(1)
+            response = HttpResponse(file_path,content_type='application/force-download')
+            return response
+        else:
+            print(2)
+            response = HttpResponse("fail",content_type='application/force-download')
+            return response
