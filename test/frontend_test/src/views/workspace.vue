@@ -46,6 +46,7 @@
                   <div class="card mb-3">
                     <vue-cal
                       style="height: 700px "
+                      class="vuecal--blue-theme"
                       :time-from="7*60"
                       :time-to="22*60"
                       :time-step="30"
@@ -96,7 +97,7 @@ import TitleList from "@/components/TitleList";
 import AssignList from "@/components/AssignList";
 import ContentForm from "@/components/modal/ContentForm";
 import VueCal from "vue-cal";
-import "vue-cal/dist/vuecal.css";
+import "../../public/css/vuecal.css";
 export default {
   name: "workspace",
   data: () => ({
