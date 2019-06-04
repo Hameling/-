@@ -118,7 +118,11 @@
         <center>
         <div class="sidebar-divider"></div>
         </center>
+        <!--프로젝트 생성 및 목록 코드는 이 밑에 작성-->
 
+
+
+        <!--로그아웃 버튼-->
         <li class="nav-item logout-footer">
           <div class="nav-link" @click="$bvModal.show('Logout')">
             <i class="fas fa-fw"></i>   <!--fa-chart-area 버튼 이미지 -->

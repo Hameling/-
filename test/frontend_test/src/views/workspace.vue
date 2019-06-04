@@ -34,14 +34,14 @@
         <div class="mx-auto 5grid-layout width: 100%">
           <div class="row">
 
-            <div class="3u" >
+            <div class="2u" >
               <section>
                 <!--할당된 작업-->
                 <div class="row">
                   <div class="col-md-11">
                     <ol class="breadcrumb">
-                      <li class="breadcrumb-item">
-                        <a href="#">Assigned Tasks</a>
+                      <li class="header-item">
+                        <a>Assigned Tasks</a>
                       </li>
                     </ol>
                   <AssignList v-bind:assigns="assignList"></AssignList>
