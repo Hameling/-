@@ -10903,6 +10903,7 @@ body.sidebar-toggled footer.sticky-footer {
   overflow-x: scroll;
   white-space: nowrap;
   flex-wrap: nowrap;
+  height: 95%;
 }
 
 .login-card {
