@@ -173,3 +173,12 @@ class Title(models.Model):
         db_table = 'Title'
     def __str__(self):
         return '{}sp{}na{}'.format(self.titleid,self.titlename, self.titleinfo)
+
+class Download(models.Model):
+    token = models.CharField(primary_key=True, max_length=120)
+    contentid = models.IntegerField()
+    filename = models.CharField(max_length=45)
+
+    class Meta:
+        managed = False
+        db_table = 'download'
