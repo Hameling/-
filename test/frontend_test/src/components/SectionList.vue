@@ -24,7 +24,7 @@
     </b-modal>
     <!--Content Modal 선언부 -->
      <createContent v-on:get-element="getSection"/>
-     <ContentForm/>
+     <ContentForm v-bind:enrollMember="this.enrollMember"/>
 
      
 
@@ -69,7 +69,7 @@ import createContent from '@/components/modal/createContent';
 import ContentForm from '@/components/modal/ContentForm';
 export default {
   name: "Section",
-  props: ["sections", "select_item"],
+  props: ["sections", "enrollMember" ,"select_item"],
   data() {
     return {
       sectionname: "",

@@ -181,6 +181,7 @@ import Checklist from "@/components/CheckList";
 import CommentList from "@/components/CommentList";
 export default {
   name: "contentForm",
+  props : ["enrollMember"],
   data() {
     return {
       //Day Picker를 위한 변수

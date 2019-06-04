@@ -2,6 +2,7 @@
   <div class="container-fluid main-container">
     <SectionList
       v-bind:sections="sections"
+      v-bind:enrollMember="enrollMember"
       v-bind:select_item="select_item"
       v-on:get-element=" getAllElement"
       v-on:del-section="delSection"
@@ -20,7 +21,8 @@ export default {
   data: function() {
     return {
       selectedid: "",
-      sections: []
+      sections: [],
+      enrollMember :[]
     };
   },
   methods: {
@@ -41,7 +43,25 @@ export default {
         this.$router.push("/");
       }
     },
-    delSection() {}
+    delSection() {},
+
+    getEnrollMember(){
+       if (sessionStorage.getItem("accessToken") != null) {
+        this.$http
+          .post("http://211.109.53.216:20000/enroll/search-enrolltitle/", {
+            titleid: sessionStorage.titleid,
+            token: sessionStorage.accessToken
+          })
+          .then(res => {
+            this.checkToken(res.data);
+            this.enrollMember = res.data;
+          });
+      } else {
+        console.log("잘못된 접근입니다.");
+        this.session_checked = false;
+        this.$router.push("/");
+      }
+    }
   },
   mounted() {
     this.$nextTick(() => {
@@ -49,6 +69,7 @@ export default {
         this.$store.commit("selectedTitle", this.select_item);
       }
       this.getAllElement();
+      this.getEnrollMember();
     });
   },
 
