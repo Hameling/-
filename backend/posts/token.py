@@ -18,7 +18,11 @@ def create_token(input_memberid):
     encoded = jwt.encode({'memberid': input_memberid}, key, algorithm='HS256')
     encoded = encoded.decode('utf-8') 
     member = Member.objects.get(memberid=input_memberid)
-    Session.objects.filter(memberid= member).update(memberid= member,token=encoded, expiretime = expiretime)
+
+    if Session.objects.filter(memberid = member).exists():
+        Session.objects.filter(memberid= member).update(memberid= member,token=encoded, expiretime = expiretime)
+    else:
+        Session.objects.create(memberid = member, token=encoded, expiretime = expiretime)
     login_list = []
     login_json = {}
     login_json['token'] = encoded
