@@ -29,9 +29,9 @@
     </b-modal>
     <ContentForm/>
 
-    <div class="container-fluid">
+    
       <div class="container">
-        <div class="mx-auto 5grid-layout">
+        <div class="mx-auto 5grid-layout width: 100%">
           <div class="row">
             <div class="8u">
               <section>
@@ -43,7 +43,7 @@
                 <div class="column">
                   <!--기존 라우트 뷰 영역
                     <router-view/>-->
-                  <div class="8u">
+                  <div class="card mb-3">
                     <vue-cal
                       style="height: 700px "
                       :time-from="7*60"
@@ -72,7 +72,7 @@
                         <a href="#">Assigned Tasks</a>
                       </li>
                     </ol>
-                    <AssignList v-bind:assigns="assignList"></AssignList>
+                  <AssignList v-bind:assigns="assignList"></AssignList>
                   </div>
                 </div>
               </section>
@@ -85,7 +85,7 @@
       <!-- /.container-fluid -->
 
       <!-- Sticky Footer -->
-    </div>
+    
     <!-- /.content-wrapper -->
   </div>
   <!-- /#wrapper router 끝-->
