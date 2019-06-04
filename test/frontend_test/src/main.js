@@ -33,8 +33,7 @@ Vue.mixin({
       console.log(data.token)
       if(data.token === "expire"){
         //modal
-        console.log("세션이 만료되었습니다.")
-        //this.session_checked = false
+        alert("세션이 만료되었습니다.")
         await this.$store.dispatch("LOGOUT")
         this.$router.push("/");
         location.reload()
