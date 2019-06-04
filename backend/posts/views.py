@@ -20,7 +20,6 @@ from django.conf import settings
 
 from .models import Assign,Checklist,Calender,Comment,Content,Contentstate,Enroll,File,Member,Permission,Section,Title, Permissionstate, Session
 from .serializers import AssignSerializer,ChecklistSerializer,CalenderSerializer,CommentSerializer,ContentSerializer,ContentstateSerializer,EnrollSerializer,FileSerializer,MemberSerializer,PermissionSerializer,SectionSerializer,TitleSerializer,PermissionstateSerializer,SessionSerializer
-
 # Create your views here.
 #Assign
 class AssignList(generics.ListAPIView):
@@ -670,7 +669,30 @@ class FileCreate(APIView):
             file_list.append(file_tmp)
             file_list = json.dumps(file_list)
             return HttpResponse(file_list, content_type="application/json")
+
+class FileDownload(APIView):
+    queryset = File.objects.all()
+    serializer_class = FileSerializer
+    parser_classes = (MultiPartParser, FormParser)
+
+    def post(self, request, *args, **kwargs):
+        #file_path = os.path. 만들기
+        input_contentid = request.data["contentid"]
+        input_filename = str(request.data["filename"])
+        #input_token = str(request.data["token"])
+        file_path = "D:/Github/FinalProject/backend/data" + "/" + input_contentid + "/" + input_filename
+        if os.path.exists(file_path):
+            with open(file_path, 'rb') as fh:
+                response = HttpResponse(fh.read(), content_type='application/force-download')
+                response['Content-Disposition'] = 'inline; filename=' + os.path.basename(file_path)
+                return response
+            raise Http404
+        else:
+            print(2)
+            response = HttpResponse("fail",content_type='application/force-download')
+            return response
             
+    
 
 #class FileSearch(APIView):
 
@@ -1056,21 +1078,3 @@ class SearchAll(APIView):
                 return HttpResponse(token.expire_token(), content_type="application/json")
         else:
             return HttpResponse(token.expire_token(), content_type="application/json")
-
-class FileDownload(APIView):
-    parser_classes = (MultiPartParser, FormParser)
-
-    def post(self, request, *args, **kwargs):
-        #file_path = os.path. 만들기
-        input_contentid = request.data["contentid"]
-        input_token = str(request.data["token"])
-        input_filename = str(request.data["filename"])
-        file_path = "D:/final/backend/data" + "/" + input_contentid + "/" + input_filename
-        if os.path.exists(file_path):
-            print(1)
-            response = HttpResponse(file_path,content_type='application/force-download')
-            return response
-        else:
-            print(2)
-            response = HttpResponse("fail",content_type='application/force-download')
-            return response

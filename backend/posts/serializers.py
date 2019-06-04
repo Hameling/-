@@ -46,8 +46,13 @@ class EnrollSerializer(serializers.ModelSerializer):
 #File
 class FileSerializer(serializers.ModelSerializer):
     class Meta:
-        fields = ('contentid','fileid','filename','filerealname')
+        fields = ('contentid','fileid','filename')
         model = models.File
+
+class FileSerializer2(serializers.ModelSerializer):
+    class Meta:
+        fields = ('token','contentid','filename')
+        model = models.Download
 
 class FileUpdateSerializer(serializers.ModelSerializer):
     class Meta:
