@@ -1,5 +1,5 @@
 <template>
-  <div class="col-md-10 offset-md-1">
+  <div >
     <div v-for="(assign, i) in assigns" :key="i" @click="showContentForm(assign.contentid)" class="card text-white bg-danger o-hidden h-100">
       <div class="card-body">
         <div class="card-body-icon">
