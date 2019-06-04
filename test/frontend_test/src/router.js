@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Workspace from './views/Workspace'
+import Workspace from './views/workspace'
 import Title from './views/Title'
 import Cal_Monthly from './components/calendar/Cal_Monthly'
 

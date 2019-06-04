@@ -3,6 +3,7 @@
     <!--로그인 Modal 시작부-->
     <LoginForm v-on:sessionCheck="sessionCheck"/>
     <LogoutForm v-on:sessionCheck="sessionCheck"/>
+    <RegisterForm/>
     <!--로그인 Modal 끝 -->
 
     <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
@@ -147,7 +148,7 @@
         </li>
 
         <li class="nav-item">
-          <div class="nav-link" @click="$bvModal.show('test')">
+          <div class="nav-link" @click="$bvModal.show('Logout')">
             <i class="fas fa-fw"></i>   <!--fa-chart-area 버튼 이미지 -->
             <span>Logout</span>
           </div>
@@ -172,7 +173,7 @@
         </li> 
 
         <li class="nav-item">
-          <div class="nav-link" @click="$bvModal.show('SignUP')">
+          <div class="nav-link" @click="$bvModal.show('Register')">
             <i class="fas fa-fw fa-chart-area"></i>
             <span>Sign UP</span>
           </div>
@@ -225,7 +226,7 @@
     <footer class="sticky-footer">
       <div class="container my-auto">
         <div class="copyright text-center my-auto">
-          <span>Copyright © Your Website 2019</span>
+          <span>Copyright © Troller 2019</span>
         </div>
       </div>
     </footer>
@@ -235,6 +236,7 @@
 <script>
 import LoginForm from "@/components/modal/LoginForm"
 import LogoutForm from "@/components/modal/LogoutForm"
+import RegisterForm from "@/components/modal/RegisterForm"
 
 export default {
   name: "app",
@@ -248,9 +250,9 @@ export default {
   },
   mounted() {
     //console.log(session_checked())
-    // if (sessionStorage.accessToken != null) {
-    //   this.session_checked = true;
-    // }
+    if (sessionStorage.getItem("accessToken") != null) {
+      this.session_checked = true;
+    }
   },
   computed: {
     // session_checked:{
@@ -265,7 +267,8 @@ export default {
   },
   components: {
     LoginForm: LoginForm,
-    LogoutForm : LogoutForm
+    LogoutForm : LogoutForm,
+    RegisterForm : RegisterForm
   }
 };
 </script>

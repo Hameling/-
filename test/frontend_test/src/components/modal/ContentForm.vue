@@ -229,7 +229,7 @@ export default {
     getComments() {
       this.$http
         .post("http://211.109.53.216:20000/comment/checkcomment/", {
-          contentid: "8",
+          contentid: sessionStorage.contentid,
           token: sessionStorage.accessToken
         })
         .then(res => {
@@ -243,7 +243,7 @@ export default {
           .post("http://211.109.53.216:20000/comment/create-comment/", {
             comcomment: cmt_content,
             memberid: sessionStorage.uid,
-            contentid: "8",
+            contentid: sessionStorage.contentid,
             token: sessionStorage.accessToken
           })
           .then(res => {
@@ -270,7 +270,7 @@ export default {
     getCheckLists() {
       this.$http
         .post("http://211.109.53.216:20000/checklist/search-checklist/", {
-          contentid: "8",
+          contentid: sessionStorage.contentid,
           token: sessionStorage.accessToken
         })
         .then(res => {
@@ -281,7 +281,7 @@ export default {
       if (ckl_content) {
         this.$http
           .post("http://211.109.53.216:20000/checklist/create-checklist/", {
-            contentid: "8",
+            contentid: sessionStorage.contentid,
             listname: ckl_content,
             token: sessionStorage.accessToken
           })

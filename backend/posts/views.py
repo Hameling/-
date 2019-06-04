@@ -695,7 +695,8 @@ class MemberCreate(APIView):
         input_memberemail = request.data["memberemail"]
         try:
             Member.objects.create(memberid = input_memberid, memberpwd = input_memberpwd, membername = input_membername, memberemail= input_memberemail)
-            return JsonResponse({'create': 'success'}) 
+            login_list= token.create_token(input_memberid)
+            return HttpResponse(login_list, content_type="application/json")
         except:
             return JsonResponse({'create': 'fail'})
 
