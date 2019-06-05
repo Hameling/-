@@ -25,7 +25,7 @@
 export default {
   name: "HelloWorld",
   data: () => ({
-    token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJtZW1iZXJpZCI6ImpqaHc5ODgyIn0.SpR5dipHJ8Efw5Wv416zxmbyiQ-mGNRu-bTH_M5BV8U",
+    token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJtZW1iZXJpZCI6ImpqaHc5ODgyIn0.sy99mqSG_5NnnkiA27HsGhdX6Yu86_w8likSNPSY0Zg",
     contentid: "8",
     filename: ""
   }),
@@ -37,7 +37,7 @@ export default {
       const url = window.URL.createObjectURL(new Blob([response.data]))
       const link = document.createElement('a')
       link.href = url
-      link.setAttribute('download', 'file.png') //or any other extension
+      link.setAttribute('download', this.filename) //or any other extension
       document.body.appendChild(link)
       link.click()
     },
@@ -57,7 +57,7 @@ export default {
       formData.append("contentid", this.contentid);
       formData.append("token", this.token);
       this.$http.post("http://127.0.0.1:8000/file/down-file/", formData).then(res => {
-        console.log(res.data);
+        console.log(res);
         this.forceFileDownload(res)
       });
     }

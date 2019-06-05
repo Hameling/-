@@ -20,6 +20,10 @@ from django.conf import settings
 
 from .models import Assign,Checklist,Calender,Comment,Content,Contentstate,Enroll,File,Member,Permission,Section,Title, Permissionstate, Session
 from .serializers import AssignSerializer,ChecklistSerializer,CalenderSerializer,CommentSerializer,ContentSerializer,ContentstateSerializer,EnrollSerializer,FileSerializer,MemberSerializer,PermissionSerializer,SectionSerializer,TitleSerializer,PermissionstateSerializer,SessionSerializer
+
+from .serializers import FileSerializer2
+from .models import Download
+
 # Create your views here.
 #Assign
 class AssignList(generics.ListAPIView):
@@ -671,8 +675,8 @@ class FileCreate(APIView):
             return HttpResponse(file_list, content_type="application/json")
 
 class FileDownload(APIView):
-    queryset = File.objects.all()
-    serializer_class = FileSerializer
+    queryset = Download.objects.all()
+    serializer_class = FileSerializer2
     parser_classes = (MultiPartParser, FormParser)
 
     def post(self, request, *args, **kwargs):
@@ -680,8 +684,8 @@ class FileDownload(APIView):
         input_contentid = request.data["contentid"]
         input_filename = str(request.data["filename"])
         #input_token = str(request.data["token"])
-        #file_path = "D:/Github/FinalProject/backend/data" + "/" + input_contentid + "/" + input_filename
-        file_path = "D:/final/backend/data" + "/" + input_contentid + "/" + input_filename
+        file_path = "D:/Github/FinalProject/backend/data" + "/" + input_contentid + "/" + input_filename
+        #file_path = "D:/final/backend/data" + "/" + input_contentid + "/" + input_filename
         if os.path.exists(file_path):
             with open(file_path, 'rb') as fh:
                 response = HttpResponse(fh.read(), content_type='application/force-download')
