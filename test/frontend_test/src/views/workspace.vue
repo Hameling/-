@@ -42,7 +42,7 @@
                       events-on-month-view="short"
                       :on-event-click="onEventClick"
                     ></vue-cal>
-                    <div class="card-footer small text-muted"></div>
+                    <!-- <div class="card-footer small text-muted"></div> -->
                   </div>
                 </div>
               </section>
