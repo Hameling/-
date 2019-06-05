@@ -429,7 +429,7 @@ class ContentCreate(APIView):
             if token.compare_token(input_token):
                 try:
                     contentstatename = Contentstate.objects.get(statenumber=input_contentstate)
-                    if(input_sectionid == "NULL"):
+                    if(input_sectionid == ""):
                         Content.objects.create(contentname=input_contentname, contentinfo = input_contentinfo, contentstate = contentstatename)
                         token.extend_token(input_token)
                     else:
@@ -680,7 +680,8 @@ class FileDownload(APIView):
         input_contentid = request.data["contentid"]
         input_filename = str(request.data["filename"])
         #input_token = str(request.data["token"])
-        file_path = "D:/Github/FinalProject/backend/data" + "/" + input_contentid + "/" + input_filename
+        #file_path = "D:/Github/FinalProject/backend/data" + "/" + input_contentid + "/" + input_filename
+        file_path = "D:/final/backend/data" + "/" + input_contentid + "/" + input_filename
         if os.path.exists(file_path):
             with open(file_path, 'rb') as fh:
                 response = HttpResponse(fh.read(), content_type='application/force-download')
