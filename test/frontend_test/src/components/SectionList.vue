@@ -47,30 +47,33 @@
       </section>
     </div>
 
+    
     <div v-for="(section, i) in sections" :key="i" class="col-md-4" id="newsession">
-      <section>
-        <div class="session text-white o-hidden h-100" style="background:gray">
-          <div class="card-body">
-            <div class="breadcrumb-item">
-              <div class="float-left ">{{section.sectionname}}</div>
-              <span class="float-right">
-                <i class="times-icon">&times;</i>
-              </span>
+      <div class="card-padding">
+        <section>
+          <div class="session text-white o-hidden h-100 " style="background:gray">
+            <div class="card-body">
+              <div class="breadcrumb-item">
+                <div class="float-left ">{{section.sectionname}}</div>
+                <span class="float-right">
+                  <i class="times-icon">&times;</i>
+                </span>
+              </div>
             </div>
-          </div>
 
-          <ContentList v-bind:contents="section.includeContent" v-on:del-content="delContent"></ContentList>
+            <ContentList v-bind:contents="section.includeContent" v-on:del-content="delContent"></ContentList>
 
-          <div @click="createCont(section.sectionid)" class="card-footer text-white clearfix small z-1">
-            <!--새 컨텐트 작성-->
-            <span class="float-left">Create New content</span>
-            <span class="float-right">
-              <i class="fas fa-angle-right"></i>
-            </span>            
+            <div @click="createCont(section.sectionid)" class="card-footer text-white clearfix small z-1">
+              <!--새 컨텐트 작성-->
+              <span class="float-left">Create New content</span>
+              <span class="float-right">
+                <i class="fas fa-angle-right"></i>
+              </span>            
+            </div>
+            
           </div>
-          
-        </div>
-      </section>
+        </section>
+      </div>
     </div>
   </div>
 </template>
