@@ -31,6 +31,14 @@
     <!--메인 코드 시작부-->
     <div class="col-md-2" id="sessionbar">
       <section>
+        <ol class="title-border section-header">
+          <li class="breadcrumb-item">
+            <a>
+              <strong>Project Title</strong>
+            </a>
+          </li>
+        </ol>
+
         <ol class="breadcrumb">
           <li class="breadcrumb-item">
             <a @click="$bvModal.show('create-section')">Create New Session</a>
@@ -44,7 +52,10 @@
         <div class="session text-white o-hidden h-100" style="background:gray">
           <div class="card-body">
             <div class="breadcrumb-item">
-              <div>{{section.sectionname}}</div>
+              <div class="float-left ">{{section.sectionname}}</div>
+              <span class="float-right">
+                <i class="times-icon">&times;</i>
+              </span>
             </div>
           </div>
 
@@ -55,8 +66,9 @@
             <span class="float-left">Create New content</span>
             <span class="float-right">
               <i class="fas fa-angle-right"></i>
-            </span>
+            </span>            
           </div>
+          
         </div>
       </section>
     </div>
