@@ -15,7 +15,7 @@
                   <div class="col-md-11">
                     <ol class="breadcrumb">
                       <li class="header-item">
-                        <a>Assigned Tasks</a>
+                        <a>Assigned Content</a>
                       </li>
                     </ol>
                   <AssignList v-bind:assigns="assignList"></AssignList>
@@ -36,7 +36,7 @@
                     <router-view/>-->
                   <div class="card mb-3">
                     <vue-cal
-                      style="height: 750px "
+                      style="height: 600px "
                       class="vuecal--blue-theme"
                       :time-from="7*60"
                       :time-to="22*60"

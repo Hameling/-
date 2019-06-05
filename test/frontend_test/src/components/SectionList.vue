@@ -41,7 +41,7 @@
 
         <ol class="breadcrumb">
           <li class="breadcrumb-item">
-            <a @click="$bvModal.show('create-section')">Create New Session</a>
+            <a @click="$bvModal.show('create-section')">Create New Section</a>
           </li>
         </ol>
       </section>

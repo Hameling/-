@@ -1,11 +1,19 @@
   <template>
-  <b-modal id="contentForm" size="xl" scrollable hide-footer hide-header centered @show="getContent">
+  <b-modal
+    id="contentForm"
+    size="xl"
+    scrollable
+    hide-footer
+    hide-header
+    centered
+    @show="getContent"
+  >
     <div class="content-card card-content mx-auto 5grid-layout">
       <div class="content-card-header">Content</div>
       <div class="card-body 5grid-layout">
         <div class="row">
           <div class="7u" id="leftcontent">
-            <section>
+            <section class="box">
               <div v-if="nameState" class="form-label-group">
                 <input
                   type="text"
@@ -28,22 +36,34 @@
             <div>
               <br>
             </div>
-            <section>
-              <div class="form-label-group">
+            
+            <section class="box">
+              <div v-if="subjectState" class="form-label-group">
                 <input
                   type="text"
-                  id="Subject"
+                  v-model="contentinfo"
+                  id="ContentInfo"
                   class="form-control"
                   placeholder="Subject"
                   required="required"
-                  autofocus="autofocus"
+                  @keyup.enter="setSubjectState"
                 >
-                <label for="Subject">Subject</label>
+                <label for="ContentInfo">Content Info</label>
+              </div>
+              <div v-else class="form-label-group">
+                <label
+                  for="ContentTitle"
+                  @click="setSubjectState"
+                  class="form-control"
+                >{{contentinfo}}</label>
+                <br>
+                <br>
               </div>
             </section>
             <div>
               <br>
             </div>
+            
             <section>
               <div class="form-label-group">
                 <input
@@ -71,15 +91,16 @@
 
           <div class="4u" id="sidebar1">
             <section>
-              <div class="form-label-group">
-                <input
-                  type="text"
-                  id="AssignedPerson"
-                  class="form-control"
-                  placeholder="AssignedPerson"
-                  required="required"
-                >
-                <label for="AssignedPerson">Assigned Person</label>
+              <div class="box">
+                <div id="myDIV" class="header">
+                  <a>Assigned Area</a>
+                </div>
+                <b-dropdown id="dropdown-1" text="Assigned People">
+                  <b-dropdown-item>Master</b-dropdown-item>
+                  <b-dropdown-divider></b-dropdown-divider>
+                  <b-dropdown-item>Test1</b-dropdown-item>
+                  <b-dropdown-item>Test2</b-dropdown-item>
+                </b-dropdown>
               </div>
             </section>
             <div>
@@ -181,7 +202,7 @@ import Checklist from "@/components/CheckList";
 import CommentList from "@/components/CommentList";
 export default {
   name: "contentForm",
-  props : ["enrollMember"],
+  props: ["enrollMember"],
   data() {
     return {
       //Day Picker를 위한 변수
@@ -201,7 +222,8 @@ export default {
       ckl_content: "",
 
       //input <-> Label을 위한 변수
-      nameState: false
+      nameState: false,
+      subjectState: false
     };
   },
   methods: {
@@ -309,6 +331,9 @@ export default {
     //값 수정을 위한 함수
     setNameState() {
       this.nameState = !this.nameState;
+    },
+    setSubjectState() {
+      this.subjectState = !this.subjectState;
     }
   },
   mounted() {
