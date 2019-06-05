@@ -21,7 +21,7 @@ export default new Router({
       component: Workspace,
     },
     {
-      path: '/title',  //path: '/title/:titleid' 고려중
+      path: '/title/:titleid',  //path: '/title/:titleid' 고려중
       name: 'title',
       component: Title,
       props:true
