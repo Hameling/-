@@ -34,7 +34,7 @@
         <ol class="title-border section-header">
           <li class="breadcrumb-item">
             <a>
-              <strong>Project Title</strong>
+              <strong>{{this.select_item.titlename}}</strong>
             </a>
           </li>
         </ol>
@@ -97,7 +97,7 @@ export default {
     
     createSection() {
       this.$http.post('http://211.109.53.216:20000/section/create-section/', {
-           titleid: this.select_item, sectionname:this.sectionname, token:sessionStorage.accessToken
+           titleid: this.select_item.titleid, sectionname:this.sectionname, token:sessionStorage.accessToken
           }).then((res) => {
               this.getSection()
           })

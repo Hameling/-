@@ -1,7 +1,7 @@
 <template>
   <div>
     <li v-for="(title,i) in titles" :key="i" class="nav-item">
-      <div @click="selectItem(title.titleid)" class="nav-link">
+      <div @click="selectItem(title)" class="nav-link">
         <!-- <router-link :to="{name: 'title', params:{select_item:title.titleid}}" class="nav-link"> -->
         <i class="fas fa-fw"></i>
         <!--fa-chart-area 버튼 이미지 -->
@@ -17,12 +17,12 @@ export default {
   name: "TitleList",
   props: ["titles"],
   methods: {
-    selectItem(titleid) {
+    selectItem(title) {
       this.$router.push({
         name: "title",
-        params: { titleid: titleid, select_item: titleid }
+        params: { titleid: title.titleid, select_item: title }
       });
-      bus.$emit("reloadItem", titleid);
+      bus.$emit("reloadItem", title.titleid);
     },
     test(data) {
       console.log(data);

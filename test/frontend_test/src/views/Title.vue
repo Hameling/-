@@ -66,8 +66,8 @@ export default {
   },
   mounted() {
     this.$nextTick(() => {
-      if (this.select_item != undefined) {
-        this.$store.commit("selectedTitle", this.select_item);
+      if (this.select_item.titleid != undefined) {
+        this.$store.commit("selectedTitle", this.select_item.titleid);
       }
       this.getAllElement();
       this.getEnrollMember();
@@ -75,7 +75,7 @@ export default {
   },
   beforeRouteUpdate(to, from, next) {
     bus.$on("reloadItem", titleid => {
-      if (this.select_item != undefined) {
+      if (this.select_item.titleid != undefined) {
         this.$store.commit("selectedTitle", titleid);
       }
     });
