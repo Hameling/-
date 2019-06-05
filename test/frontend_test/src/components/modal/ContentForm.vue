@@ -20,7 +20,7 @@
                 <label for="ContentTitle">Content Title</label>
               </div>
               <div v-else class="form-label-group">
-                <label for="ContentTitle" @click="setNameState" class="form-control">{{contentname}}</label>
+                <label for="ContentTitle" @click="setNameState" class="form-control"><strong>{{contentname}}</strong></label>
                 <br>
                 <br>
               </div>
@@ -58,7 +58,7 @@
                 >
                 <label for="NewComment">New Comment</label>
 
-                <div class="comment-box" style="overflow:auto">
+                <div class="comment-box inner-comment" style="overflow:auto">
                   <CommentList
                     v-bind:comments="comments"
                     v-on:del-comment="delComment"
