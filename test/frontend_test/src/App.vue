@@ -112,8 +112,8 @@
 
         <li class="nav-item">
           <div class="nav-link">
-            <i class="fas fa-fw"></i>   <!--fa-chart-area 버튼 이미지 -->
-            <span>Project</span>
+            <a class="fas fa-fw"></a>   <!--fa-chart-area 버튼 이미지 -->
+            Project
           </div>
         </li> 
         <center>
@@ -131,7 +131,12 @@
         <center>
         <div class="sidebar-divider"></div>
         </center>
+        <div class="float-left ">
         <TitleList v-bind:titles="titleList"/>
+        </div>
+          <span class="float-right">
+            <i class="times-icon">&times;</i>
+          </span>
 
         <!--로그아웃 버튼-->
         <li class="nav-item logout-footer">
