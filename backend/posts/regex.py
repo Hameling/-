@@ -34,10 +34,11 @@ def parse_title(text):
         
     return true_result
 
-#[<Section: 10na변경되냐?id14sp이상한데?na뭐지>]
+#[<Section: 24nasfsdfid37spProject2naProject 2>]
 #return '{}na{}id{}'.format(self.sectionid,self.sectionname, self.titleid)
 def parse_section(text):
-    field = re.compile("<Section: (\d+)na([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)id(\d+)sp([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)na([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)>")
+    print(text)
+    field = re.compile("<Section: (\d+)na([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)id(\d+)sp([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)na([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]*)>")
     result = field.findall(text)
     true_result = []
 
@@ -119,15 +120,4 @@ def parse_session(text):
 
     for i in result:
         true_result.append((i[0],i[1],i[5]))
-    return true_result
-
-def parse_midbar(text):
-    field = re.compile("(\d+)-(\d+)-(\d+)")
-    result = field.findall(text)
-    true_result = []
-
-    print("결과",result)
-
-    for i in result:
-        true_result.append((i[0],i[1],i[2]))
     return true_result
