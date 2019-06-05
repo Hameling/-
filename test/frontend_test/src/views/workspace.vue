@@ -26,11 +26,6 @@
             
             <div class="8u">
               <section>
-                <ol class="breadcrumb">
-                  <li class="breadcrumb-item">
-                    <a>Calender Check</a>
-                  </li>
-                </ol>
                 <div class="column">
                   <!--기존 라우트 뷰 영역
                     <router-view/>-->
