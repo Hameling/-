@@ -13,6 +13,7 @@
     <div class="col-md-2" id="sessionbar">
       <section>
         <ol class="title-border section-header">
+<<<<<<< HEAD
           <li class="breadcrumb-item">
             <a>
               <strong>{{this.select_item.titlename}}</strong>
@@ -24,6 +25,16 @@
           <li class="breadcrumb-item">
             <a @click="createSec">Create New Section</a>
           </li>
+=======
+          <div class="column">
+            <li class="breadcrumb-item">
+              <a>
+                <strong>{{this.select_item.titlename}}</strong>
+              </a>
+              <a @click="$bvModal.show('create-section')">Create New Section</a>
+            </li>
+          </div>
+>>>>>>> 3e07e4465b4100e7315f05f86e104c339a7ee21e
         </ol>
       </section>
     </div>
