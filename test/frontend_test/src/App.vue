@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" >
     <!--로그인 Modal 시작부-->
     <LoginForm v-on:sessionCheck="sessionCheck"/>
     <LogoutForm v-on:sessionCheck="sessionCheck"/>
@@ -113,7 +113,7 @@
         <li class="nav-item">
           <div class="nav-link">
             <i class="fas fa-fw"></i>   <!--fa-chart-area 버튼 이미지 -->
-            <span>Project</span>
+            <span>Title</span>
           </div>
         </li> 
         <center>
@@ -124,14 +124,19 @@
         <li class="nav-item">
           <div class="nav-link" @click="$bvModal.show('create-title')">
             <i class="fas fa-fw"></i>   <!--fa-chart-area 버튼 이미지 -->
-            <span>Create Project</span>
+            <span>Create Title</span>
           </div>
         </li> 
 
         <center>
         <div class="sidebar-divider"></div>
         </center>
+        <div class="float-left ">
         <TitleList v-bind:titles="titleList"/>
+        </div>
+          <span class="float-right">
+            <i class="times-icon">&times;</i>
+          </span>
 
         <!--로그아웃 버튼-->
         <li class="nav-item logout-footer">

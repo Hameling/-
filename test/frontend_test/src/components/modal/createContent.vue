@@ -19,7 +19,7 @@
         <b-form-input id="name-input" v-model="contentname" :state="nameState" required></b-form-input>
       </b-form-group>
 
-      <b-form-group label="Title Info(Optional)" label-for="info-input">
+      <b-form-group label="Content Info(Optional)" label-for="info-input">
         <b-form-input id="info-input" v-model="contentinfo"></b-form-input>
       </b-form-group>
     </form>

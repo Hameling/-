@@ -31,34 +31,46 @@
     <!--메인 코드 시작부-->
     <div class="col-md-2" id="sessionbar">
       <section>
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item">
-            <a @click="$bvModal.show('create-section')">Create New Session</a>
-          </li>
+        <ol class="title-border section-header">
+          <div class="column">
+            <li class="breadcrumb-item">
+              <a>
+                <strong>{{this.select_item.titlename}}</strong>
+              </a>
+              <a @click="$bvModal.show('create-section')">Create New Section</a>
+            </li>
+          </div>
         </ol>
       </section>
     </div>
 
+    
     <div v-for="(section, i) in sections" :key="i" class="col-md-4" id="newsession">
-      <section>
-        <div class="session text-white o-hidden h-100" style="background:gray">
-          <div class="card-body">
-            <div class="breadcrumb-item">
-              <div>{{section.sectionname}}</div>
+      <div class="card-padding">
+        <section>
+          <div class="session text-white o-hidden h-100 " style="background:gray">
+            <div class="card-body">
+              <div class="breadcrumb-item">
+                <div class="float-left ">{{section.sectionname}}</div>
+                <span class="float-right">
+                  <i class="times-icon">&times;</i>
+                </span>
+              </div>
             </div>
-          </div>
 
-          <ContentList v-bind:contents="section.includeContent" v-on:del-content="delContent"></ContentList>
+            <ContentList v-bind:contents="section.includeContent" v-on:del-content="delContent"></ContentList>
 
-          <div @click="createCont(section.sectionid)" class="card-footer text-white clearfix small z-1">
-            <!--새 컨텐트 작성-->
-            <span class="float-left">Create New content</span>
-            <span class="float-right">
-              <i class="fas fa-angle-right"></i>
-            </span>
+            <div @click="createCont(section.sectionid)" class="card-footer text-white clearfix small z-1">
+              <!--새 컨텐트 작성-->
+              <span class="float-left">Create New content</span>
+              <span class="float-right">
+                <i class="fas fa-angle-right"></i>
+              </span>            
+            </div>
+            
           </div>
-        </div>
-      </section>
+        </section>
+      </div>
     </div>
   </div>
 </template>
@@ -85,7 +97,7 @@ export default {
     
     createSection() {
       this.$http.post('http://211.109.53.216:20000/section/create-section/', {
-           titleid: this.select_item, sectionname:this.sectionname, token:sessionStorage.accessToken
+           titleid: this.select_item.titleid, sectionname:this.sectionname, token:sessionStorage.accessToken
           }).then((res) => {
               this.getSection()
           })
