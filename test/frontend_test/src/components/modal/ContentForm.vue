@@ -1,7 +1,7 @@
   <template>
   <b-modal id="contentForm" size="xl" scrollable hide-footer hide-header centered @show="getContent">
-    <div class="card card-content mx-auto 5grid-layout">
-      <div class="card-header">Content</div>
+    <div class="content-card card-content mx-auto 5grid-layout">
+      <div class="content-card-header">Content</div>
       <div class="card-body 5grid-layout">
         <div class="row">
           <div class="7u" id="leftcontent">
