@@ -11,10 +11,10 @@
       >
       <h2>파일을 드래그해서 드랍해주세요.</h2>
     </div>
-    <input type="text" placeholder="token" v-model="token">
+    <!-- <input type="text" placeholder="token" v-model="token">
     <br>
     <input type="text" placeholder="contentid" v-model="contentid">
-    <br>
+    <br> -->
     <input type="text" placeholder="filename" v-model="filename">
     <br>
     <button @click="download()">다운로드</button>
@@ -25,30 +25,40 @@
 export default {
   name: "HelloWorld",
   data: () => ({
-    token: "",
-    contentid: "",
+    token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJtZW1iZXJpZCI6ImpqaHc5ODgyIn0.SpR5dipHJ8Efw5Wv416zxmbyiQ-mGNRu-bTH_M5BV8U",
+    contentid: "8",
     filename: ""
   }),
   props: {
     msg: String
   },
   methods: {
+ forceFileDownload(response){
+      const url = window.URL.createObjectURL(new Blob([response.data]))
+      const link = document.createElement('a')
+      link.href = url
+      link.setAttribute('download', 'file.png') //or any other extension
+      document.body.appendChild(link)
+      link.click()
+    },
+
     upload(name, files) {
-      console.log(this.token);
-      console.log(this.contentid);
       const formData = new FormData();
       formData.append(name, files[0], files[0].name);
       formData.append("contentid", this.contentid);
-      formData.append("key", this.token);
-      this.$http.post("", formData).then(res => {
-        console.log(res);
+      formData.append("token", this.token);
+      this.$http.post("http://127.0.0.1:8000/file/create-file/", formData).then(res => {
+        console.log(res.data);
       });
     },
-    donwload() {
-      this.$http.post("", {
-        filename:this.filename, contentid:this.contentid, token:this.token
-      }).then(res => {
-        console.log(res);
+    download() {
+      const formData = new FormData();
+      formData.append("filename", this.filename);
+      formData.append("contentid", this.contentid);
+      formData.append("token", this.token);
+      this.$http.post("http://127.0.0.1:8000/file/down-file/", formData).then(res => {
+        console.log(res.data);
+        this.forceFileDownload(res)
       });
     }
   }
