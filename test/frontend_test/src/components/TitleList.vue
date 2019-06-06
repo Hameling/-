@@ -24,9 +24,6 @@ export default {
       });
       bus.$emit("reloadItem", title.titleid);
     },
-    test(data) {
-      console.log(data);
-    }
   }
 };
 </script>

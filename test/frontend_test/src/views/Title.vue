@@ -4,7 +4,7 @@
       v-bind:sections="sections"
       v-bind:enrollMember="enrollMember"
       v-bind:select_item="select_item"
-      v-on:get-element=" getAllElement"
+      v-on:get-element="getAllElement"
       v-on:del-section="delSection"
     ></SectionList>
   </div>
@@ -39,7 +39,7 @@ export default {
             this.sections = res.data;
           });
       } else {
-        console.log("잘못된 접근입니다.");
+        alert("잘못된 접근입니다.");
         this.session_checked = false;
         this.$router.push("/");
       }
@@ -58,7 +58,7 @@ export default {
             this.enrollMember = res.data;
           });
       } else {
-        console.log("잘못된 접근입니다.");
+        alert("잘못된 접근입니다.");
         this.session_checked = false;
         this.$router.push("/");
       }

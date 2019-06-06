@@ -28,7 +28,9 @@
                 <label for="ContentTitle">Content Title</label>
               </div>
               <div v-else class="form-label-group">
-                <label for="ContentTitle" @click="setNameState" class="form-control"><strong>{{contentname}}</strong></label>
+                <label for="ContentTitle" @click="setNameState" class="form-control">
+                  <strong>{{contentname}}</strong>
+                </label>
                 <br>
                 <br>
               </div>
@@ -36,7 +38,7 @@
             <div>
               <br>
             </div>
-            
+
             <section class="box">
               <div v-if="subjectState" class="form-label-group">
                 <input
@@ -63,7 +65,7 @@
             <div>
               <br>
             </div>
-            
+
             <section>
               <div class="form-label-group">
                 <input
@@ -242,7 +244,7 @@ export default {
             this.checklists = res.data[0].checklistlist;
           });
       } else {
-        console.log("잘못된 접근입니다.");
+        alert("잘못된 접근입니다.");
         this.session_checked = false;
         this.$router.push("/");
       }
@@ -250,79 +252,112 @@ export default {
 
     //코멘트
     getComments() {
-      this.$http
-        .post("http://211.109.53.216:20000/comment/checkcomment/", {
-          contentid: sessionStorage.contentid,
-          token: sessionStorage.accessToken
-        })
-        .then(res => {
-          //console.log('getTodos:', res.data)
-          this.comments = res.data;
-        });
-    },
-    addComment(cmt_content) {
-      if (cmt_content) {
+      if (sessionStorage.getItem("accessToken") != null) {
         this.$http
-          .post("http://211.109.53.216:20000/comment/create-comment/", {
-            comcomment: cmt_content,
-            memberid: sessionStorage.uid,
+          .post("http://211.109.53.216:20000/comment/checkcomment/", {
             contentid: sessionStorage.contentid,
             token: sessionStorage.accessToken
           })
           .then(res => {
-            //this.comments.push(res.data);
-            //this.comments = res.data
-            this.getComments();
-            this.cmt_content = "";
+            this.comments = res.data;
           });
+      } else {
+        alert("잘못된 접근입니다.");
+        this.session_checked = false;
+        this.$router.push("/");
+      }
+    },
+    addComment(cmt_content) {
+      if (sessionStorage.getItem("accessToken") != null) {
+        if (cmt_content) {
+          this.$http
+            .post("http://211.109.53.216:20000/comment/create-comment/", {
+              comcomment: cmt_content,
+              memberid: sessionStorage.uid,
+              contentid: sessionStorage.contentid,
+              token: sessionStorage.accessToken
+            })
+            .then(res => {
+              this.getComments();
+              this.cmt_content = "";
+            });
+        }
+      } else {
+        alert("잘못된 접근입니다.");
+        this.session_checked = false;
+        this.$router.push("/");
       }
     },
     delComment(comment_id) {
-      this.$http
-        .post("http://211.109.53.216:20000/comment/delete-comment/", {
-          comnumber: comment_id,
-          memberid: sessionStorage.uid,
-          token: sessionStorage.accessToken
-        })
-        .then(res => {
-          this.getComments();
-        });
+      if (sessionStorage.getItem("accessToken") != null) {
+        this.$http
+          .post("http://211.109.53.216:20000/comment/delete-comment/", {
+            comnumber: comment_id,
+            memberid: sessionStorage.uid,
+            token: sessionStorage.accessToken
+          })
+          .then(res => {
+            this.getComments();
+          });
+      } else {
+        alert("잘못된 접근입니다.");
+        this.session_checked = false;
+        this.$router.push("/");
+      }
     },
 
     //체크리스트
     getCheckLists() {
-      this.$http
-        .post("http://211.109.53.216:20000/checklist/search-checklist/", {
-          contentid: sessionStorage.contentid,
-          token: sessionStorage.accessToken
-        })
-        .then(res => {
-          this.checklists = res.data;
-        });
+      if (sessionStorage.getItem("accessToken") != null) {
+        this.$http
+          .post("http://211.109.53.216:20000/checklist/search-checklist/", {
+            contentid: sessionStorage.contentid,
+            token: sessionStorage.accessToken
+          })
+          .then(res => {
+            this.checklists = res.data;
+          });
+      } else {
+        alert("잘못된 접근입니다.");
+        this.session_checked = false;
+        this.$router.push("/");
+      }
     },
     addCheckList(ckl_content) {
-      if (ckl_content) {
+      if (sessionStorage.getItem("accessToken") != null) {
+        if (ckl_content) {
+          this.$http
+            .post("http://211.109.53.216:20000/checklist/create-checklist/", {
+              contentid: sessionStorage.contentid,
+              listname: ckl_content,
+              token: sessionStorage.accessToken
+            })
+            .then(res => {
+              this.getCheckLists();
+              this.ckl_content = "";
+            });
+        }
+      } else {
+        alert("잘못된 접근입니다.");
+        this.session_checked = false;
+        this.$router.push("/");
+      }
+    },
+    delCheckList(checklist_id) {
+      if (sessionStorage.getItem("accessToken") != null) {
         this.$http
-          .post("http://211.109.53.216:20000/checklist/create-checklist/", {
-            contentid: sessionStorage.contentid,
-            listname: ckl_content,
+          .post("http://211.109.53.216:20000/checklist/delete-checklist/", {
+            listnumber: checklist_id,
             token: sessionStorage.accessToken
           })
           .then(res => {
             this.getCheckLists();
-            this.ckl_content = "";
           });
+      } else {
+        alert("잘못된 접근입니다.");
+        this.session_checked = false;
+        this.$router.push("/");
       }
-    },
-    delCheckList(checklist_id) {
-      this.$http
-        .post("http://211.109.53.216:20000/checklist/delete-checklist/", {
-          listnumber: checklist_id,
-          token: sessionStorage.accessToken
-        })
-        .then(res => {
-          this.getCheckLists();
-        });
     },
 
     addSchedule(start, end) {},

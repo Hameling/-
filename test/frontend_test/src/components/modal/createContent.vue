@@ -39,7 +39,10 @@ export default {
         this.$emit('get-element')
     },
     createContent() {
-      this.$http
+      
+
+         if (sessionStorage.getItem("accessToken") != null) {
+        this.$http
         .post("http://211.109.53.216:20000/content/create-content/", {
           contentname: this.contentname,
           contentinfo: this.contentinfo,
@@ -50,6 +53,11 @@ export default {
         .then(res => {
           this.getSection();
         });
+      } else {
+        alert("잘못된 접근입니다.");
+        this.session_checked = false;
+        this.$router.push("/");
+      }
     },
 
     //Modal 관련코드
