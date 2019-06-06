@@ -110,9 +110,7 @@
             </div>
             <section>
               <div class="box">
-                <div id="myDIV" class="header">
-                  <a>Schedule</a>
-                </div>
+                
 
                 <a>Start time</a>
                 <VueCtkDateTimePicker
@@ -135,7 +133,22 @@
                   :no-label="true"
                   :min-date="now_time"
                 />
+                
+                <div>
+                <br>
+                </div>
+
+                <button class="btn btn-primary btn-block"> Add Schedule </button>
               </div>
+              
+              <div> <br> </div>
+
+              <div class="schedule-box" style="overflow:auto">
+                <div id="myDIV" class="header">
+                  <a>Schedule</a>
+                </div>
+              </div>
+
             </section>
             <div>
               <br>
