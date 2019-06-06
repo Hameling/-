@@ -133,7 +133,14 @@
                   :no-label="true"
                   :min-date="now_time"
                 />
+                
+                <div>
+                <br>
+                </div>
+
+                <button class="btn btn-primary btn-block"> 추가 </button>
               </div>
+
             </section>
             <div>
               <br>
