@@ -19,7 +19,7 @@
         <b-form-input id="name-input" v-model="titlename" :state="nameState" required></b-form-input>
       </b-form-group>
 
-      <b-form-group label="Title Info(Optional)" label-for="info-input">
+      <b-form-group label="Title Description(Optional)" label-for="info-input">
         <b-form-input id="info-input" v-model="titleinfo"></b-form-input>
       </b-form-group>
     </form>
@@ -36,9 +36,9 @@ export default {
   }),
 
   methods: {
-      getBaseData(){
-          this.$emit("get-basedata")
-      },
+    getBaseData() {
+      this.$emit("get-basedata");
+    },
 
     createProject() {
       if (sessionStorage.getItem("accessToken") != null) {
@@ -49,7 +49,9 @@ export default {
             titleinfo: this.titleinfo
           })
           .then(res => {
-            this.getBaseData();
+            if (this.checkToken(res.data)) {
+              this.getBaseData();
+            }
           });
       } else {
         alert("잘못된 접근입니다.");

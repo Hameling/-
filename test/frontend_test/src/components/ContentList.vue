@@ -20,7 +20,7 @@
 <script>
 import ContentForm from '@/components/modal/ContentForm';
 export default {
-  name: "Content",
+  name: "ContentList",
   props: ["contents"],
   methods: {
     showContentForm(select_item){

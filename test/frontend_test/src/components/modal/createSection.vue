@@ -44,7 +44,9 @@ export default {
             token: sessionStorage.accessToken
           })
           .then(res => {
-            this.getSection();
+            if (this.checkToken(res.data)) {
+              this.getSection();
+            }
           });
       } else {
         alert("잘못된 접근입니다.");
