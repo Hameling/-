@@ -90,19 +90,19 @@ def parse_member(text):
         true_result.append((i[0],i[1],i[2],i[3]))
     return true_result
 
-#return '[{}] ~ [{}]csp{}isp{}lsp{}'.format(self.starttime, self.duetime, self.contentid, self.indexnumber, self.isoverlap)
-#[<Calender: 2019-05-24 00:00:00to2019-05-25 00:00:00csp8na사전조사(1)in현재 운영중인 회사 정보pos1he1st신규sec6na사전조사id8sp종합 프로젝트na소프트웨어 개발isp14lsp0>]
+#return '{}to{}csp{}isp{}lsp{}name{}'.format(self.starttime, self.duetime, self.contentid, self.indexnumber, self.isoverlap, self.calendername)
+#[<Calender: 2019-05-24 00:00:00to2019-05-25 00:00:00csp8na사전조사(1)in현재 운영중인 회사 정보st신규sec6na사전조사id8sp종합 프로젝트na소프트웨어 개발isp14lsp0>]
 def parse_calender(text):
-    field = re.compile("<Calender: ([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)to([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)csp(\d+)na([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)in([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)st([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)sec(\d+)na([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)id(\d+)sp([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)na([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)isp(\d+)lsp(\d+)>")
+    field = re.compile("<Calender: ([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)to([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)csp(\d+)na([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)in([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)st([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)sec(\d+)na([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)id(\d+)sp([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)na([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)isp(\d+)lsp(\d+)name([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)>")
     result = field.findall(text)
     true_result = []
 
     for i in result:
-        true_result.append((i[0],i[1],i[2],i[11]))
+        true_result.append((i[0],i[1],i[2],i[11],i[13]))
     return true_result
 
 #return '{}cid{}mid{}fid{}per{}'.format(self.priority,self.contentid, self.memberid, self.fileid, self.permissionid)
-#[<Permission: 나만cid8na사전조사(1)in현재 운영중인 회사 정보pos1he1st신규sec6na사전조사id8sp종합 프로젝트na소프트웨어 개발midjjhw9882psm4321na테스트2emtest02@naver.comfid가랏per2>]
+#[<Permission: 나만cid8na사전조사(1)in현재 운영중인 회사 정보st신규sec6na사전조사id8sp종합 프로젝트na소프트웨어 개발midjjhw9882psm4321na테스트2emtest02@naver.comfid가랏per2>]
 def parse_Permission(text):
     field = re.compile("<Permission: ([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)cid(\d+)na([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)in([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)st([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)sec([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)mid([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)ps([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)na([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)em([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)fid(\w+)per(\w+)>")
     result = field.findall(text)
