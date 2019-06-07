@@ -1,7 +1,7 @@
 <template>
   <b-modal
-    id="create-content"
-    title="Create Content"
+    id="create-section"
+    title="Create Section"
     centered
     ok-only
     ref="modal"
@@ -12,40 +12,35 @@
     <form ref="form" @submit.stop.prevent="handleSubmit">
       <b-form-group
         :state="nameState"
-        label="Content Name"
+        label="Section Name"
         label-for="name-input"
-        invalid-feedback="Content Name is required"
+        invalid-feedback="Section Name is required"
       >
-        <b-form-input id="name-input" v-model="contentname" :state="nameState" required></b-form-input>
-      </b-form-group>
-
-      <b-form-group label="Content Description(Optional)" label-for="info-input">
-        <b-form-input id="info-input" v-model="contentinfo"></b-form-input>
+        <b-form-input id="name-input" v-model="sectionname" :state="nameState" required></b-form-input>
       </b-form-group>
     </form>
   </b-modal>
 </template>
 
+
 <script>
 export default {
-  name: "createContent",
+  name: "createSection",
   data: () => ({
-    contentname: "",
-    contentinfo: "",
+    sectionname: "",
     nameState: null
   }),
+  props: ["select_item"],
   methods: {
     getSection() {
-      this.$emit("get-element");
+      this.$emit("get-section");
     },
-    createContent() {
+    createSection() {
       if (sessionStorage.getItem("accessToken") != null) {
         this.$http
-          .post("http://211.109.53.216:20000/content/create-content/", {
-            contentname: this.contentname,
-            contentinfo: this.contentinfo,
-            contentstate: "1",
-            sectionid: sessionStorage.sectionid,
+          .post("http://211.109.53.216:20000/section/create-section/", {
+            titleid: this.select_item.titleid,
+            sectionname: this.sectionname,
             token: sessionStorage.accessToken
           })
           .then(res => {
@@ -59,7 +54,6 @@ export default {
         this.$router.push("/");
       }
     },
-
     //Modal 관련코드
     checkFormValidity() {
       const valid = this.$refs.form.checkValidity();
@@ -67,8 +61,7 @@ export default {
       return valid;
     },
     resetModal() {
-      this.contentname = "";
-      this.contentinfo = "";
+      this.sectionname = "";
       this.nameState = null;
     },
     handleOk(bvModalEvt) {
@@ -83,9 +76,9 @@ export default {
       // Hide the modal manually
       this.$nextTick(() => {
         this.$refs.modal.hide();
-        this.createContent();
+        this.createSection();
       });
     }
   }
 };
-</script>
+</script>ß

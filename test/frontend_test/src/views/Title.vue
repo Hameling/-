@@ -4,8 +4,7 @@
       v-bind:sections="sections"
       v-bind:enrollMember="enrollMember"
       v-bind:select_item="select_item"
-      v-on:get-element=" getAllElement"
-      v-on:del-section="delSection"
+      v-on:get-element="getAllElement"
     ></SectionList>
   </div>
   <!--content-fulid-->
@@ -35,16 +34,16 @@ export default {
             token: sessionStorage.accessToken
           })
           .then(res => {
-            this.checkToken(res.data);
-            this.sections = res.data;
+            if (this.checkToken(res.data)) {
+              this.sections = res.data;
+            }
           });
       } else {
-        console.log("잘못된 접근입니다.");
+        alert("잘못된 접근입니다.");
         this.session_checked = false;
         this.$router.push("/");
       }
     },
-    delSection() {},
 
     getEnrollMember() {
       if (sessionStorage.getItem("accessToken") != null) {
@@ -54,11 +53,12 @@ export default {
             token: sessionStorage.accessToken
           })
           .then(res => {
-            this.checkToken(res.data);
-            this.enrollMember = res.data;
+            if (this.checkToken(res.data)) {
+              this.enrollMember = res.data;
+            }
           });
       } else {
-        console.log("잘못된 접근입니다.");
+        alert("잘못된 접근입니다.");
         this.session_checked = false;
         this.$router.push("/");
       }

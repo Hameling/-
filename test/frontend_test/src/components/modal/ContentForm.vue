@@ -7,6 +7,7 @@
     hide-header
     centered
     @show="getContent"
+    @hidden="resetState"
   >
     <div class="content-card card-content mx-auto 5grid-layout">
       <div class="content-card-header">Content</div>
@@ -28,7 +29,9 @@
                 <label for="ContentTitle">Content Title</label>
               </div>
               <div v-else class="form-label-group">
-                <label for="ContentTitle" @click="setNameState" class="form-control"><strong>{{contentname}}</strong></label>
+                <label for="ContentTitle" @click="setNameState" class="form-control">
+                  <strong>{{contentname}}</strong>
+                </label>
                 <br>
                 <br>
               </div>
@@ -36,7 +39,7 @@
             <div>
               <br>
             </div>
-            
+
             <section class="box">
               <div v-if="subjectState" class="form-label-group">
                 <input
@@ -48,7 +51,7 @@
                   required="required"
                   @keyup.enter="setSubjectState"
                 >
-                <label for="ContentInfo">Content Info</label>
+                <label for="ContentInfo">Content Description</label>
               </div>
               <div v-else class="form-label-group">
                 <label
@@ -63,7 +66,7 @@
             <div>
               <br>
             </div>
-            
+
             <section>
               <div class="form-label-group">
                 <input
@@ -95,12 +98,13 @@
                 <div id="myDIV" class="header">
                   <a>Assigned Area</a>
                 </div>
-                <b-dropdown id="dropdown-1" text="Assigned People">
-                  <b-dropdown-item>Master</b-dropdown-item>
-                  <b-dropdown-divider></b-dropdown-divider>
-                  <b-dropdown-item>Test1</b-dropdown-item>
-                  <b-dropdown-item>Test2</b-dropdown-item>
-                </b-dropdown>
+                <multiselect
+                  v-model="selected"
+                  :options="enrollMember"
+                  :searchable="false"
+                  label="memeberid"
+                  @input="doAssign"
+                ></multiselect>
               </div>
             </section>
             <div>
@@ -108,10 +112,6 @@
             </div>
             <section>
               <div class="box">
-                <div id="myDIV" class="header">
-                  <a>Schedule</a>
-                </div>
-
                 <a>Start time</a>
                 <VueCtkDateTimePicker
                   v-model="start_date"
@@ -133,6 +133,26 @@
                   :no-label="true"
                   :min-date="now_time"
                 />
+
+                <div>
+                  <br>
+                </div>
+
+                <button
+                  class="btn btn-primary btn-block"
+                  @click="addSchedule(start_date, end_date)"
+                >Add Schedule</button>
+              </div>
+
+              <div>
+                <br>
+              </div>
+
+              <div class="schedule-box" style="overflow:auto">
+                <div id="myDIV" class="header">
+                  <a>Schedule</a>
+                </div>
+                <ScehduleList v-bind:scehdules="scehdules" v-on:del-scehdule="delSchedule"/>
               </div>
             </section>
             <div>
@@ -198,8 +218,12 @@
 
 <script>
 import moment from "moment";
+import Multiselect from "vue-multiselect";
+import "vue-multiselect/dist/vue-multiselect.min.css";
+
 import Checklist from "@/components/CheckList";
 import CommentList from "@/components/CommentList";
+import ScehduleList from "@/components/ScehduleList";
 export default {
   name: "contentForm",
   props: ["enrollMember"],
@@ -216,10 +240,14 @@ export default {
       contentinfo: "",
       comments: [],
       checklists: [],
+      scehdules: [],
 
       //Comment&CheckList 입력을 위한 변수
       cmt_content: "",
       ckl_content: "",
+
+      //Assign 이용을 위한 변수
+      selected: null,
 
       //input <-> Label을 위한 변수
       nameState: false,
@@ -235,98 +263,211 @@ export default {
             token: sessionStorage.accessToken
           })
           .then(res => {
-            this.checkToken(res.data);
-            this.contentname = res.data[0].contentname;
-            this.contentinfo = res.data[0].contentinfo;
-            this.comments = res.data[0].commentlist;
-            this.checklists = res.data[0].checklistlist;
+            if (this.checkToken(res.data)) {
+              this.contentname = res.data[0].contentname;
+              this.contentinfo = res.data[0].contentinfo;
+              this.comments = res.data[0].commentlist;
+              this.checklists = res.data[0].checklistlist;
+            }
           });
       } else {
-        console.log("잘못된 접근입니다.");
+        alert("잘못된 접근입니다.");
         this.session_checked = false;
         this.$router.push("/");
       }
     },
 
+    //업무 할당에 대한 부분
+    getAssign() {},
+    doAssign(title) {
+      if (title == null) {
+        //삭제만
+      } else {
+        //삭제 및 재생성
+      }
+      console.log(title);
+    },
+
     //코멘트
     getComments() {
-      this.$http
-        .post("http://211.109.53.216:20000/comment/checkcomment/", {
-          contentid: sessionStorage.contentid,
-          token: sessionStorage.accessToken
-        })
-        .then(res => {
-          //console.log('getTodos:', res.data)
-          this.comments = res.data;
-        });
-    },
-    addComment(cmt_content) {
-      if (cmt_content) {
+      if (sessionStorage.getItem("accessToken") != null) {
         this.$http
-          .post("http://211.109.53.216:20000/comment/create-comment/", {
-            comcomment: cmt_content,
-            memberid: sessionStorage.uid,
+          .post("http://211.109.53.216:20000/comment/checkcomment/", {
             contentid: sessionStorage.contentid,
             token: sessionStorage.accessToken
           })
           .then(res => {
-            //this.comments.push(res.data);
-            //this.comments = res.data
-            this.getComments();
-            this.cmt_content = "";
+            if (this.checkToken(res.data)) {
+              this.comments = res.data;
+            }
           });
+      } else {
+        alert("잘못된 접근입니다.");
+        this.session_checked = false;
+        this.$router.push("/");
+      }
+    },
+    addComment(cmt_content) {
+      if (sessionStorage.getItem("accessToken") != null) {
+        if (cmt_content.length > 0) {
+          this.$http
+            .post("http://211.109.53.216:20000/comment/create-comment/", {
+              comcomment: cmt_content,
+              memberid: sessionStorage.uid,
+              contentid: sessionStorage.contentid,
+              token: sessionStorage.accessToken
+            })
+            .then(res => {
+              if (this.checkToken(res.data)) {
+                this.getComments();
+                this.cmt_content = "";
+              }
+            });
+        }
+      } else {
+        alert("잘못된 접근입니다.");
+        this.session_checked = false;
+        this.$router.push("/");
       }
     },
     delComment(comment_id) {
-      this.$http
-        .post("http://211.109.53.216:20000/comment/delete-comment/", {
-          comnumber: comment_id,
-          memberid: sessionStorage.uid,
-          token: sessionStorage.accessToken
-        })
-        .then(res => {
-          this.getComments();
-        });
+      if (sessionStorage.getItem("accessToken") != null) {
+        this.$http
+          .post("http://211.109.53.216:20000/comment/delete-comment/", {
+            comnumber: comment_id,
+            memberid: sessionStorage.uid,
+            token: sessionStorage.accessToken
+          })
+          .then(res => {
+            if (this.checkToken(res.data)) {
+              this.getComments();
+            }
+          });
+      } else {
+        alert("잘못된 접근입니다.");
+        this.session_checked = false;
+        this.$router.push("/");
+      }
     },
 
     //체크리스트
     getCheckLists() {
-      this.$http
-        .post("http://211.109.53.216:20000/checklist/search-checklist/", {
-          contentid: sessionStorage.contentid,
-          token: sessionStorage.accessToken
-        })
-        .then(res => {
-          this.checklists = res.data;
-        });
-    },
-    addCheckList(ckl_content) {
-      if (ckl_content) {
+      if (sessionStorage.getItem("accessToken") != null) {
         this.$http
-          .post("http://211.109.53.216:20000/checklist/create-checklist/", {
+          .post("http://211.109.53.216:20000/checklist/search-checklist/", {
             contentid: sessionStorage.contentid,
-            listname: ckl_content,
             token: sessionStorage.accessToken
           })
           .then(res => {
-            this.getCheckLists();
-            this.ckl_content = "";
+            if (this.checkToken(res.data)) {
+              this.checklists = res.data;
+            }
           });
+      } else {
+        alert("잘못된 접근입니다.");
+        this.session_checked = false;
+        this.$router.push("/");
+      }
+    },
+    addCheckList(ckl_content) {
+      if (sessionStorage.getItem("accessToken") != null) {
+        if (ckl_content.length > 0) {
+          this.$http
+            .post("http://211.109.53.216:20000/checklist/create-checklist/", {
+              contentid: sessionStorage.contentid,
+              listname: ckl_content,
+              token: sessionStorage.accessToken
+            })
+            .then(res => {
+              if (this.checkToken(res.data)) {
+                this.getCheckLists();
+                this.ckl_content = "";
+              }
+            });
+        }
+      } else {
+        alert("잘못된 접근입니다.");
+        this.session_checked = false;
+        this.$router.push("/");
       }
     },
     delCheckList(checklist_id) {
-      this.$http
-        .post("http://211.109.53.216:20000/checklist/delete-checklist/", {
-          listnumber: checklist_id,
-          token: sessionStorage.accessToken
-        })
-        .then(res => {
-          this.getCheckLists();
-        });
+      if (sessionStorage.getItem("accessToken") != null) {
+        this.$http
+          .post("http://211.109.53.216:20000/checklist/delete-checklist/", {
+            listnumber: checklist_id,
+            token: sessionStorage.accessToken
+          })
+          .then(res => {
+            if (this.checkToken(res.data)) {
+              this.getCheckLists();
+            }
+          });
+      } else {
+        alert("잘못된 접근입니다.");
+        this.session_checked = false;
+        this.$router.push("/");
+      }
     },
 
-    addSchedule(start, end) {},
-    delSchedule(scehdule_id) {},
+    //스케줄
+    getScehdule() {
+      if (sessionStorage.getItem("accessToken") != null) {
+        this.$http
+          .post("http://211.109.53.216:20000/calender/search-calender/", {
+            contentid: sessionStorage.contentid,
+            token: sessionStorage.accessToken
+          })
+          .then(res => {
+            if (this.checkToken(res.data)) {
+              this.scehdules = res.data;
+            }
+          });
+      } else {
+        alert("잘못된 접근입니다.");
+        this.session_checked = false;
+        this.$router.push("/");
+      }
+    },
+    addSchedule(start, end) {
+      if (sessionStorage.getItem("accessToken") != null) {
+        this.$http
+          .post("http://211.109.53.216:20000/calender/create-calender/", {
+            contentid: sessionStorage.contentid,
+            token: sessionStorage.accessToken,
+            starttime: start,
+            duetime: end
+          })
+          .then(res => {
+            if (this.checkToken(res.data)) {
+              this.getScehdule();
+            }
+          });
+      } else {
+        alert("잘못된 접근입니다.");
+        this.session_checked = false;
+        this.$router.push("/");
+      }
+    },
+    delSchedule(scehdule_id) {
+      if (sessionStorage.getItem("accessToken") != null) {
+        this.$http
+          .post("http://211.109.53.216:20000/calender/delete-calender/", {
+            contentid: sessionStorage.contentid,
+            token: sessionStorage.accessToken,
+            indexnumber: scehdule_id
+          })
+          .then(res => {
+            if (this.checkToken(res.data)) {
+              this.getScehdule();
+            }
+          });
+      } else {
+        alert("잘못된 접근입니다.");
+        this.session_checked = false;
+        this.$router.push("/");
+      }
+    },
 
     //값 수정을 위한 함수
     setNameState() {
@@ -334,18 +475,42 @@ export default {
     },
     setSubjectState() {
       this.subjectState = !this.subjectState;
+    },
+
+    updateContent() {
+      if (sessionStorage.getItem("accessToken") != null) {
+        this.$http
+          .post("http://211.109.53.216:20000/content/update-content/", {
+            contentid: sessionStorage.contentid,
+            token: sessionStorage.accessToken,
+            contentname: this.contentname,
+            contentinfo: this.contentinfo,
+            contentstate: "1"
+          })
+          .then(res => {
+            if (this.checkToken(res.data)) {
+              this.getContent();
+            }
+          });
+      } else {
+        alert("잘못된 접근입니다.");
+        this.session_checked = false;
+        this.$router.push("/");
+      }
+    },
+
+    resetState() {
+      this.nameState = false;
+      this.subjectState = false;
     }
   },
-  mounted() {
-    //console.log(this.contents);
-    //this.getContent();
-    //this.getComments();
-    //this.getCheckLists();
-  },
+  mounted() {},
 
   components: {
     CommentList: CommentList,
-    Checklist: Checklist
+    Checklist: Checklist,
+    ScehduleList: ScehduleList,
+    Multiselect
   }
 };
-</script>
+</script>ß

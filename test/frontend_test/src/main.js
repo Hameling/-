@@ -33,7 +33,9 @@ Vue.mixin({
         await this.$store.dispatch("LOGOUT")
         this.$router.push("/");
         location.reload()
+        return false
       }
+      return true
     }
   },
 })

@@ -218,13 +218,18 @@ class CalenderCreate(APIView):
         input_duetime = request.data["duetime"]
         input_contentid = request.data["contentid"]
         input_token = str(request.data["token"])
+        input_calendername = request.data["calendername"]
         if token.exist_token(input_token) :
             if token.compare_token(input_token):
                 try:
                     contentid = Content.objects.get(contentid=input_contentid)
-                    Calender.objects.create(starttime = input_starttime, duetime = input_duetime, contentid = contentid)
-                    token.extend_token(input_token)
-                    return JsonResponse({'create': 'success'}) 
+                    if input_calendername == "":
+                        print("삐빅")
+                        return HttpResponse("공백은 안됍니다.", content_type="application/json")
+                    else:
+                        Calender.objects.create(starttime = input_starttime, duetime = input_duetime, contentid = contentid, calendername = input_calendername)
+                        token.extend_token(input_token)
+                        return JsonResponse({'create': 'success'}) 
                 except:
                     token.extend_token(input_token)
                     return JsonResponse({'create': 'fail'})
@@ -286,6 +291,7 @@ class CalenderUpdate(APIView):
         input_starttime = request.data["starttime"]
         input_duetime = request.data["duetime"]
         input_isoverlap = request.data["isoverlap"]
+        input_calendername = request.data["calendername"]
         input_token = str(request.data["token"])
         if token.exist_token(input_token) :
             if token.compare_token(input_token):
@@ -293,11 +299,9 @@ class CalenderUpdate(APIView):
                     update_contentid = Calender.objects.all().filter(contentid = input_contentid)
                     str_data = str(update_contentid)
                     power_list = regex.parse_calender(str_data)
-                    print(power_list)
                     acquire_contentid = power_list[0][2]
-                    print("1",acquire_contentid)
                     if(acquire_contentid == input_contentid):
-                        update_contentid.update(starttime = input_starttime, duetime = input_duetime, isoverlap = input_isoverlap)
+                        update_contentid.update(starttime = input_starttime, duetime = input_duetime, isoverlap = input_isoverlap, calendername = input_calendername)
                         return JsonResponse({'update': 'success'})
                     else:
                         return JsonResponse({'update': 'Not Matched'})

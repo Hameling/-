@@ -22,17 +22,18 @@ class Calender(models.Model):
     duetime = models.DateTimeField()
     contentid = models.ForeignKey('Content', on_delete=models.CASCADE, db_column='contentid')
     isoverlap = models.IntegerField(blank=True, null=True, default=0)
+    calendername = models.CharField(max_length=200)
 
     class Meta:
         managed = False
         db_table = 'Calender'
     def __str__(self):
-        return '{}to{}csp{}isp{}lsp{}'.format(self.starttime, self.duetime, self.contentid, self.indexnumber, self.isoverlap)
+        return '{}to{}csp{}isp{}lsp{}name{}'.format(self.starttime, self.duetime, self.contentid, self.indexnumber, self.isoverlap, self.calendername)
 
 
 class Checklist(models.Model):
     listnumber = models.AutoField(primary_key=True)
-    listname = models.CharField(max_length=45)
+    listname = models.CharField(max_length=200)
     contentid = models.ForeignKey('Content', on_delete=models.CASCADE, db_column='contentid')
     checked = models.IntegerField(blank=True, null=True)
 
@@ -45,7 +46,7 @@ class Checklist(models.Model):
 
 class Comment(models.Model):
     comnumber = models.AutoField(primary_key=True)
-    comcomment = models.CharField(max_length=45)
+    comcomment = models.CharField(max_length=400)
     contentid = models.ForeignKey('Content', on_delete=models.CASCADE, db_column='contentid')
     memberid = models.ForeignKey('Member', on_delete=models.CASCADE, db_column='memberid', blank=True, null=True)
     commenttime = models.DateTimeField()
@@ -59,8 +60,8 @@ class Comment(models.Model):
 
 class Content(models.Model):
     contentid = models.AutoField(primary_key=True)
-    contentname = models.CharField(max_length=45, blank=True, null=True)
-    contentinfo = models.CharField(max_length=200, blank=True, null=True)
+    contentname = models.CharField(max_length=200, blank=True, null=True)
+    contentinfo = models.CharField(max_length=400, blank=True, null=True)
     contentstate = models.ForeignKey('Contentstate', on_delete=models.CASCADE, db_column='contentstate')
     sectionid = models.ForeignKey('Section', on_delete=models.CASCADE, db_column='sectionid', blank=True, null=True)
 
@@ -142,7 +143,7 @@ class Permission(models.Model):
 class Section(models.Model):
     sectionid = models.AutoField(primary_key=True)
     titleid = models.ForeignKey('Title', on_delete=models.CASCADE, db_column='titleid')
-    sectionname = models.CharField(max_length=45)
+    sectionname = models.CharField(max_length=200)
 
     class Meta:
         managed = False
@@ -165,8 +166,8 @@ class Session(models.Model):
 
 class Title(models.Model):
     titleid = models.AutoField(primary_key=True)
-    titlename = models.CharField(max_length=45)
-    titleinfo = models.CharField(max_length=100)
+    titlename = models.CharField(max_length=200)
+    titleinfo = models.CharField(max_length=400)
 
     class Meta:
         managed = False
