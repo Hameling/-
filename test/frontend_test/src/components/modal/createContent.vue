@@ -3,7 +3,6 @@
     id="create-content"
     title="Create Content"
     centered
-    ok-only
     ref="modal"
     @show="resetModal"
     @hidden="resetModal"

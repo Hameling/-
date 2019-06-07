@@ -3,7 +3,6 @@
     id="create-title"
     title="Create Title"
     centered
-    ok-only
     ref="modal"
     @show="resetModal"
     @hidden="resetModal"

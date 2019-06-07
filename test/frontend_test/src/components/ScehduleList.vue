@@ -2,7 +2,8 @@
   <div>
     <ul v-for="(scehdule, i) in scehdules" :key="i" class="list-unstyled">
       <li>
-        {{scehdule.calendername}}:{{scehdule.starttime}} ~ {{scehdule.duetime}}
+        {{scehdule.calendername}}
+        <!-- {{scehdule.starttime}} ~ {{scehdule.duetime}} -->
         <span
           v-on:click="delScehdule(scehdule.indexnumber)"
           class="close"

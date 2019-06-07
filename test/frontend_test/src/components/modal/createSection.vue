@@ -3,7 +3,6 @@
     id="create-section"
     title="Create Section"
     centered
-    ok-only
     ref="modal"
     @show="resetModal"
     @hidden="resetModal"
