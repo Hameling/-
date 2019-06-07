@@ -14,7 +14,7 @@ def parse_text(text):
 #return '{}na{}ck{}cid{}'.format(self.listnumber, self.listname,self.checked, self.contentid)
 #[<Checklist: 1na업데이트 성공!ck1cid8na사전조사(1)in현재 운영중인 회사 정보pos1he1st신규>]
 def parse_checklist(text):
-    field = re.compile("<Checklist: (\d+)na([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)ck(\d+)cid(\d+)na([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)in([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)st([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)>")
+    field = re.compile("<Checklist: (\d+)na([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)ck(\d+)cid(\d+)na([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)in([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]*)st([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)>")
     result = field.findall(text)
     true_result = []
 
@@ -37,7 +37,6 @@ def parse_title(text):
 #[<Section: 24nasfsdfid37spProject2naProject 2>]
 #return '{}na{}id{}'.format(self.sectionid,self.sectionname, self.titleid)
 def parse_section(text):
-    print(text)
     field = re.compile("<Section: (\d+)na([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)id(\d+)sp([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)na([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]*)>")
     result = field.findall(text)
     true_result = []
@@ -60,6 +59,7 @@ def parse_enroll(text):
 #return '{}na{}in{}st{}sec{}'.format(self.contentid,self.contentname,self.contentinfo, self.contentstate, self.sectionid)
 # [<Content: 8na사전조사(1)in현재 운영중인 회사 정보st신규sec6na사전조사id8sp종합 프로젝트na소프트웨어 개발>]>
 def parse_content(text):
+    print(text)
     field = re.compile("<Content: (\d+)na([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)in([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]*)st([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)sec(\d+)na([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)id(\d+)sp([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)na([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)>")
     result = field.findall(text)
     true_result = []
@@ -93,7 +93,7 @@ def parse_member(text):
 #return '[{}] ~ [{}]csp{}isp{}lsp{}'.format(self.starttime, self.duetime, self.contentid, self.indexnumber, self.isoverlap)
 #[<Calender: 2019-05-24 00:00:00to2019-05-25 00:00:00csp8na사전조사(1)in현재 운영중인 회사 정보pos1he1st신규sec6na사전조사id8sp종합 프로젝트na소프트웨어 개발isp14lsp0>]
 def parse_calender(text):
-    field = re.compile("<Calender: ([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)to([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)csp(\d+)na([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)in([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)st([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)sec(\d+)na([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)id(\d+)sp([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)na([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)isp(\d+)lsp(\d+)>")
+    field = re.compile("<Calender: ([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)to([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)csp(\d+)na([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)in([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]*)st([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)sec(\d+)na([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)id(\d+)sp([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)na([ㄱ-힣\\w\\s -=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘\'…]+)isp(\d+)lsp(\d+)>")
     result = field.findall(text)
     true_result = []
 
