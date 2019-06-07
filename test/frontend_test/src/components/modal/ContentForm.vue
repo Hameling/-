@@ -24,7 +24,7 @@
                   placeholder="Title"
                   required="required"
                   autofocus="autofocus"
-                  @keyup.enter="setNameState"
+                  @keyup.enter="updateName"
                 >
                 <label for="ContentTitle">Content Title</label>
               </div>
@@ -49,7 +49,7 @@
                   class="form-control"
                   placeholder="Subject"
                   required="required"
-                  @keyup.enter="setSubjectState"
+                  @keyup.enter="updateInfo"
                 >
                 <label for="ContentInfo">Content Description</label>
               </div>
@@ -92,6 +92,7 @@
             </section>
           </div>
 
+          <!-- Assign 영역 -->
           <div class="4u" id="sidebar1">
             <section>
               <div class="box">
@@ -248,6 +249,7 @@ export default {
               this.comments = res.data[0].commentlist;
               this.checklists = res.data[0].checklistlist;
               this.scehdules = res.data[0].calender
+              this.getAssign()
             }
           });
       } else {
@@ -258,7 +260,24 @@ export default {
     },
 
     //업무 할당에 대한 부분
-    getAssign() {},
+    getAssign() {
+      if (sessionStorage.getItem("accessToken") != null) {
+        this.$http
+          .post("http://211.109.53.216:20000/assign/search-assigncontent/", {
+            contentid: sessionStorage.contentid,
+            token: sessionStorage.accessToken
+          })
+          .then(res => {
+            if (this.checkToken(res.data)) {
+              
+            }
+          });
+      } else {
+        alert("잘못된 접근입니다.");
+        this.session_checked = false;
+        this.$router.push("/");
+      }
+    },
     doAssign(title) {
       if (title == null) {
         //삭제만
@@ -436,6 +455,16 @@ export default {
     },
     setSubjectState() {
       this.subjectState = !this.subjectState;
+    },
+
+    updateName() {
+      this.updateContent();
+      this.setNameState();
+    },
+
+    updateInfo(){
+      this.updateContent();
+      this.setSubjectState();
     },
 
     updateContent() {
