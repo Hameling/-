@@ -22,12 +22,13 @@ class Calender(models.Model):
     duetime = models.DateTimeField()
     contentid = models.ForeignKey('Content', on_delete=models.CASCADE, db_column='contentid')
     isoverlap = models.IntegerField(blank=True, null=True, default=0)
+    calendername = models.CharField(max_length=200)
 
     class Meta:
         managed = False
         db_table = 'Calender'
     def __str__(self):
-        return '{}to{}csp{}isp{}lsp{}'.format(self.starttime, self.duetime, self.contentid, self.indexnumber, self.isoverlap)
+        return '{}to{}csp{}isp{}lsp{}name{}'.format(self.starttime, self.duetime, self.contentid, self.indexnumber, self.isoverlap, self.calendername)
 
 
 class Checklist(models.Model):

@@ -219,8 +219,10 @@ def calender_searhch(input_contentid):
     data = list(Calender.objects.all().filter(contentid = input_contentid))
     str_data = str(data)
     power_list = regex.parse_calender(str_data)
+    print(power_list)
     for i in power_list:
         json_tmp = {}
+        json_tmp['calendername'] = i[4]
         json_tmp['indexnumber'] = i[3]
         json_tmp['starttime'] = i[0]
         json_tmp['duetime'] = i[1]
@@ -291,6 +293,7 @@ def search_all(input_titleid):
             calender_jlist = []
             for n in calender_list:
                 json_calender = {}
+                json_calender['calendername'] = n[4]
                 json_calender['indexnumber'] = n[3]
                 json_calender['starttime'] = n[0]
                 json_calender['duetime'] = n[1]
