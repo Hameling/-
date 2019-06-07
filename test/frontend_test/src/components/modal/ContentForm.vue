@@ -119,6 +119,7 @@
                   :format="date_form"
                   :no-label="true"
                   :min-date="now_time"
+                  :right="true"
                 />
 
                 <div>
@@ -132,6 +133,7 @@
                   :format="date_form"
                   :no-label="true"
                   :min-date="now_time"
+                  :right="true"
                 />
 
                 <div>
@@ -436,7 +438,8 @@ export default {
             contentid: sessionStorage.contentid,
             token: sessionStorage.accessToken,
             starttime: start,
-            duetime: end
+            duetime: end,
+           calendername: "test"
           })
           .then(res => {
             if (this.checkToken(res.data)) {

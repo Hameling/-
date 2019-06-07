@@ -105,16 +105,16 @@ export default {
             token: sessionStorage.accessToken
           })
           .then(res => {
-            console.log(res.data);
-            if (res.data.delete == "Delete success") {
-              this.checkToken(res.data);
-              this.$bvModal.hide("SecDelCheck");
-              this.getSection();
-            }
-            else{
-              alert("잘못된 접근입니다.");
-              this.$bvModal.hide("SecDelCheck");
-              this.getSection();
+            if (this.checkToken(res.data)) {
+              if (res.data.delete == "Delete success") {
+                this.checkToken(res.data);
+                this.$bvModal.hide("SecDelCheck");
+                this.getSection();
+              } else {
+                alert("잘못된 접근입니다.");
+                this.$bvModal.hide("SecDelCheck");
+                this.getSection();
+              }
             }
           });
       } else {
@@ -138,4 +138,4 @@ export default {
     ContentForm: ContentForm
   }
 };
-</script>
+</script>ß

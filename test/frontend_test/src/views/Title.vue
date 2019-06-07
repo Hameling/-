@@ -68,6 +68,7 @@ export default {
     this.$nextTick(() => {
       if (this.select_item.titleid != undefined) {
         this.$store.commit("selectedTitle", this.select_item.titleid);
+        //이부분을 TitleList로
       }
       this.getAllElement();
       this.getEnrollMember();
@@ -75,9 +76,10 @@ export default {
   },
   beforeRouteUpdate(to, from, next) {
     bus.$on("reloadItem", titleid => {
-      if (this.select_item.titleid != undefined) {
+      //if (this.select_item.titleid != undefined) { 
         this.$store.commit("selectedTitle", titleid);
-      }
+      //} 
+      //이부분은 select_item을 검사하는게 아니라???? 아니 도데체 뭐녕
     });
     this.$nextTick(() => {
       this.getAllElement();
