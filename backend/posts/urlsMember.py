@@ -9,4 +9,5 @@ urlpatterns = [
     path('update-member/', views.MemberUpdate.as_view()),
     path('call-all/', views.SearchAll.as_view()),
     path('search-member/',views.MemberSearch.as_view()),
+    path('search-allmember/',views.SearchAllMember.as_view()),
 ]
