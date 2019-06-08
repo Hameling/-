@@ -1073,3 +1073,48 @@ class SearchAll(APIView):
                 return HttpResponse(token.expire_token(), content_type="application/json")
         else:
             return HttpResponse(token.expire_token(), content_type="application/json")
+
+
+
+class SearchAllMember(APIView):
+    parser_classes = (JSONParser,)
+
+    def post(self, request, format=None):    
+        input_titleid = request.data["titleid"]
+        input_token = str(request.data["token"])
+        if token.exist_token(input_token) :
+            if token.compare_token(input_token):
+                data = list(Member.objects.all())
+                str_data = str(data)
+                power_list = regex.parse_member(str_data)
+                member_list = []
+                for i in power_list:
+                    member_list.append(i[0])
+                tdata = list(Enroll.objects.all().filter(titleid = input_titleid))
+                str_tdata = str(tdata)
+                power_tlist = regex.parse_enroll(str_tdata)
+                enroll_list = []
+                for j in power_tlist:
+                    enroll_list.append(j[3])
+                erase_list = []
+                for k in range(len(member_list)):
+                    for l in range(len(enroll_list)):
+                        if enroll_list[l] == member_list[k]:
+                            erase_list.append(enroll_list[l])
+                for m in range(len(erase_list)):
+                    member_list.remove(erase_list[m])
+                allmember_list = []
+                for i in member_list:
+                    json_tmp = {}
+                    json_tmp['memberid'] = i
+                    mdata = list(Member.objects.all().filter(memberid = i))
+                    str_mdata = str(mdata)
+                    power_mlist = regex.parse_member(str_mdata)
+                    json_tmp['email'] = power_mlist[0][3]
+                    allmember_list.append(json_tmp)
+                allmember_list=json.dumps(allmember_list)
+                return HttpResponse(allmember_list, content_type="application/json")
+            else:
+                return HttpResponse(token.expire_token(), content_type="application/json")
+        else:
+            return HttpResponse(token.expire_token(), content_type="application/json")
