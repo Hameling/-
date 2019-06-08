@@ -24,7 +24,7 @@
                   placeholder="Title"
                   required="required"
                   autofocus="autofocus"
-                  @keyup.enter="setNameState"
+                  @keyup.enter="updateName"
                 >
                 <label for="ContentTitle">Content Title</label>
               </div>
@@ -49,7 +49,7 @@
                   class="form-control"
                   placeholder="Subject"
                   required="required"
-                  @keyup.enter="setSubjectState"
+                  @keyup.enter="updateInfo"
                 >
                 <label for="ContentInfo">Content Description</label>
               </div>
@@ -92,6 +92,7 @@
             </section>
           </div>
 
+          <!-- Assign 영역 -->
           <div class="4u" id="sidebar1">
             <section>
               <div class="box">
@@ -103,6 +104,7 @@
                   :options="enrollMember"
                   :searchable="false"
                   label="memeberid"
+                  placeholder="Not Assigned"
                   @input="doAssign"
                 ></multiselect>
               </div>
@@ -195,7 +197,6 @@
 </template>
 
 <script>
-import moment from "moment";
 import Multiselect from "vue-multiselect";
 import "vue-multiselect/dist/vue-multiselect.min.css";
 
@@ -206,33 +207,25 @@ import createScehdule from "@/components/modal/createScehdule";
 export default {
   name: "contentForm",
   props: ["enrollMember"],
-  data() {
-    return {
-      //Day Picker를 위한 변수
-      start_date: moment().format("YYYY-MM-DD HH:mm"),
-      end_date: moment().format("YYYY-MM-DD HH:mm"),
-      date_form: "YYYY-MM-DD HH:mm",
-      now_time: moment().format("YYYY-MM-DD HH:mm"),
+  data: () => ({
+    //Content 내부 변수
+    contentname: "",
+    contentinfo: "",
+    comments: [],
+    checklists: [],
+    scehdules: [],
 
-      //Content 내부 변수
-      contentname: "",
-      contentinfo: "",
-      comments: [],
-      checklists: [],
-      scehdules: [],
+    //Comment&CheckList 입력을 위한 변수
+    cmt_content: "",
+    ckl_content: "",
 
-      //Comment&CheckList 입력을 위한 변수
-      cmt_content: "",
-      ckl_content: "",
+    //Assign 이용을 위한 변수
+    selected: null,
 
-      //Assign 이용을 위한 변수
-      selected: null,
-
-      //input <-> Label을 위한 변수
-      nameState: false,
-      subjectState: false
-    };
-  },
+    //input <-> Label을 위한 변수
+    nameState: false,
+    subjectState: false
+  }),
   methods: {
     getContent() {
       if (sessionStorage.getItem("accessToken") != null) {
@@ -247,7 +240,8 @@ export default {
               this.contentinfo = res.data[0].contentinfo;
               this.comments = res.data[0].commentlist;
               this.checklists = res.data[0].checklistlist;
-              this.scehdules = res.data[0].calender
+              this.scehdules = res.data[0].calender;
+              this.getAssign();
             }
           });
       } else {
@@ -258,7 +252,23 @@ export default {
     },
 
     //업무 할당에 대한 부분
-    getAssign() {},
+    getAssign() {
+      if (sessionStorage.getItem("accessToken") != null) {
+        this.$http
+          .post("http://211.109.53.216:20000/assign/search-assigncontent/", {
+            contentid: sessionStorage.contentid,
+            token: sessionStorage.accessToken
+          })
+          .then(res => {
+            if (this.checkToken(res.data)) {
+            }
+          });
+      } else {
+        alert("잘못된 접근입니다.");
+        this.session_checked = false;
+        this.$router.push("/");
+      }
+    },
     doAssign(title) {
       if (title == null) {
         //삭제만
@@ -436,6 +446,16 @@ export default {
     },
     setSubjectState() {
       this.subjectState = !this.subjectState;
+    },
+
+    updateName() {
+      this.updateContent();
+      this.setNameState();
+    },
+
+    updateInfo() {
+      this.updateContent();
+      this.setSubjectState();
     },
 
     updateContent() {
