@@ -205,6 +205,7 @@ def content_search(input_contentid):
         calender_jlist = []
         for l in calender_list:
             json_catmp = {}
+            json_catmp['calendername'] = l[4]
             json_catmp['indexnumber'] = l[3]
             json_catmp['starttime'] = l[0]
             json_catmp['duetime'] = l[1]
