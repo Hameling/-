@@ -168,7 +168,6 @@ def content_search(input_contentid):
     data = Content.objects.all().filter(contentid = input_contentid)
     str_data = str(data)
     power_list = regex.parse_content(str_data)
-    print(power_list)
     for i in power_list:
         json_tmp = {}
         json_tmp['contentid'] = i[0]
@@ -219,7 +218,6 @@ def calender_searhch(input_contentid):
     data = list(Calender.objects.all().filter(contentid = input_contentid))
     str_data = str(data)
     power_list = regex.parse_calender(str_data)
-    print(power_list)
     for i in power_list:
         json_tmp = {}
         json_tmp['calendername'] = i[4]

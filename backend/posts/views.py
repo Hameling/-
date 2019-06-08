@@ -224,7 +224,6 @@ class CalenderCreate(APIView):
                 try:
                     contentid = Content.objects.get(contentid=input_contentid)
                     if input_calendername == "":
-                        print("삐빅")
                         return HttpResponse("공백은 안됍니다.", content_type="application/json")
                     else:
                         Calender.objects.create(starttime = input_starttime, duetime = input_duetime, contentid = contentid, calendername = input_calendername)
@@ -693,7 +692,6 @@ class FileDownload(APIView):
                 return response
             raise Http404
         else:
-            print(2)
             response = HttpResponse("fail",content_type='application/force-download')
             return response
             
