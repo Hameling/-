@@ -35,7 +35,7 @@ export default {
           })
           .then(res => {
             if (this.checkToken(res.data[0])) {
-              this.sections = res.data[0];
+              this.sections = res.data;
             }
           });
       } else {
@@ -53,7 +53,7 @@ export default {
             token: sessionStorage.accessToken
           })
           .then(res => {
-            if (this.checkToken(res.data)) {
+            if (this.checkToken(res.data[0])) {
               this.enrollMember = res.data;
             }
           });
@@ -83,6 +83,7 @@ export default {
     });
     this.$nextTick(() => {
       this.getAllElement();
+      this.getEnrollMember();
     });
     next();
   },

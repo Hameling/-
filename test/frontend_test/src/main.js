@@ -27,7 +27,7 @@ moment.tz.setDefault('Asia/Seoul')
 Vue.mixin({
   methods: {
     async checkToken(data) {
-      console.log(data)
+      if(data != undefined){
       if (data.hasOwnProperty("token")) {
         if (data.token === "expire") {
           //modal
@@ -37,7 +37,7 @@ Vue.mixin({
           location.reload()
           return false
         }
-      }
+      }}
       return true
     }
   },
