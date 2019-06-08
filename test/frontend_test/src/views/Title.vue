@@ -34,8 +34,8 @@ export default {
             token: sessionStorage.accessToken
           })
           .then(res => {
-            if (this.checkToken(res.data)) {
-              this.sections = res.data;
+            if (this.checkToken(res.data[0])) {
+              this.sections = res.data[0];
             }
           });
       } else {

@@ -104,6 +104,7 @@
                   :options="enrollMember"
                   :searchable="false"
                   label="memeberid"
+                  placeholder="Not Assigned"
                   @input="doAssign"
                 ></multiselect>
               </div>
@@ -196,7 +197,6 @@
 </template>
 
 <script>
-import moment from "moment";
 import Multiselect from "vue-multiselect";
 import "vue-multiselect/dist/vue-multiselect.min.css";
 
@@ -207,33 +207,25 @@ import createScehdule from "@/components/modal/createScehdule";
 export default {
   name: "contentForm",
   props: ["enrollMember"],
-  data() {
-    return {
-      //Day Picker를 위한 변수
-      start_date: moment().format("YYYY-MM-DD HH:mm"),
-      end_date: moment().format("YYYY-MM-DD HH:mm"),
-      date_form: "YYYY-MM-DD HH:mm",
-      now_time: moment().format("YYYY-MM-DD HH:mm"),
+  data: () => ({
+    //Content 내부 변수
+    contentname: "",
+    contentinfo: "",
+    comments: [],
+    checklists: [],
+    scehdules: [],
 
-      //Content 내부 변수
-      contentname: "",
-      contentinfo: "",
-      comments: [],
-      checklists: [],
-      scehdules: [],
+    //Comment&CheckList 입력을 위한 변수
+    cmt_content: "",
+    ckl_content: "",
 
-      //Comment&CheckList 입력을 위한 변수
-      cmt_content: "",
-      ckl_content: "",
+    //Assign 이용을 위한 변수
+    selected: null,
 
-      //Assign 이용을 위한 변수
-      selected: null,
-
-      //input <-> Label을 위한 변수
-      nameState: false,
-      subjectState: false
-    };
-  },
+    //input <-> Label을 위한 변수
+    nameState: false,
+    subjectState: false
+  }),
   methods: {
     getContent() {
       if (sessionStorage.getItem("accessToken") != null) {
@@ -248,8 +240,8 @@ export default {
               this.contentinfo = res.data[0].contentinfo;
               this.comments = res.data[0].commentlist;
               this.checklists = res.data[0].checklistlist;
-              this.scehdules = res.data[0].calender
-              this.getAssign()
+              this.scehdules = res.data[0].calender;
+              this.getAssign();
             }
           });
       } else {
@@ -269,7 +261,6 @@ export default {
           })
           .then(res => {
             if (this.checkToken(res.data)) {
-              
             }
           });
       } else {
@@ -462,7 +453,7 @@ export default {
       this.setNameState();
     },
 
-    updateInfo(){
+    updateInfo() {
       this.updateContent();
       this.setSubjectState();
     },
