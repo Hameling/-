@@ -35,11 +35,11 @@ class AssignCreate(APIView):
     def post(self, request, format=None):
         input_contentid =request.data["contentid"]
         input_token = str(request.data["token"])
+        input_memberid = request.data["memberid"]
         if token.exist_token(input_token) :
             if token.compare_token(input_token):
                 try:
-                    get_memberid = token.earn_memberid(input_token)
-                    member = Member.objects.get(memberid=get_memberid)
+                    member = Member.objects.get(memberid=input_memberid)
                     content = Content.objects.get(contentid=input_contentid)
                     Assign.objects.create(memberid = member, contentid = content)
                     token.extend_token(input_token)
@@ -94,22 +94,14 @@ class AssignDelete(APIView):
     def post(self, request, format=None):
         input_token = str(request.data["token"])
         input_contentid = str(request.data["contentid"])
+        input_memberid = request.data["memberid"]
         if token.exist_token(input_token) :
             if token.compare_token(input_token):
-                get_memberid = token.earn_memberid(input_token)
                 try:
-                    del_assign = Assign.objects.all().filter(memberid = get_memberid, contentid = input_contentid)
-                    str_data = str(del_assign)
-                    power_list = regex.parse_assign(str_data)
-                    acquire_assigncid = str(power_list[0][0])
-                    acquire_assignid = str(power_list[0][1])
-                    if((acquire_assignid == get_memberid) and (acquire_assigncid == input_contentid)):
-                        del_assign.delete()
-                        token.extend_token(input_token)
-                        return JsonResponse({'delete': 'success'})
-                    else:
-                        token.extend_token(input_token)
-                        return JsonResponse({'delete': 'Not matched'})
+                    del_assign = Assign.objects.all().filter(memberid = input_memberid, contentid = input_contentid)
+                    del_assign.delete()
+                    token.extend_token(input_token)
+                    return JsonResponse({'delete': 'success'})
                 except:
                     token.extend_token(input_token)
                     return JsonResponse({'delete': 'fail'})
@@ -224,7 +216,6 @@ class CalenderCreate(APIView):
                 try:
                     contentid = Content.objects.get(contentid=input_contentid)
                     if input_calendername == "":
-                        print("삐빅")
                         return HttpResponse("공백은 안됍니다.", content_type="application/json")
                     else:
                         Calender.objects.create(starttime = input_starttime, duetime = input_duetime, contentid = contentid, calendername = input_calendername)
@@ -693,7 +684,6 @@ class FileDownload(APIView):
                 return response
             raise Http404
         else:
-            print(2)
             response = HttpResponse("fail",content_type='application/force-download')
             return response
             
