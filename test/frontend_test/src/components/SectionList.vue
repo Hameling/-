@@ -6,6 +6,7 @@
     <createContent v-on:get-element="getSection"/>
     <createSection v-bind:select_item="select_item" v-on:get-section="getSection"/>
     <ContentForm v-bind:enrollMember="this.enrollMember"/>
+    <TitleSetting v-bind:select_item="select_item"/>
 
     <b-modal id="SecDelCheck" title="SectionDeleteCheck" hide-footer hide-header centered>
       <div class="d-block text-center">
@@ -25,6 +26,10 @@
             <a>
               <strong>{{this.select_item.titlename}}</strong>
             </a>
+          </li>
+
+          <li class="breadcrumb-item">
+            <b-button @click="$bvModal.show('TitleSetting')">Setting</b-button>
           </li>
         </ol>
 
@@ -73,6 +78,7 @@ import ContentList from "@/components/ContentList";
 import createContent from "@/components/modal/createContent";
 import createSection from "@/components/modal/createSection";
 import ContentForm from "@/components/modal/ContentForm";
+import TitleSetting from "@/components/modal/TitleSetting";
 export default {
   name: "Section",
   props: ["sections", "enrollMember", "select_item"],
@@ -135,7 +141,8 @@ export default {
     ContentList: ContentList,
     createContent: createContent,
     createSection: createSection,
-    ContentForm: ContentForm
+    ContentForm: ContentForm,
+    TitleSetting: TitleSetting
   }
 };
-</script>ß
+</script>

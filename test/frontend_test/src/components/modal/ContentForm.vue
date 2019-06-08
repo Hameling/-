@@ -55,7 +55,7 @@
               </div>
               <div v-else class="form-label-group">
                 <label
-                  for="ContentTitle"
+                  for="ContentInfo"
                   @click="setSubjectState"
                   class="form-control"
                 >{{contentinfo}}</label>
@@ -95,7 +95,7 @@
           <!-- Assign 영역 -->
           <div class="4u" id="sidebar1">
             <section>
-              <div class="box">
+              <div class="box" v-if="enrollMember">
                 <div id="myDIV" class="header">
                   <a>Assigned Area</a>
                 </div>
@@ -103,11 +103,18 @@
                   v-model="selected"
                   :options="enrollMember"
                   :searchable="false"
-                  label="memeberid"
+                  label="memberid"
                   placeholder="Not Assigned"
                   @input="doAssign"
                 ></multiselect>
               </div>
+              <div class="box" v-else>
+                <div id="myDIV" class="header">
+                  <a> I'm Assigned</a>
+                </div>
+              </div>
+
+              
             </section>
             <div>
               <br>
@@ -262,12 +269,19 @@ export default {
           })
           .then(res => {
             if (this.checkToken(res.data[0])) {
-              for(var i in this.enrollMember){
-                if(this.enrollMember[i].memeberid == res.data[0].memberid){
-                  this.selected = this.enrollMember[i]
-                  this.selected_tmp = this.selected
-                  break
+              if (res.data[0] != undefined) {
+                //초기값이 있을떄
+                for (var i in this.enrollMember) {
+                  if (this.enrollMember[i].memberid == res.data[0].memberid) {
+                    this.selected = this.enrollMember[i];
+                    this.selected_tmp = this.selected;
+                    break;
+                  }
                 }
+              } else {
+                //초기값이 없을때
+                this.selected = res.data[0];
+                this.selected_tmp = this.selected;
               }
             }
           });
@@ -298,7 +312,6 @@ export default {
           this.$router.push("/");
         }
       } else {
-        //memberid 아님 memeberid임
         //사용자가 다른 사용자를 입력했을경우
         //초기값이 null이 아닌경우
         if (this.selected_tmp != null) {
@@ -324,7 +337,7 @@ export default {
               .post("http://211.109.53.216:20000/assign/create-assign/", {
                 contentid: sessionStorage.contentid,
                 token: sessionStorage.accessToken,
-                memberid: title.memeberid
+                memberid: title.memberid
               })
               .then(res => {
                 if (this.checkToken(res.data)) {
@@ -343,7 +356,7 @@ export default {
               .post("http://211.109.53.216:20000/assign/create-assign/", {
                 contentid: sessionStorage.contentid,
                 token: sessionStorage.accessToken,
-                memberid: title.memeberid
+                memberid: title.memberid
               })
               .then(res => {
                 if (this.checkToken(res.data)) {
@@ -579,4 +592,4 @@ export default {
     Multiselect
   }
 };
-</script>ß
+</script>
