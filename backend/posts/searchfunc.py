@@ -255,9 +255,7 @@ def search_all(input_titleid):
         json_section['sectionname'] = j[1]
         content_data = list(Content.objects.all().filter(sectionid = j[0]))
         str_contentdata = str(content_data)
-        print(str_contentdata)
         content_list= regex.parse_content(str_contentdata)
-        print(content_list)
         content_jlist = []
         for k in content_list:
             json_content = {}
@@ -290,6 +288,7 @@ def search_all(input_titleid):
             json_content['includeComment'] = comment_jlist
             calender_data = list(Calender.objects.all().filter(contentid = k[0]))
             str_calenerdata = str(calender_data)
+            print(str_calenerdata)
             calender_list = regex.parse_calender(str_calenerdata)
             calender_jlist = []
             for n in calender_list:
