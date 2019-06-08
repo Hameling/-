@@ -68,7 +68,7 @@ def permission_searchcontent(input_contentid):
         json_tmp = {}
         json_tmp['priority'] = i[0]
         json_tmp['contentid'] = i[1]
-        json_tmp['memeberid'] = i[2]
+        json_tmp['memberid'] = i[2]
         json_tmp['filename'] = i[3]
         json_tmp['fileid'] = i[4]
         Permission_list.append(json_tmp)
@@ -84,7 +84,7 @@ def permission_searchmember(input_memberid):
         json_tmp = {}
         json_tmp['priority'] = i[0]
         json_tmp['contentid'] = i[1]
-        json_tmp['memeberid'] = i[2]
+        json_tmp['memberid'] = i[2]
         json_tmp['filename'] = i[3]
         json_tmp['fileid'] = i[4]
         Permission_list.append(json_tmp)
@@ -143,7 +143,7 @@ def enroll_searchmember(input_token):
     for i in power_list:
         json_tmp = {}
         json_tmp['titleid'] = i[0]
-        json_tmp['memeberid'] = i[3]
+        json_tmp['memberid'] = i[3]
         json_tmp['enrollid'] = i[4]
         enroll_list.append(json_tmp)
     enroll_list=json.dumps(enroll_list)
@@ -157,7 +157,7 @@ def enroll_searchtitle(input_titleid):
     for i in power_list:
         json_tmp = {}
         json_tmp['titleid'] = i[0]
-        json_tmp['memeberid'] = i[3]
+        json_tmp['memberid'] = i[3]
         json_tmp['enrollid'] = i[4]
         comment_list.append(json_tmp)
     comment_list=json.dumps(comment_list)
