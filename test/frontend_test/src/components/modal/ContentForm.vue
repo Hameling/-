@@ -221,6 +221,7 @@ export default {
 
     //Assign 이용을 위한 변수
     selected: null,
+    selected_tmp: null,
 
     //input <-> Label을 위한 변수
     nameState: false,
@@ -260,7 +261,14 @@ export default {
             token: sessionStorage.accessToken
           })
           .then(res => {
-            if (this.checkToken(res.data)) {
+            if (this.checkToken(res.data[0])) {
+              for(var i in this.enrollMember){
+                if(this.enrollMember[i].memeberid == res.data[0].memberid){
+                  this.selected = this.enrollMember[i]
+                  this.selected_tmp = this.selected
+                  break
+                }
+              }
             }
           });
       } else {
@@ -270,12 +278,88 @@ export default {
       }
     },
     doAssign(title) {
+      //사용자가 선택을 취소 했을 경우
       if (title == null) {
-        //삭제만
+        if (sessionStorage.getItem("accessToken") != null) {
+          this.$http
+            .post("http://211.109.53.216:20000/assign/delete-assign/", {
+              contentid: sessionStorage.contentid,
+              token: sessionStorage.accessToken,
+              memberid: this.selected_tmp.memberid
+            })
+            .then(res => {
+              if (this.checkToken(res.data)) {
+                this.selected_tmp = null;
+              }
+            });
+        } else {
+          alert("잘못된 접근입니다.");
+          this.session_checked = false;
+          this.$router.push("/");
+        }
       } else {
+        //memberid 아님 memeberid임
+        //사용자가 다른 사용자를 입력했을경우
+        //초기값이 null이 아닌경우
+        if (this.selected_tmp != null) {
+          if (sessionStorage.getItem("accessToken") != null) {
+            this.$http
+              .post("http://211.109.53.216:20000/assign/delete-assign/", {
+                contentid: sessionStorage.contentid,
+                token: sessionStorage.accessToken,
+                memberid: this.selected_tmp.memberid
+              })
+              .then(res => {
+                if (this.checkToken(res.data)) {
+                  this.selected_tmp = null;
+                }
+              });
+          } else {
+            alert("잘못된 접근입니다.");
+            this.session_checked = false;
+            this.$router.push("/");
+          }
+          if (sessionStorage.getItem("accessToken") != null) {
+            this.$http
+              .post("http://211.109.53.216:20000/assign/create-assign/", {
+                contentid: sessionStorage.contentid,
+                token: sessionStorage.accessToken,
+                memberid: title.memeberid
+              })
+              .then(res => {
+                if (this.checkToken(res.data)) {
+                  this.selected_tmp = title;
+                }
+              });
+          } else {
+            alert("잘못된 접근입니다.");
+            this.session_checked = false;
+            this.$router.push("/");
+          }
+        } else {
+          //초기값이 null인경우
+          if (sessionStorage.getItem("accessToken") != null) {
+            this.$http
+              .post("http://211.109.53.216:20000/assign/create-assign/", {
+                contentid: sessionStorage.contentid,
+                token: sessionStorage.accessToken,
+                memberid: title.memeberid
+              })
+              .then(res => {
+                if (this.checkToken(res.data)) {
+                  this.selected_tmp = title;
+                }
+              });
+          } else {
+            alert("잘못된 접근입니다.");
+            this.session_checked = false;
+            this.$router.push("/");
+          }
+        }
+
         //삭제 및 재생성
+        //this.selected_tmp = title
       }
-      console.log(title);
     },
 
     //코멘트
