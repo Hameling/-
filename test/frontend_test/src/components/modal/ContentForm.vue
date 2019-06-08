@@ -508,6 +508,7 @@ export default {
           .then(res => {
             if (this.checkToken(res.data)) {
               this.scehdules = res.data;
+              this.$emit("get-basedata");
             }
           });
       } else {

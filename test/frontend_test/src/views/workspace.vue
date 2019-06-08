@@ -2,7 +2,7 @@
   <!--routing 시작부분 -->
   <div id="content-wrapper">
     <!--Modal 선언부 -->
-    <ContentForm/>
+    <ContentForm v-on:get-basedata="getBaseData"/>
 
     <div class="container">
       <div class="mx-auto 5grid-layout height: 100%">
@@ -87,6 +87,17 @@ export default {
               this.enrollList = res.data[0].enrollTitle;
               this.assignList = res.data[0].assignContent;
               bus.$emit("getTitle", this.enrollList);
+              this.events = []
+              for(var i in this.assignList){
+                for(var j in this.assignList[i].calender){
+                  this.events.push({
+                    "contentid":this.assignList[i].contentid,
+                    "start":this.assignList[i].calender[j].starttime,
+                    "end":this.assignList[i].calender[j].duetime,
+                    "title":this.assignList[i].calender[j].calendername
+                  })
+                }
+              }
             }
           });
       } else {
@@ -97,9 +108,9 @@ export default {
     },
 
     //Calendar 관련코드
-    onEventClick() {
-      //클릭하면 커져요
-      //popover 적용하기
+    onEventClick(event) {
+      this.$store.commit('selectedContent', event.contentid)
+      this.$bvModal.show('contentForm')
     }
   },
   created() {

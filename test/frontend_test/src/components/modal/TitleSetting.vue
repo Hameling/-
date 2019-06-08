@@ -1,5 +1,11 @@
 <template>
-  <b-modal id="TitleSetting" title="Title Setting" centered @hidden="resetState">
+  <b-modal
+    id="TitleSetting"
+    title="Title Setting"
+    centered
+    @show="getElement()"
+    @hidden="resetState"
+  >
     <b-tabs>
       <b-tab title="Title Info">
         <section class="box">
@@ -48,9 +54,26 @@
 
       <b-tab title="Enroll">
         <!--Enroll된 멤버 확인 및 삭제 : 기존 리스트 사용-->
+        <div class="box" style="overflow:auto">
+          <div id="myDIV" class="header">
+            <a>Enrolled Member</a>
+          </div>
+
+          <ul>
+            <li></li>
+          </ul>
+        </div>
+        <div class="box"></div>
         <!--Enroll 시킬 대상 추가 : 셀렉터 활용-->
       </b-tab>
-      <b-tab title="Title Delete"></b-tab>
+      <b-tab title="Title Delete">
+              <h4>Title을 삭제하시겠습니까?</h4>
+      <br>
+      <h5>Title 내의 Section 및 Content의 내용이 전부 삭제됩니다.</h5>
+        <b-button class="mt-3 bg-danger" block >예</b-button>
+      <b-button class="mt-3 bg-primary" block >아니오</b-button>
+      </b-tab>
+
     </b-tabs>
   </b-modal>
 </template>
@@ -64,12 +87,16 @@ export default {
     nameState: null,
     subjectState: null,
 
-    titlename:"",
-    titleinfo:""
+    titlename: "",
+    titleinfo: ""
   }),
   props: ["select_item"],
 
   methods: {
+    getElement() {},
+
+    getTitleInfo() {},
+
     //titleUpdate
     setNameState() {
       this.nameState = !this.nameState;
