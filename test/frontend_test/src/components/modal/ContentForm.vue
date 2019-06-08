@@ -110,37 +110,13 @@
             <div>
               <br>
             </div>
+            <!-- Schedule 영역 -->
+            <createScehdule v-on:get-scehdule="getScehdule"/>
             <section>
               <div class="box">
-                <a>Start time</a>
-                <VueCtkDateTimePicker
-                  v-model="start_date"
-                  :no-header="true"
-                  :format="date_form"
-                  :no-label="true"
-                  :min-date="now_time"
-                />
-
-                <div>
-                  <br>
-                </div>
-
-                <a>End Game</a>
-                <VueCtkDateTimePicker
-                  v-model="end_date"
-                  :no-header="true"
-                  :format="date_form"
-                  :no-label="true"
-                  :min-date="now_time"
-                />
-
-                <div>
-                  <br>
-                </div>
-
                 <button
                   class="btn btn-primary btn-block"
-                  @click="addSchedule(start_date, end_date)"
+                  @click="$bvModal.show('create-scehdule')"
                 >Add Schedule</button>
               </div>
 
@@ -177,6 +153,8 @@
             <div>
               <br>
             </div>
+
+            <!-- 파일 업로드 및 다운로드 영역 -->
             <section>
               <div class="file-box">
                 <div class="form-label-group">
@@ -224,6 +202,7 @@ import "vue-multiselect/dist/vue-multiselect.min.css";
 import Checklist from "@/components/CheckList";
 import CommentList from "@/components/CommentList";
 import ScehduleList from "@/components/ScehduleList";
+import createScehdule from "@/components/modal/createScehdule";
 export default {
   name: "contentForm",
   props: ["enrollMember"],
@@ -268,6 +247,7 @@ export default {
               this.contentinfo = res.data[0].contentinfo;
               this.comments = res.data[0].commentlist;
               this.checklists = res.data[0].checklistlist;
+              this.scehdules = res.data[0].calender
             }
           });
       } else {
@@ -429,26 +409,7 @@ export default {
         this.$router.push("/");
       }
     },
-    addSchedule(start, end) {
-      if (sessionStorage.getItem("accessToken") != null) {
-        this.$http
-          .post("http://211.109.53.216:20000/calender/create-calender/", {
-            contentid: sessionStorage.contentid,
-            token: sessionStorage.accessToken,
-            starttime: start,
-            duetime: end
-          })
-          .then(res => {
-            if (this.checkToken(res.data)) {
-              this.getScehdule();
-            }
-          });
-      } else {
-        alert("잘못된 접근입니다.");
-        this.session_checked = false;
-        this.$router.push("/");
-      }
-    },
+
     delSchedule(scehdule_id) {
       if (sessionStorage.getItem("accessToken") != null) {
         this.$http
@@ -510,6 +471,7 @@ export default {
     CommentList: CommentList,
     Checklist: Checklist,
     ScehduleList: ScehduleList,
+    createScehdule: createScehdule,
     Multiselect
   }
 };
