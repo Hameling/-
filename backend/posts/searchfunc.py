@@ -123,6 +123,7 @@ def member_search(input_token):
         calender_jlist = []
         for l in calender_list:
             json_catmp = {}
+            json_catmp['calendername'] = l[4]
             json_catmp['indexnumber'] = l[3]
             json_catmp['starttime'] = l[0]
             json_catmp['duetime'] = l[1]
