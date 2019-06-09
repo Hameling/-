@@ -188,15 +188,13 @@
               <br>
             </div>
             <section>
-              <div class="form-label-group">
-                <input
-                  type="text"
-                  id="UpdateDate"
-                  class="form-control"
-                  placeholder="UpdateDate"
-                  required="required"
+              <div>
+                <button
+                  class="btn btn-primary btn-block"
+                  @click="$bvModal.show('create-scehdule')"
                 >
-                <label for="UpdateDate">Update Date</label>
+                Delete Content
+                </button>
               </div>
             </section>
           </div>
