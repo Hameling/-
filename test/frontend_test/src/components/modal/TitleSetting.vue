@@ -89,7 +89,7 @@
               <span>{{ props.option.memberid }}({{ props.option.email }})</span>
             </template>
           </multiselect>
-          <!--버튼 추가가 필요한 부분-->
+          <b-button class="mt-3 bg-primary" block>Add</b-button>
         </div>
       </b-tab>
 
