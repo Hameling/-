@@ -25,11 +25,10 @@
           <li class="breadcrumb-item">
             <a>
               <strong>{{this.select_item.titlename}}</strong>
+              <span @click="$bvModal.show('TitleSetting')">
+                <i class="fas fa-cog icon-padding"></i>
+              </span>
             </a>
-          </li>
-
-          <li class="breadcrumb-item">
-            <b-button @click="$bvModal.show('TitleSetting')">Setting</b-button>
           </li>
         </ol>
 
