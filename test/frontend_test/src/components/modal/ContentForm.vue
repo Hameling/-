@@ -9,6 +9,17 @@
     @show="getContent"
     @hidden="resetState"
   >
+    <b-modal id="ContDelCheck" title="ContentDeleteCheck" hide-footer hide-header centered>
+      <div class="d-block text-center">
+        <h4>{{contentname}}을 삭제 하시겠습니까?</h4>
+        <br>
+        <h5>{{contentname}} 내의 모든 정보도 같이 삭제됩니다</h5>
+      </div>
+      <b-button class="mt-3 bg-danger" block @click="delContent()">예</b-button>
+      <b-button class="mt-3 bg-primary" block @click="$bvModal.hide('ContDelCheck')">아니오</b-button>
+    </b-modal>
+
+
     <div class="content-card card-content mx-auto 5grid-layout">
       <div class="content-card-header">Content</div>
       <div class="card-body 5grid-layout">
@@ -191,7 +202,7 @@
               <div>
                 <button
                   class="btn btn-primary btn-block"
-                  @click="$bvModal.show('create-scehdule')"
+                  @click="$bvModal.show('ContDelCheck')"
                 >
                 Delete Content
                 </button>
@@ -580,6 +591,9 @@ export default {
     resetState() {
       this.nameState = false;
       this.subjectState = false;
+    },
+    delContent(){
+
     }
   },
   mounted() {},
