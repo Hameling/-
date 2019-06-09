@@ -6,7 +6,7 @@
     <createContent v-on:get-element="getSection"/>
     <createSection v-bind:select_item="select_item" v-on:get-section="getSection"/>
     <ContentForm v-bind:enrollMember="this.enrollMember"/>
-    <TitleSetting v-bind:select_item="select_item"/>
+    <TitleSetting v-bind:enrollMember="this.enrollMember" v-on:get-enroll="getEnrollMemeber"/>
 
     <b-modal id="SecDelCheck" title="SectionDeleteCheck" hide-footer hide-header centered>
       <div class="d-block text-center">
@@ -131,6 +131,10 @@ export default {
     createCont(sectionid) {
       this.$store.commit("selectedSection", sectionid);
       this.$bvModal.show("create-content");
+    },
+
+    getEnrollMemeber(){
+      this.$emit("get-enroll")
     },
 
     delContent() {}
