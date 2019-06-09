@@ -42,6 +42,7 @@
               <div v-else class="form-label-group">
                 <label for="ContentTitle" @click="setNameState" class="form-control">
                   <strong>{{contentname}}</strong>
+                  <i class="far fa-edit close-right"></i>
                 </label>
                 <br>
                 <br>
@@ -69,7 +70,12 @@
                   for="ContentInfo"
                   @click="setSubjectState"
                   class="form-control"
-                >{{contentinfo}}</label>
+                >{{contentinfo}}
+                
+                  <i class="far fa-edit close-right"></i>
+                  
+                </label>
+                
                 <br>
                 <br>
               </div>
