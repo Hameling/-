@@ -2,6 +2,7 @@
   <div>
     <ul v-for="(scehdule, i) in scehdules" :key="i" class="list-unstyled">
       <li>
+      <li class="far fa-clock schedule-padding  "></i>
         {{scehdule.calendername}}
         <!-- {{scehdule.starttime}} ~ {{scehdule.duetime}} -->
         <span

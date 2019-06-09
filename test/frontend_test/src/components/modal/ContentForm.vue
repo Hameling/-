@@ -140,9 +140,13 @@
                 <ScehduleList v-bind:scehdules="scehdules" v-on:del-scehdule="delSchedule"/>
               </div>
             </section>
+
+            
             <div>
               <br>
             </div>
+
+
             <section>
               <div id="myDIV" class="header">
                 <input

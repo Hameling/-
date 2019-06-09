@@ -11040,3 +11040,14 @@ body.sidebar-toggled footer.sticky-footer {
 .icon-padding{
   padding-left: 10px;
 }
+
+.schedule-padding{
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.close-right {
+  position: absolute;
+  right: 10px;
+  bottom: 0px;
+}
