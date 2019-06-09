@@ -11029,3 +11029,14 @@ body.sidebar-toggled footer.sticky-footer {
   top: 0;
   padding-left: 40px;
 }
+
+.breadcrumb-item + .breadcrumb-item::before {
+  display: inline-block;
+  padding-right: 0.5rem;
+  color: #6c757d;
+  content: "/";
+} 
+
+.icon-padding{
+  padding-left: 10px;
+}
