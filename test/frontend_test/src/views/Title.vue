@@ -5,6 +5,7 @@
       v-bind:enrollMember="enrollMember"
       v-bind:select_item="select_item"
       v-on:get-element="getAllElement"
+      v-on:get-enroll="getEnrollMember"
     ></SectionList>
   </div>
   <!--content-fulid-->

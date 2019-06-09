@@ -1,9 +1,9 @@
 <template>
   <div>
     <ul v-for="(scehdule, i) in scehdules" :key="i" class="list-unstyled">
-      <li>
+      <li class="schedule-padding" v-b-popover.click.left="getScehuleInfo(scehdule)">
+        <span class= "far fa-clock"/>
         {{scehdule.calendername}}
-        <!-- {{scehdule.starttime}} ~ {{scehdule.duetime}} -->
         <span
           v-on:click="delScehdule(scehdule.indexnumber)"
           class="close"
@@ -21,6 +21,9 @@ export default {
   methods: {
     delScehdule(index) {
       this.$emit("del-scehdule", index);
+    },
+    getScehuleInfo(scehdule){
+      return scehdule.starttime + " \n~ " + scehdule.duetime
     }
   }
 };

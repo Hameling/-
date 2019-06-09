@@ -9,6 +9,17 @@
     @show="getContent"
     @hidden="resetState"
   >
+    <b-modal id="ContDelCheck" title="ContentDeleteCheck" hide-footer hide-header centered>
+      <div class="d-block text-center">
+        <h4>{{contentname}}을 삭제 하시겠습니까?</h4>
+        <br>
+        <h5>{{contentname}} 내의 모든 정보도 같이 삭제됩니다</h5>
+      </div>
+      <b-button class="mt-3 bg-danger" block @click="delContent()">예</b-button>
+      <b-button class="mt-3 bg-primary" block @click="$bvModal.hide('ContDelCheck')">아니오</b-button>
+    </b-modal>
+
+
     <div class="content-card card-content mx-auto 5grid-layout">
       <div class="content-card-header">Content</div>
       <div class="card-body 5grid-layout">
@@ -31,6 +42,7 @@
               <div v-else class="form-label-group">
                 <label for="ContentTitle" @click="setNameState" class="form-control">
                   <strong>{{contentname}}</strong>
+                  <i class="far fa-edit close-right"></i>
                 </label>
                 <br>
                 <br>
@@ -58,7 +70,12 @@
                   for="ContentInfo"
                   @click="setSubjectState"
                   class="form-control"
-                >{{contentinfo}}</label>
+                >{{contentinfo}}
+                
+                  <i class="far fa-edit close-right"></i>
+                  
+                </label>
+                
                 <br>
                 <br>
               </div>
@@ -140,9 +157,13 @@
                 <ScehduleList v-bind:scehdules="scehdules" v-on:del-scehdule="delSchedule"/>
               </div>
             </section>
+
+
             <div>
               <br>
             </div>
+
+
             <section>
               <div id="myDIV" class="header">
                 <input
@@ -155,7 +176,7 @@
                 >
                 <!--<button id="cklAdd" v-on:click="addCheckList(ckl_content)">Add</button>-->
                 <div class="file-box" style="overflow:auto">
-                  <Checklist v-bind:checklists="checklists" v-on:del-checklist="delCheckList"></Checklist>
+                  <Checklist v-bind:checklists="checklists" v-on:get-checklist="getCheckLists" v-on:del-checklist="delCheckList"></Checklist>
                 </div>
               </div>
             </section>
@@ -184,15 +205,13 @@
               <br>
             </div>
             <section>
-              <div class="form-label-group">
-                <input
-                  type="text"
-                  id="UpdateDate"
-                  class="form-control"
-                  placeholder="UpdateDate"
-                  required="required"
+              <div>
+                <button
+                  class="btn btn-primary btn-block"
+                  @click="$bvModal.show('ContDelCheck')"
                 >
-                <label for="UpdateDate">Update Date</label>
+                Delete Content
+                </button>
               </div>
             </section>
           </div>
@@ -369,9 +388,6 @@ export default {
             this.$router.push("/");
           }
         }
-
-        //삭제 및 재생성
-        //this.selected_tmp = title
       }
     },
 
@@ -508,6 +524,7 @@ export default {
           .then(res => {
             if (this.checkToken(res.data)) {
               this.scehdules = res.data;
+              this.$emit("get-basedata");
             }
           });
       } else {
@@ -580,6 +597,9 @@ export default {
     resetState() {
       this.nameState = false;
       this.subjectState = false;
+    },
+    delContent(){
+
     }
   },
   mounted() {},

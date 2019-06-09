@@ -13,16 +13,19 @@
 
 <script>
 import { bus } from "@/eventbus";
+import Title from '@/views/Title'
 export default {
   name: "TitleList",
   props: ["titles"],
   methods: {
     selectItem(title) {
+      
       this.$router.push({
         name: "title",
         params: { titleid: title.titleid, select_item: title }
       });
       bus.$emit("reloadItem", title.titleid);
+      //this.$store.commit("selectedTitle", title.titleid);
     },
   }
 };

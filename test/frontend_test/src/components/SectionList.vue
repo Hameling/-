@@ -6,7 +6,7 @@
     <createContent v-on:get-element="getSection"/>
     <createSection v-bind:select_item="select_item" v-on:get-section="getSection"/>
     <ContentForm v-bind:enrollMember="this.enrollMember"/>
-    <TitleSetting v-bind:select_item="select_item"/>
+    <TitleSetting v-bind:enrollMember="this.enrollMember" v-on:get-enroll="getEnrollMemeber"/>
 
     <b-modal id="SecDelCheck" title="SectionDeleteCheck" hide-footer hide-header centered>
       <div class="d-block text-center">
@@ -25,11 +25,10 @@
           <li class="breadcrumb-item">
             <a>
               <strong>{{this.select_item.titlename}}</strong>
+              <span @click="$bvModal.show('TitleSetting')">
+                <i class="fas fa-cog icon-padding"></i>
+              </span>
             </a>
-          </li>
-
-          <li class="breadcrumb-item">
-            <b-button @click="$bvModal.show('TitleSetting')">Setting</b-button>
           </li>
         </ol>
 
@@ -132,6 +131,10 @@ export default {
     createCont(sectionid) {
       this.$store.commit("selectedSection", sectionid);
       this.$bvModal.show("create-content");
+    },
+
+    getEnrollMemeber(){
+      this.$emit("get-enroll")
     },
 
     delContent() {}
