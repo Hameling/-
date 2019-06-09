@@ -155,7 +155,7 @@
                 >
                 <!--<button id="cklAdd" v-on:click="addCheckList(ckl_content)">Add</button>-->
                 <div class="file-box" style="overflow:auto">
-                  <Checklist v-bind:checklists="checklists" v-on:del-checklist="delCheckList"></Checklist>
+                  <Checklist v-bind:checklists="checklists" v-on:get-checklist="getCheckLists" v-on:del-checklist="delCheckList"></Checklist>
                 </div>
               </div>
             </section>
@@ -369,9 +369,6 @@ export default {
             this.$router.push("/");
           }
         }
-
-        //삭제 및 재생성
-        //this.selected_tmp = title
       }
     },
 
