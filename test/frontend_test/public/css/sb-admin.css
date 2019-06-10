@@ -11051,3 +11051,11 @@ body.sidebar-toggled footer.sticky-footer {
   right: 10px;
   top: 50;
 }
+
+.Main-Title{
+  text: color:white;
+}
+
+.out-check {
+  border-color: var(--danger);
+}
