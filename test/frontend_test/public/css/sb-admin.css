@@ -11049,5 +11049,5 @@ body.sidebar-toggled footer.sticky-footer {
 .close-right {
   position: absolute;
   right: 10px;
-  bottom: 0px;
+  top: 50;
 }

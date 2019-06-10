@@ -550,6 +550,30 @@ class EnrollCreate(APIView):
         else:
             return HttpResponse(token.expire_token(), content_type="application/json")
 
+class EnrollJoin(APIView):
+    parser_classes = (JSONParser,)
+
+    def post(self, request, format=None):
+        input_titleid = str(request.data["titleid"])
+        input_memberid = str(request.data["memberid"])
+        input_token = str(request.data["token"])
+        if token.exist_token(input_token) :
+            if token.compare_token(input_token):
+                get_memberid = token.earn_memberid(input_token)
+                try:
+                    member = Member.objects.get(memberid=input_memberid)
+                    title = Title.objects.get(titleid=input_titleid)
+                    Enroll.objects.create(memberid=member, titleid=title)
+                    token.extend_token(input_token)
+                    return JsonResponse({'create': 'success'}) 
+                except:
+                    token.extend_token(input_token)
+                    return JsonResponse({'create': 'fail'})
+            else:
+                return HttpResponse(token.expire_token(), content_type="application/json")
+        else:
+            return HttpResponse(token.expire_token(), content_type="application/json")            
+
 class EnrollSearchTitle(APIView):
     parser_classes = (JSONParser,)
 
