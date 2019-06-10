@@ -16,7 +16,8 @@
       <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
         <i class="fas fa-bars"></i>
       </button>
-
+      
+     <!--삭제 필요 시작-->
       <!-- Navbar Search -->
       <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
         <div class="input-group">
@@ -97,6 +98,7 @@
           </div>
         </li>
       </ul>
+      <!--삭제 필요 끝-->
     </nav>
 
     <div id="wrapper">
@@ -104,10 +106,10 @@
       <!--세션이 있을때-->
       <ul class="sidebar navbar-nav" v-show="session_checked">
         <li class="nav-item active">
-          <a class="nav-link" href="/workspace">
+          <div class="nav-link" @click="moveWorkspace">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Private Space</span>
-          </a>
+          </div>
         </li>
 
         <li class="nav-item">
@@ -186,34 +188,6 @@
       <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
       </a>
-
-      <!-- Logout Modal-->
-      <div
-        class="modal fade"
-        id="logoutModal"
-        tabindex="-1"
-        role="dialog"
-        aria-labelledby="exampleModalLabel"
-        aria-hidden="true"
-      >
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-              <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">×</span>
-              </button>
-            </div>
-            <div
-              class="modal-body"
-            >Select "Logout" below if you are ready to end your current session.</div>
-            <div class="modal-footer">
-              <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-              <a class="btn btn-primary" href="login.html">Logout</a>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
     <footer class="sticky-footer">
       <div class="container my-auto">
@@ -245,6 +219,9 @@ export default {
     },
     getBaseData(){
       bus.$emit('get-basedata')
+    },
+    moveWorkspace(){
+       this.$router.replace("/workspace");
     }
   },
   mounted() {

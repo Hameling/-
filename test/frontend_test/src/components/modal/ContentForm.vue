@@ -15,7 +15,7 @@
         <br>
         <h5>{{contentname}} 내의 모든 정보도 같이 삭제됩니다</h5>
       </div>
-      <b-button class="mt-3 bg-danger" block @click="delContent()">예</b-button>
+      <b-button class="mt-3 bg-danger" block @click="delContent">예</b-button>
       <b-button class="mt-3 bg-primary" block @click="$bvModal.hide('ContDelCheck')">아니오</b-button>
     </b-modal>
 
@@ -593,7 +593,24 @@ export default {
       this.subjectState = false;
     },
     delContent(){
-
+      if (sessionStorage.getItem("accessToken") != null) {
+        this.$http
+          .post("http://211.109.53.216:20000/content/delete-content/", {
+            contentid: sessionStorage.contentid,
+            token: sessionStorage.accessToken
+          })
+          .then(res => {
+            if (this.checkToken(res.data)) {
+              this.$bvModal.hide('ContDelCheck')
+              this.$bvModal.hide('contentForm')
+              this.$emit("get-section");
+            }
+          });
+      } else {
+        alert("잘못된 접근입니다.");
+        this.session_checked = false;
+        this.$router.push("/");
+      }
     }
   },
   mounted() {},

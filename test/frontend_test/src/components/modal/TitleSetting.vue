@@ -67,7 +67,7 @@
               <!--나인 경우에만 탈출이 가능하도록-->
               <span
                 v-if="checkid(enrolledMember.memberid)"
-                v-on:click="delEnroll()"
+                v-on:click="exitEnroll()"
                 class="close"
                 aria-hidden="true"
               >&times;</span>
@@ -89,7 +89,7 @@
               <span>{{ props.option.memberid }}({{ props.option.email }})</span>
             </template>
           </multiselect>
-          <b-button class="mt-3 bg-primary" block>Add</b-button>
+          <b-button class="mt-3 bg-primary" block @click="createEnroll">Add</b-button>
         </div>
       </b-tab>
 
@@ -98,9 +98,17 @@
         <h4>Title을 삭제하시겠습니까?</h4>
         <br>
         <h5>Title 내의 Section 및 Content의 내용이 전부 삭제됩니다.</h5>
-        <b-button class="mt-3 bg-danger" block>예</b-button>
-        <b-button class="mt-3 bg-primary" block>아니오</b-button>
+        <b-button class="mt-3 bg-danger" block @click="$bvModal.show('TiDelCheck')">삭제하기</b-button>
       </b-tab>
+
+      <b-modal id="TiDelCheck" title="TitleDeleteCheck" hide-footer hide-header centered>
+        <div class="d-block text-center">
+          <h4>정말 {{titlename}}을 삭제 하시겠습니까?</h4>
+          <br>
+        </div>
+        <b-button class="mt-3 bg-danger" block @click="delTitle">예</b-button>
+        <b-button class="mt-3 bg-primary" block @click="$bvModal.hide('TiDelCheck')">아니오</b-button>
+      </b-modal>
     </b-tabs>
   </b-modal>
 </template>
@@ -120,14 +128,14 @@ export default {
     enrolledMembers: [],
 
     //multiselect를 위한 변수
-    selected: "",
-    memberList: [],
-    selected_members: []
+    selected: [],
+    memberList: []
   }),
   props: ["select_item", "enrollMember"],
 
   methods: {
     getElement() {
+      this.selected = []
       this.getTitle();
       this.enrolledMembers = this.enrollMember;
       this.getAllMember();
@@ -176,7 +184,7 @@ export default {
       }
     },
 
-    //titleUpdate
+    //TitleUpdate - 탭1
     setNameState() {
       this.nameState = !this.nameState;
     },
@@ -193,7 +201,6 @@ export default {
       this.updateTitle();
       this.setSubjectState();
     },
-    //수정 요먕
     updateTitle() {
       if (sessionStorage.getItem("accessToken") != null) {
         this.$http
@@ -219,12 +226,76 @@ export default {
       this.nameState = false;
       this.subjectState = false;
     },
-    createEnroll(event) {
-      console.log(event);
+
+    //탭2
+    createEnroll() {
+      console.log(this.selected);
+      for (var i in this.selected) {
+        if (sessionStorage.getItem("accessToken") != null) {
+          this.$http
+            .post("http://211.109.53.216:20000/enroll/create-enroll/", {
+              titleid: sessionStorage.titleid,
+              token: sessionStorage.accessToken,
+              memberid: this.selected[i].memberid
+            })
+            .then(res => {
+              if (this.checkToken(res.data)) {
+                this.selected = [];
+                this.getEnrollMember();
+                this.getAllMember();
+              }
+            });
+        } else {
+          alert("잘못된 접근입니다.");
+          this.session_checked = false;
+          this.$router.push("/");
+        }
+      }
     },
     checkid(memberid) {
       if (sessionStorage.getItem("uid") == memberid) return true;
       else return false;
+    },
+    exitEnroll() {
+      console.log("탈출 코드");
+      if (sessionStorage.getItem("accessToken") != null) {
+          this.$http
+            .post("http://211.109.53.216:20000/enroll/delete-enroll/", {
+              titleid: sessionStorage.titleid,
+              token: sessionStorage.accessToken,
+            })
+            .then(res => {
+              if (this.checkToken(res.data)) {
+                this.$router.replace("/workspace");
+              }
+            });
+        } else {
+          alert("잘못된 접근입니다.");
+          this.session_checked = false;
+          this.$router.push("/");
+        }
+    },
+
+    //탭3
+    delTitle() {
+      if (sessionStorage.getItem("accessToken") != null) {
+        this.$http
+          .post("http://211.109.53.216:20000/title/delete-title/", {
+            titleid: sessionStorage.titleid,
+            token: sessionStorage.accessToken
+          })
+          .then(res => {
+            if (this.checkToken(res.data)) {
+              this.$bvModal.hide("TiDelCheck");
+              this.$bvModal.hide("TitleSetting");
+              this.$emit("go-home");
+            }
+          });
+      } else {
+        alert("잘못된 접근입니다.");
+        this.session_checked = false;
+        this.$router.push("/");
+      }
     }
   },
   components: {

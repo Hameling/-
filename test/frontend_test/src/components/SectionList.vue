@@ -5,8 +5,8 @@
     <!--Content Modal 선언부 -->
     <createContent v-on:get-element="getSection"/>
     <createSection v-bind:select_item="select_item" v-on:get-section="getSection"/>
-    <ContentForm v-bind:enrollMember="this.enrollMember"/>
-    <TitleSetting v-bind:enrollMember="this.enrollMember" v-on:get-enroll="getEnrollMemeber"/>
+    <ContentForm v-bind:enrollMember="this.enrollMember" v-on:get-section="getSection"/>
+    <TitleSetting v-bind:enrollMember="this.enrollMember" v-on:get-enroll="getEnrollMemeber" v-on:go-home="goHome"/>
 
     <b-modal id="SecDelCheck" title="SectionDeleteCheck" hide-footer hide-header centered>
       <div class="d-block text-center">
@@ -24,7 +24,7 @@
         <ol class="title-border section-header">
           <li class="breadcrumb-item">
             <a>
-              <strong>{{this.select_item.titlename}}</strong>
+              <strong>{{titlename}}</strong>
               <span @click="$bvModal.show('TitleSetting')">
                 <i class="fas fa-cog icon-padding"></i>
               </span>
@@ -53,7 +53,7 @@
               </div>
             </div>
 
-            <ContentList v-bind:contents="section.includeContent" v-on:del-content="delContent"></ContentList>
+            <ContentList v-bind:contents="section.includeContent"></ContentList>
 
             <div
               @click="createCont(section.sectionid)"
@@ -82,6 +82,8 @@ export default {
   name: "Section",
   props: ["sections", "enrollMember", "select_item"],
   data: () => ({
+    titlename: "",
+    
     contentname: "",
     contentinfo: "",
 
@@ -137,9 +139,13 @@ export default {
       this.$emit("get-enroll")
     },
 
-    delContent() {}
+    goHome(){
+      this.$router.replace("/workspace");
+    }
   },
-  mounted() {},
+  beforeUpdate() {
+    this.titlename = this.select_item.titlename
+  },
   components: {
     ContentList: ContentList,
     createContent: createContent,
