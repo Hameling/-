@@ -20,7 +20,7 @@ export default {
   methods: {
     selectItem(title) {
       
-      this.$router.push({
+      this.$router.replace({
         name: "title",
         params: { titleid: title.titleid, select_item: title }
       });
