@@ -8,7 +8,7 @@
     <!--로그인 Modal 끝 -->
 
     <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
-      <a style="color:white" class="navbar-brand mr-1">L.O.L</a>
+      <a style="color:white" class="navbar-brand mr-1">L.O.O</a>
 
       
       <!-- Navbar Search -->
@@ -111,7 +111,7 @@
     <footer class="sticky-footer">
       <div class="container my-auto">
         <div class="copyright text-center my-auto">
-          <span>Copyright © Troller 2019</span>
+          <span>Copyright © L.O.O 2019</span>
         </div>
       </div>
     </footer>
