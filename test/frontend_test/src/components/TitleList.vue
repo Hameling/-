@@ -19,7 +19,6 @@ export default {
   props: ["titles"],
   methods: {
     selectItem(title) {
-      
       this.$router.replace({
         name: "title",
         params: { titleid: title.titleid, select_item: title }

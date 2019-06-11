@@ -9,7 +9,7 @@
   >
     <b-tabs>
       <!--타이틀 정보 표시-->
-      <b-tab title="Title Info">
+      <b-tab title="Infomation">
         <section class="box">
           <div v-if="nameState" class="form-label-group">
             <input
@@ -28,7 +28,7 @@
             <label for="TitleName" @click="setNameState" class="form-control">
               <strong>{{titlename}}</strong>
             </label>
-            
+
             <br>
             <i class="far fa-edit close-right"></i>
             <br>
@@ -97,7 +97,7 @@
       </b-tab>
 
       <!--삭제탭-->
-      <b-tab title="Title Delete">
+      <b-tab title="Delete">
         <h4>Title을 삭제하시겠습니까?</h4>
         <br>
         <h5>Title 내의 Section 및 Content의 내용이 전부 삭제됩니다.</h5>
@@ -138,7 +138,7 @@ export default {
 
   methods: {
     getElement() {
-      this.selected = []
+      this.selected = [];
       this.getTitle();
       this.getEnrollMember();
       this.getAllMember();
@@ -210,9 +210,10 @@ export default {
       this.subjectState = !this.subjectState;
     },
 
-    updateName() {
-      this.updateTitle();
-      this.setNameState();
+    async updateName() {
+      await this.updateTitle();
+      await this.setNameState();
+      await this.$emit("updateTitle", this.titlename)
     },
 
     updateInfo() {
@@ -247,34 +248,30 @@ export default {
 
     //탭2
     async createEnroll() {
-      if(this.selected.length > 0){
+      if (this.selected.length > 0) {
         for (var i in this.selected) {
-        if (sessionStorage.getItem("accessToken") != null) {
-          await this.$http
-            .post("http://211.109.53.216:20000/enroll/join-enroll/", {
-              titleid: sessionStorage.titleid,
-              token: sessionStorage.accessToken,
-              memberid: this.selected[i].memberid
-            })
-            .then(res => {
-              !this.checkToken(res.data)
-            });
-        } else {
-          alert("잘못된 접근입니다.");
-          this.session_checked = false;
-          this.$router.push("/");
+          if (sessionStorage.getItem("accessToken") != null) {
+            await this.$http
+              .post("http://211.109.53.216:20000/enroll/join-enroll/", {
+                titleid: sessionStorage.titleid,
+                token: sessionStorage.accessToken,
+                memberid: this.selected[i].memberid
+              })
+              .then(res => {
+                !this.checkToken(res.data);
+              });
+          } else {
+            alert("잘못된 접근입니다.");
+            this.session_checked = false;
+            this.$router.push("/");
+          }
         }
+        this.selected = [];
+        this.getEnrollMember();
+        this.getAllMember();
+      } else {
+        alert("선택된 사용자가 없습니다");
       }
-      this.selected = [];
-      this.getEnrollMember();
-      this.getAllMember();
-      }
-      else {
-        alert("선택된 사용자가 없습니다") 
-      }
-
-      
-
     },
     checkid(memberid) {
       if (sessionStorage.getItem("uid") == memberid) return true;
@@ -283,21 +280,21 @@ export default {
     exitEnroll() {
       console.log("탈출 코드");
       if (sessionStorage.getItem("accessToken") != null) {
-          this.$http
-            .post("http://211.109.53.216:20000/enroll/delete-enroll/", {
-              titleid: sessionStorage.titleid,
-              token: sessionStorage.accessToken,
-            })
-            .then(res => {
-              if (this.checkToken(res.data)) {
-                this.$router.replace("/workspace");
-              }
-            });
-        } else {
-          alert("잘못된 접근입니다.");
-          this.session_checked = false;
-          this.$router.push("/");
-        }
+        this.$http
+          .post("http://211.109.53.216:20000/enroll/delete-enroll/", {
+            titleid: sessionStorage.titleid,
+            token: sessionStorage.accessToken
+          })
+          .then(res => {
+            if (this.checkToken(res.data)) {
+              this.$router.replace("/workspace");
+            }
+          });
+      } else {
+        alert("잘못된 접근입니다.");
+        this.session_checked = false;
+        this.$router.push("/");
+      }
     },
 
     //탭3

@@ -14,7 +14,7 @@
       <!-- Navbar Search -->
       <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
         <div v-if="session_checked">
-          <a style="color:white">환영합니다. {{uid}}님</a>
+          <a style="color:white">환영합니다. {{returnUID()}}님</a>
         </div>
       </form>
 
@@ -27,7 +27,7 @@
         <li class="nav-item active">
           <div class="nav-link" @click="moveWorkspace">
             <i class="fas fa-fw fa-tachometer-alt"></i>
-            <span>Private Space</span>
+            <span> Personal Workspace</span>
           </div>
         </li>
 
@@ -81,14 +81,14 @@
         <li class="nav-item">
           <div class="nav-link" @click="$bvModal.show('Login')">
             <i class="fas fa-fw"></i>   <!--fa-chart-area 버튼 이미지 -->
-            <span>Sign in</span>
+            <span>Sign In</span>
           </div>
         </li> 
 
         <li class="nav-item">
           <div class="nav-link" @click="$bvModal.show('Register')">
             <i class="fas fa-fw fa-chart-area"></i>
-            <span>Sign UP</span>
+            <span>Sign Up</span>
           </div>
         </li> 
 
@@ -129,7 +129,6 @@ import {bus} from "@/eventbus"
 export default {
   name: "app",
   data: () => ({
-    uid : "",
     session_checked:false,
     titleList : []
   }),
@@ -142,7 +141,11 @@ export default {
     },
     moveWorkspace(){
        this.$router.replace("/workspace");
+    },
+    returnUID(){
+      return sessionStorage.uid
     }
+    
   },
   mounted() {
     //console.log(session_checked())
@@ -154,7 +157,6 @@ export default {
     bus.$on('getTitle', (enrollList) => {
       this.titleList = enrollList
     })
-    this.uid = sessionStorage.uid
   },
   components: {
     LoginForm: LoginForm,

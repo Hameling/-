@@ -6,7 +6,7 @@
     <createContent v-on:get-element="getSection"/>
     <createSection v-bind:select_item="select_item" v-on:get-section="getSection"/>
     <ContentForm v-bind:enrollMember="this.enrollMember" v-on:get-section="getSection"/>
-    <TitleSetting v-bind:enrollMember="this.enrollMember" v-on:get-enroll="getEnrollMemeber" v-on:go-home="goHome"/>
+    <TitleSetting v-bind:enrollMember="this.enrollMember" v-on:get-enroll="getEnrollMemeber" v-on:go-home="goHome" v-on:updateTitle="updateTitleName"/>
 
     <b-modal id="SecDelCheck" title="SectionDeleteCheck" hide-footer hide-header centered>
       <div class="d-block text-center">
@@ -48,6 +48,8 @@
               <div class="breadcrumb-item">
                 <div class="float-left">{{section.sectionname}}</div>
                 <span @click="delSectionCheck(section)" class="float-right">
+                  <!--아이콘이 겹칩니다.
+                    <i class="far fa-edit close-right"></i> --> 
                   <i class="times-icon">&times;</i>
                 </span>
               </div>
@@ -78,11 +80,13 @@ import createContent from "@/components/modal/createContent";
 import createSection from "@/components/modal/createSection";
 import ContentForm from "@/components/modal/ContentForm";
 import TitleSetting from "@/components/modal/TitleSetting";
+import { bus } from "@/eventbus";
 export default {
   name: "Section",
   props: ["sections", "enrollMember", "select_item"],
   data: () => ({
     titlename: "",
+    newTitlename : "",
     
     contentname: "",
     contentinfo: "",
@@ -141,11 +145,21 @@ export default {
 
     goHome(){
       this.$router.replace("/workspace");
+    },
+    updateTitleName(titlename){
+      this.newTitlename = titlename 
+      this.titlename = this.newTitlename
     }
   },
   beforeUpdate() {
-    this.titlename = this.select_item.titlename
+    if(this.newTitlename == "") {
+      this.titlename = this.select_item.titlename
+    }
+    else {
+        this.newTitlename = ""
+    }
   },
+  
   components: {
     ContentList: ContentList,
     createContent: createContent,
