@@ -102,7 +102,6 @@
                   <CommentList
                     v-bind:comments="comments"
                     v-on:del-comment="delComment"
-                    style="background: #d1d3d4"
                   ></CommentList>
                 </div>
               </div>

@@ -11064,7 +11064,17 @@ body.sidebar-toggled footer.sticky-footer {
   margin: 0 auto;
 }
 
-.empty-back{
+#empty-back{
   background-image: url('back.jpg');
   background-color: #343a40;
 }
+
+.empty-page {
+  background-color: #212529;
+}
+
+#emptybg{
+  background-color: #212529; 
+  background-image: url('test/frontend_test/src/assets/back.jpg');
+}
+
