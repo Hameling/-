@@ -28,7 +28,9 @@
             <label for="TitleName" @click="setNameState" class="form-control">
               <strong>{{titlename}}</strong>
             </label>
+            
             <br>
+            <i class="far fa-edit close-right"></i>
             <br>
           </div>
         </section>
@@ -49,6 +51,7 @@
           <div v-else class="form-label-group">
             <label for="TitleInfo" @click="setSubjectState" class="form-control">{{titleinfo}}</label>
             <br>
+            <i class="far fa-edit close-right"></i>
             <br>
           </div>
         </section>
@@ -137,12 +140,27 @@ export default {
     getElement() {
       this.selected = []
       this.getTitle();
-      this.enrolledMembers = this.enrollMember;
+      this.getEnrollMember();
       this.getAllMember();
     },
 
     getEnrollMember() {
-      this.$emit("get-enroll");
+      if (sessionStorage.getItem("accessToken") != null) {
+        this.$http
+          .post("http://211.109.53.216:20000/enroll/search-enrolltitle/", {
+            titleid: sessionStorage.titleid,
+            token: sessionStorage.accessToken
+          })
+          .then(res => {
+            if (this.checkToken(res.data[0])) {
+              this.enrolledMembers = res.data;
+            }
+          });
+      } else {
+        alert("잘못된 접근입니다.");
+        this.session_checked = false;
+        this.$router.push("/");
+      }
     },
 
     getAllMember() {
@@ -228,22 +246,18 @@ export default {
     },
 
     //탭2
-    createEnroll() {
-      console.log(this.selected);
-      for (var i in this.selected) {
+    async createEnroll() {
+      if(this.selected.length > 0){
+        for (var i in this.selected) {
         if (sessionStorage.getItem("accessToken") != null) {
-          this.$http
-            .post("http://211.109.53.216:20000/enroll/create-enroll/", {
+          await this.$http
+            .post("http://211.109.53.216:20000/enroll/join-enroll/", {
               titleid: sessionStorage.titleid,
               token: sessionStorage.accessToken,
               memberid: this.selected[i].memberid
             })
             .then(res => {
-              if (this.checkToken(res.data)) {
-                this.selected = [];
-                this.getEnrollMember();
-                this.getAllMember();
-              }
+              !this.checkToken(res.data)
             });
         } else {
           alert("잘못된 접근입니다.");
@@ -251,6 +265,16 @@ export default {
           this.$router.push("/");
         }
       }
+      this.selected = [];
+      this.getEnrollMember();
+      this.getAllMember();
+      }
+      else {
+        alert("선택된 사용자가 없습니다") 
+      }
+
+      
+
     },
     checkid(memberid) {
       if (sessionStorage.getItem("uid") == memberid) return true;

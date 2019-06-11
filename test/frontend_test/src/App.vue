@@ -8,16 +8,13 @@
     <!--로그인 Modal 끝 -->
 
     <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
-      <!--세션이 있을때-->
-      <a style="color:white" class="navbar-brand mr-1" v-if="session_checked">L.O.L</a>
-      <!--세션이 없을때-->
-      <a style="color:white" class="navbar-brand mr-1" v-else>L.O.L</a>
+      <a style="color:white" class="navbar-brand mr-1">L.O.L</a>
 
       
       <!-- Navbar Search -->
       <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
-        <div>
-          <a style="color:white">환영합니다. <!--memberID-->님</a>
+        <div v-if="session_checked">
+          <a style="color:white">환영합니다. {{uid}}님</a>
         </div>
       </form>
 
@@ -132,6 +129,7 @@ import {bus} from "@/eventbus"
 export default {
   name: "app",
   data: () => ({
+    uid : "",
     session_checked:false,
     titleList : []
   }),
@@ -156,6 +154,7 @@ export default {
     bus.$on('getTitle', (enrollList) => {
       this.titleList = enrollList
     })
+    this.uid = sessionStorage.uid
   },
   components: {
     LoginForm: LoginForm,
