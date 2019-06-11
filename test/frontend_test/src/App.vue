@@ -62,8 +62,8 @@
         <!--로그아웃 버튼-->
         <li class="nav-item logout-footer">
           <div class="nav-link" @click="$bvModal.show('Logout')">
-            <i class="fas fa-fw"></i>   <!--fa-chart-area 버튼 이미지 -->
-            <span>Logout</span>
+            <i class="fas fa-sign-out-alt"></i>  <!--fa-chart-area 버튼 이미지 -->
+            <span> Logout</span>
           </div>
         </li> 
 
@@ -80,15 +80,15 @@
       <ul class="sidebar navbar-nav" v-show="!session_checked">
         <li class="nav-item">
           <div class="nav-link" @click="$bvModal.show('Login')">
-            <i class="fas fa-fw"></i>   <!--fa-chart-area 버튼 이미지 -->
-            <span>Sign In</span>
+            <i class="fas fa-sign-in-alt"></i>   <!--fa-chart-area 버튼 이미지 -->
+            <span> Sign In</span>
           </div>
         </li> 
 
         <li class="nav-item">
           <div class="nav-link" @click="$bvModal.show('Register')">
-            <i class="fas fa-fw fa-chart-area"></i>
-            <span>Sign Up</span>
+            <i class="fas fa-user-plus"></i>
+            <span> Sign Up</span>
           </div>
         </li> 
 
