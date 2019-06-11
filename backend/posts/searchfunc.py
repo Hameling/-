@@ -21,6 +21,7 @@ def assign_searchcontent(input_contentid):
     data = list(Assign.objects.all().filter(contentid = input_contentid))
     assign_list = []
     str_data = str(data)
+    print(str_data)
     power_list = regex.parse_assign(str_data)
     for i in power_list:
         json_tmp = {}
