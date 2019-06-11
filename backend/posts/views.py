@@ -621,6 +621,18 @@ class EnrollDelete(APIView):
                     ac_titleid = str(power_list[0][0])
                     ac_memberid = str(power_list[0][3])
                     if((ac_memberid == get_memberid) and (ac_titleid == input_titleid)):
+                        sec_data = list(Section.objects.all().filter(titleid = input_titleid))
+                        str_sdata = str(sec_data)
+                        power_slist = regex.parse_section(str_sdata)
+                        for i in range (len(power_slist)):
+                            sec_id = power_slist[i][0]
+                            con_data = list(Content.objects.all().filter(sectionid = sec_id))
+                            str_cdata = str(con_data)
+                            power_clist = regex.parse_content(str_cdata)
+                            for j in range (len(power_clist)):
+                                con_id = power_clist[j][0]
+                                assign_data = Assign.objects.all().filter(contentid = con_id, memberid=get_memberid)
+                                assign_data.delete()
                         del_enroll.delete()
                         token.extend_token(input_token)
                         return JsonResponse({'delete': 'success'})

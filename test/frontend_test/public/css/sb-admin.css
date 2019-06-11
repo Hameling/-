@@ -11059,3 +11059,12 @@ body.sidebar-toggled footer.sticky-footer {
 .out-check {
   border-color: var(--danger);
 }
+
+.content-grid {
+  margin: 0 auto;
+}
+
+.empty-back{
+  background-image: url('back.jpg');
+  background-color: #343a40;
+}
