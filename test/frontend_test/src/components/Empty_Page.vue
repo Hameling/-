@@ -1,8 +1,12 @@
 <template>
-    <div>
-        
-        비어 있는 페이지.         
-       
+
+    <div id="content-wrapper">
+
+        <div class="container">
+
+            <div class="empty-back">
+            </div>
+        </div>
     </div>
 </template>
 
