@@ -31,12 +31,14 @@
           </div>
         </li>
 
-        <li class="nav-item">
-          <div class="nav-link">
-            <i class="fas fa-fw"></i>   <!--fa-chart-area 버튼 이미지 -->
-            <span>Title</span>
-          </div>
-        </li> 
+        <center>
+          <ol class="nav-title">
+            <li >
+                <span style="color: white;">TITLE</span>
+            </li> 
+          </ol>
+        </center>
+
         <!--프로젝트 생성 및 목록 코드는 이 밑에 작성-->
 
       <center>
@@ -49,12 +51,15 @@
         </ol>
       </center>   
 
-        <div class="float-left ">
-        <TitleList v-bind:titles="titleList"/>
+  
+      <center>
+        <div class="border-title border-title-max-height inner-col">
+          <TitleList v-bind:titles="titleList"/>
         </div>
           <span class="float-right">
             <i class="times-icon">&times;</i>
           </span>
+      </center>
 
         <!--로그아웃 버튼-->
         <li class="nav-item logout-footer">

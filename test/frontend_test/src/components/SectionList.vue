@@ -68,7 +68,7 @@
                 <span @click="delSectionCheck(section)" class="float-right">
                   <!--아이콘이 겹칩니다.
                     <i class="far fa-edit close-right"></i> --> 
-                  <i class="times-icon">&times;</i>
+                  <button class="times-icon button-icon" style="color: white">&times;</button>
                 </span>
               </div>
             </div>
@@ -82,7 +82,7 @@
               <!--새 컨텐트 작성-->
               <span class="float-left">Create New content</span>
               <span class="float-right">
-                <i class="fas fa-angle-right"></i>
+                <button class="fas fa-plus button-icon" style="color: white;"></button>
               </span>
             </div>
           </div>

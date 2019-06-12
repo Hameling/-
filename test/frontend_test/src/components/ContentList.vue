@@ -10,7 +10,6 @@
     >
       <span class="float-left">{{content.contentname}}</span>
       <span class="float-right">
-        <i class="fas fa-angle-right"></i>
       </span>
     </div></div>
 
