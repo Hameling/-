@@ -31,12 +31,30 @@
             </a>
           </li>
         </ol>
-
+      
+      <!--
         <ol class="breadcrumb">
           <li class="breadcrumb-item">
             <a @click="createSec">Create New Section</a>
           </li>
         </ol>
+      -->
+      <!--
+        <div>
+          <div class="section-card o-hidden h-100">
+            <div class="card-body">
+              <div>
+                <a @click="createSec">Create New Section</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      -->
+
+        <div class="button-section">
+          <div class="eff-section"></div>
+            <a @click="createSec"> Create New Section </a>
+        </div>
       </section>
     </div>
 

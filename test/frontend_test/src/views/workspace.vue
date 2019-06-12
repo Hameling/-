@@ -1,6 +1,6 @@
 <template>
   <!--routing 시작부분 -->
-  <div id="content-wrapper">
+  <div id="content-wrapper" style="background-color: #acb4bc;">
     <!--Modal 선언부 -->
     <ContentForm v-on:get-basedata="getBaseData"/>
 

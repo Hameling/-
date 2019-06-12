@@ -8,7 +8,7 @@
     <!--로그인 Modal 끝 -->
 
     <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
-      <a style="color:white" class="navbar-brand mr-1">L.O.O</a>
+      <a style="color:white" class="navbar-brand mr-1">L.O.L</a>
 
       
       <!-- Navbar Search -->
@@ -37,21 +37,18 @@
             <span>Title</span>
           </div>
         </li> 
-        <center>
-        <div class="sidebar-divider"></div>
-        </center>
         <!--프로젝트 생성 및 목록 코드는 이 밑에 작성-->
 
-        <li class="nav-item">
-          <div class="nav-link" @click="$bvModal.show('create-title')">
-            <i class="fas fa-fw"></i>   <!--fa-chart-area 버튼 이미지 -->
-            <span>Create Title</span>
-          </div>
-        </li> 
+      <center>
+        <ol class="nav-breadcrumb">
+          <li class="nav-item">
+            <div  @click="$bvModal.show('create-title')">  <!--fa-chart-area 버튼 이미지 -->
+                <span style="color: white">Create Title</span>
+            </div>
+          </li>
+        </ol>
+      </center>   
 
-        <center>
-        <div class="sidebar-divider"></div>
-        </center>
         <div class="float-left ">
         <TitleList v-bind:titles="titleList"/>
         </div>
@@ -111,7 +108,7 @@
     <footer class="sticky-footer">
       <div class="container my-auto">
         <div class="copyright text-center my-auto">
-          <span>Copyright © L.O.O 2019</span>
+          <span>Copyright © Troller 2019</span>
         </div>
       </div>
     </footer>
