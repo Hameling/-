@@ -269,6 +269,7 @@ export default {
         this.selected = [];
         this.getEnrollMember();
         this.getAllMember();
+        this.$emit("get-enroll");
       } else {
         alert("선택된 사용자가 없습니다");
       }
