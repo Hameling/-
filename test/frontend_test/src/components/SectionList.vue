@@ -26,7 +26,7 @@
             <a>
               <strong>{{titlename}}</strong>
               <span @click="$bvModal.show('TitleSetting')">
-                <i class="fas fa-cog icon-padding"></i>
+                <button class="fas fa-cog icon-padding button-icon"></button>
               </span>
             </a>
           </li>

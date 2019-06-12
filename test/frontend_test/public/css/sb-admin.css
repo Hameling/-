@@ -11182,3 +11182,8 @@ body.sidebar-toggled footer.sticky-footer {
 .button-section:hover a{
   color: #fff;
 }
+
+.button-icon{
+  border: 0px;
+  background-color: rgba(0, 0, 0, 0);
+}
