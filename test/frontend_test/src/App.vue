@@ -8,7 +8,7 @@
     <!--로그인 Modal 끝 -->
 
     <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
-      <a style="color:white" class="navbar-brand mr-1">L.O.L</a>
+      <a style="color:white" class="navbar-brand mr-1">L.O.O</a>
 
       
       <!-- Navbar Search -->
@@ -37,7 +37,7 @@
           <center>
             <ol class="nav-title">
               <li >
-                  <span style="color: white;">TITLE</span>
+                  <span style="color: white;">TITLE LIST</span>
               </li> 
             </ol>
           </center>
@@ -46,13 +46,10 @@
         <!--프로젝트 생성 및 목록 코드는 이 밑에 작성-->
      
           <center>
-            <ol class="nav-breadcrumb ">
-              <li class="nav-item">
-                <div  @click="$bvModal.show('create-title')">  <!--fa-chart-area 버튼 이미지 -->
-                    <span style="color: white">Create Title</span>
-                </div>
-              </li>
-            </ol>
+            <div class="button-title" @click="$bvModal.show('create-title')">
+              <div class="eff-title"></div>
+                <a style="color: white"> Create Title</a>
+            </div>
           </center>
 
           <center>
@@ -117,7 +114,7 @@
     <footer class="sticky-footer">
       <div class="container my-auto">
         <div class="copyright text-center my-auto">
-          <span>Copyright © Troller 2019</span>
+          <span>Copyright © Library Of Owl 2019</span>
         </div>
       </div>
     </footer>
