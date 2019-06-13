@@ -24,42 +24,46 @@
       <!-- Sidebar -->
       <!--세션이 있을때-->
       <ul class="sidebar navbar-nav" v-show="session_checked">
-        <li class="nav-item active">
-          <div class="nav-link" @click="moveWorkspace">
-            <i class="fas fa-fw fa-tachometer-alt"></i>
-            <span> Personal Workspace</span>
-          </div>
-        </li>
-
-        <center>
-          <ol class="nav-title">
-            <li >
-                <span style="color: white;">TITLE</span>
-            </li> 
-          </ol>
-        </center>
-
-        <!--프로젝트 생성 및 목록 코드는 이 밑에 작성-->
-
-      <center>
-        <ol class="nav-breadcrumb">
-          <li class="nav-item">
-            <div  @click="$bvModal.show('create-title')">  <!--fa-chart-area 버튼 이미지 -->
-                <span style="color: white">Create Title</span>
+       
+          <li class="nav-item active">
+            <div class="nav-link" @click="moveWorkspace">
+              <i class="fas fa-fw fa-tachometer-alt"></i>
+              <span> Personal Workspace</span>
             </div>
           </li>
-        </ol>
-      </center>   
-
+        
+        
   
-      <center>
-        <div class="border-title border-title-max-height inner-col">
-          <TitleList v-bind:titles="titleList"/>
-        </div>
-          <span class="float-right">
-            <i class="times-icon">&times;</i>
-          </span>
-      </center>
+          <center>
+            <ol class="nav-title">
+              <li >
+                  <span style="color: white;">TITLE</span>
+              </li> 
+            </ol>
+          </center>
+         
+
+        <!--프로젝트 생성 및 목록 코드는 이 밑에 작성-->
+     
+          <center>
+            <ol class="nav-breadcrumb ">
+              <li class="nav-item">
+                <div  @click="$bvModal.show('create-title')">  <!--fa-chart-area 버튼 이미지 -->
+                    <span style="color: white">Create Title</span>
+                </div>
+              </li>
+            </ol>
+          </center>
+
+          <center>
+            <div class="border-title height-max inner-col">
+              <TitleList v-bind:titles="titleList"/>
+            </div>
+              <span class="float-right">
+                <i class="times-icon">&times;</i>
+              </span>
+          </center>
+    
 
         <!--로그아웃 버튼-->
         <li class="nav-item logout-footer">
