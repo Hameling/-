@@ -11266,6 +11266,10 @@ body.sidebar-toggled footer.sticky-footer {
   max-height: 700px;
 }
 
+.content-max-width{
+  max-width: 1222px;
+}
+
 @media (min-height: 1000px){
   .height-max{
       max-height: 700px;
