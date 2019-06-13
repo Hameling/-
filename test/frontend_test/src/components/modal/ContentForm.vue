@@ -21,7 +21,9 @@
 
 
     <div class="content-card card-content mx-auto content-max-width">
-      <div class="content-card-header">Content</div>
+      <div class="content-card-header content-title-position"> <strong> Content </strong>
+        <button class="button-close" block @click="$bvModal.hide('contentForm')"> Close</button>
+      </div>
       <div class="card-body content-max-width">
         <div class="row">
           <div class="col-md-8" id="leftcontent">
