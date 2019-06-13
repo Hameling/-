@@ -1,5 +1,5 @@
   <template>
-  <div class="container-fluid main-container">
+  <div class="container-fluid main-container" >
     <SectionList
       v-bind:sections="sections"
       v-bind:enrollMember="enrollMember"
