@@ -161,7 +161,11 @@
 }
 
 #leftcontent {
-	padding: 50px 0px 0px 100px;
+	padding: 50px 0px 0px 50px;
+}
+
+#rightcontent {
+	padding: 50px 50px 0px 50px;
 }
 
 #sessionbar{

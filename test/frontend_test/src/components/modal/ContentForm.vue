@@ -20,11 +20,11 @@
     </b-modal>
 
 
-    <div class="content-card card-content mx-auto 5grid-layout">
+    <div class="content-card card-content mx-auto content-max-width">
       <div class="content-card-header">Content</div>
-      <div class="card-body 5grid-layout">
+      <div class="card-body content-max-width">
         <div class="row">
-          <div class="7u" id="leftcontent">
+          <div class="col-md-8" id="leftcontent">
             <section class="box">
               <div v-if="nameState" class="form-label-group">
                 <input
@@ -109,7 +109,7 @@
           </div>
 
           <!-- Assign 영역 -->
-          <div class="4u" id="sidebar1">
+          <div class="col-md-4" id="rightcontent">
             <section>
               <div class="box" v-if="enrollMember">
                 <div id="myDIV" class="header">
