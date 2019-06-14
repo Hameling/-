@@ -8,7 +8,7 @@
       </li>
       <!-- 다른 사람이 쓴 코멘트 일때 -->
       <li v-else style="background: rgba(158, 170, 177, 0.9); text-align: left;">
-        {{comment.memberid}} : {{comment.comcomment}} [{{formattingTime(comment.commenttime})}]
+        {{comment.memberid}} : {{comment.comcomment}} [{{formattingTime(comment.commenttime)}}]
       </li>
     </ul>
   </div>
