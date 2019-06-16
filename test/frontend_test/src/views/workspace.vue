@@ -87,6 +87,7 @@ export default {
               this.enrollList = res.data[0].enrollTitle;
               this.assignList = res.data[0].assignContent;
               bus.$emit("getTitle", this.enrollList);
+              this.$store.commit("updateTitleList", this.enrollList)
               this.events = []
               for(var i in this.assignList){
                 for(var j in this.assignList[i].calender){

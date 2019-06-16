@@ -63,16 +63,31 @@ export default {
         this.session_checked = false;
         this.$router.push("/");
       }
-    }
+    },
+
+    getBaseData() {
+      if (sessionStorage.getItem("accessToken") != null) {
+        this.$http
+          .post("http://211.109.53.216:20000/member/search-member/", {
+            token: sessionStorage.accessToken
+          })
+          .then(res => {
+            if (this.checkToken(res.data[0])) {
+              this.$store.commit("updateTitleList", res.data[0].enrollTitle)
+            }
+          });
+      } else {
+        alert("잘못된 접근입니다.");
+        this.session_checked = false;
+        this.$router.push("/");
+      }
+    },
   },
   mounted() {
     this.$nextTick(() => {
-      if (this.select_item.titleid != undefined) {
-        this.$store.commit("selectedTitle", this.select_item.titleid);
-        //이부분을 TitleList로
-      }
       this.getAllElement();
       this.getEnrollMember();
+      this.getBaseData();
     });
   },
   beforeRouteUpdate(to, from, next) {

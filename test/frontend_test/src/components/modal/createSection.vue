@@ -29,7 +29,6 @@ export default {
     sectionname: "",
     nameState: null
   }),
-  props: ["select_item"],
   methods: {
     getSection() {
       this.$emit("get-section");
@@ -38,7 +37,7 @@ export default {
       if (sessionStorage.getItem("accessToken") != null) {
         this.$http
           .post("http://211.109.53.216:20000/section/create-section/", {
-            titleid: this.select_item.titleid,
+            titleid: sessionStorage.titleid,
             sectionname: this.sectionname,
             token: sessionStorage.accessToken
           })
