@@ -76,6 +76,7 @@ export default {
     events: []
   }),
   methods: {
+    //workspace 첫화면에 보여지는 정보를 불러오는 메소드
     getBaseData() {
       if (sessionStorage.getItem("accessToken") != null) {
         this.$http
@@ -86,8 +87,9 @@ export default {
             if (this.checkToken(res.data[0])) {
               this.enrollList = res.data[0].enrollTitle;
               this.assignList = res.data[0].assignContent;
-              bus.$emit("getTitle", this.enrollList);
               this.$store.commit("updateTitleList", this.enrollList)
+              
+              //이하 일정 정보 events에 저장
               this.events = []
               for(var i in this.assignList){
                 for(var j in this.assignList[i].calender){
@@ -108,7 +110,7 @@ export default {
       }
     },
 
-    //Calendar 관련코드
+    //Calendar 일정 클릭시 해당 Content Modal 표시 메소드
     onEventClick(event) {
       this.$store.commit('selectedContent', event.contentid)
       this.$bvModal.show('contentForm')

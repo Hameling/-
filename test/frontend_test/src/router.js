@@ -4,7 +4,7 @@ import Workspace from './views/workspace'
 import Title from './views/Title'
 import Cal_Monthly from './components/calendar/Cal_Monthly'
 
-import Empty_Page from './components/Empty_Page'
+import Main_Page from './components/Main_Page'
 
 
 Vue.use(Router)
@@ -13,7 +13,7 @@ export default new Router({
   routes: [
     {
       path : '',
-      component : Empty_Page
+      component : Main_Page
     },
     {
       path: '/workspace',

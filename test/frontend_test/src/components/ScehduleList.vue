@@ -22,6 +22,8 @@ export default {
     delScehdule(index) {
       this.$emit("del-scehdule", index);
     },
+    
+    //popover를 이용한 일정 정보 표시
     getScehuleInfo(scehdule){
       return scehdule.starttime + " \n~ " + scehdule.duetime
     }

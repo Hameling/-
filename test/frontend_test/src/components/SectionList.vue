@@ -118,6 +118,7 @@ export default {
     delSelSec: {}
   }),
   methods: {
+    //선택된 Title의 정보를 반환받는 메소드
      getTitle() {
       if (sessionStorage.getItem("accessToken") != null) {
         this.$http
@@ -127,8 +128,7 @@ export default {
           })
           .then(res => {
             if (this.checkToken(res.data[0])) {
-              this.titlename = res.data[0].titlename;
-              this.newTitlename = this.titlename
+              this.updateTitleName(res.data[0].titlename)
             }
           });
       } else {
@@ -138,21 +138,23 @@ export default {
       }
     },
 
+    //Title.vue에 Section 정보를 요청하는 메소드
     getSection() {
       this.$emit("get-element");
     },
 
-    //생성 생성을 위한 modal
+    //Section 생성을 위한 modal 호출
     createSec() {
       this.$bvModal.show("create-section");
     },
 
-    //섹션 삭제시 경고창
+    //Section 삭제시 경고창
     delSectionCheck(section) {
       this.delSelSec = section;
       this.$bvModal.show("SecDelCheck");
     },
 
+    //Section 삭제를 위한 메소드
     delSection(sectionid) {
       if (sessionStorage.getItem("accessToken") != null) {
         this.$http
@@ -179,23 +181,31 @@ export default {
         this.$router.push("/");
       }
     },
+
+    //Content 생성을 위한 메소드
     createCont(sectionid) {
       this.$store.commit("selectedSection", sectionid);
       this.$bvModal.show("create-content");
     },
 
+    //Title.vue에 Enroll 정보를 요청하는 메소드
     getEnrollMemeber() {
       this.$emit("get-enroll");
     },
 
+    //workspace 화면으로 이동
     goHome() {
       this.$router.replace("/workspace");
     },
+
+    //Title이름을 갱신하기위한 메소드
     updateTitleName(titlename) {
       this.newTitlename = titlename;
       this.titlename = this.newTitlename;
     }
   },
+
+  //화면 갱신시 Title의 이름을 변경
   beforeUpdate() {
     if (this.newTitlename == "") {
       this.getTitle()

@@ -34,7 +34,6 @@ export default new Vuex.Store({
       delete sessionStorage.titleid
       delete sessionStorage.sectionid
       delete sessionStorage.contendid
-      delete sessionStorage.titleList
     },
     selectedTitle(state, titleid){
       state.titleid = titleid

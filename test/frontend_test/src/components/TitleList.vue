@@ -24,8 +24,7 @@ export default {
         name: "title",
         params: { titleid: title.titleid}
       });
-      bus.$emit("reloadItem", title.titleid);
-      //this.$store.commit("selectedTitle", title.titleid);
+      //bus.$emit("reloadItem", title.titleid);
     },
   }
 };

@@ -129,21 +129,29 @@ export default {
     //titleList : []
   }),
   methods: {
+    //세션 여부 확인용 메소드
     sessionCheck(value) {
       this.session_checked = value;
     },
+
+    //workspace 화면에 이벤트 전달
     getBaseData() {
       bus.$emit("get-basedata");
     },
+
+    //workspace로 이동시키기 위한 메소드
     moveWorkspace() {
       this.$router.replace("/workspace");
     },
+    
+    //사용자 이름을 화면 상단에 표시하기 위한 메소드
     returnUID() {
       return sessionStorage.uid;
     }
   },
 
   computed: {
+    //동적으로 변하는 TitleList - Vuex이용
     titleList: {
       get: function() {
         return this.$store.getters.getTitleList;
