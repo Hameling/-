@@ -13,6 +13,7 @@
               required="required"
               autofocus="autofocus"
               v-model="id"
+              v-on:keyup.enter="onSubmit"
             >
             <label for="inputID">ID</label>
           </div>
@@ -26,6 +27,7 @@
               placeholder="Password"
               required="required"
               v-model="pwd"
+              v-on:keyup.enter="onSubmit"
             >
             <label for="inputPassword">Password</label>
           </div>
