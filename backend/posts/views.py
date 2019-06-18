@@ -742,8 +742,25 @@ class FileSearch(APIView):
             return HttpResponse(token.expire_token(), content_type="application/json")
 
 
+class FileDelete(APIView):
+    parser_classes = (JSONParser,)
 
-#class FileDelete(APIView):
+    def post(self, request, format=None):
+        input_token = str(request.data["token"])
+        input_fileid = request.data["fileid"]
+        if token.exist_token(input_token) :
+            if token.compare_token(input_token):
+                try:
+                    del_file = File.objects.all().filter(fileid = input_fileid)
+                    del_file.delete()
+                    token.extend_token(input_token)
+                    return JsonResponse({'delete': 'Delete success'})
+                except:
+                    return JsonResponse({'delete': 'fail'})
+            else:
+                return HttpResponse(token.expire_token(), content_type="application/json")
+        else:
+            return HttpResponse(token.expire_token(), content_type="application/json")   
 
 
 #class FileUpdate(APIView):
