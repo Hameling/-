@@ -11550,8 +11550,7 @@ body.sidebar-toggled footer.sticky-footer {
 
 /* Scroll Bar Style*/
 
-.scrollbar
-{
+.scrollbar {
 	margin-left: 30px;
 	float: left;
 	height: 300px;
@@ -11561,21 +11560,34 @@ body.sidebar-toggled footer.sticky-footer {
 	margin-bottom: 25px;
 }
 
-#scrollbar-style::-webkit-scrollbar-track
-{
+#scrollbar-style::-webkit-scrollbar-track {
 	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
 	background-color: #F5F5F5;
 }
 
-#scrollbar-style::-webkit-scrollbar
-{
+#scrollbar-style::-webkit-scrollbar {
 	width: 12px;
 	background-color: #F5F5F5;
 }
 
-#scrollbar-style::-webkit-scrollbar-thumb
-{
+#scrollbar-style::-webkit-scrollbar-thumb {
 	border-radius: 10px;
 	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
 	background-color: #343a40;
+}
+
+.comment-delbtn-ok {
+  margin-right: 5px;
+  width: 45%;
+  height: 35px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.comment-delbtn-no {
+  margin-left: 5px;
+  width: 45%;
+  height: 35px;
+  text-align: center;
+  vertical-align: middle;
 }
