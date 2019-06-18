@@ -62,11 +62,11 @@
         </div>
       </section>
     </div>
-
+    <!--SectionList 수정 부분-->
     <div v-for="(section, i) in sections" :key="i" class="col-md-4" id="newsession">
       <div class="card-padding">
         <section>
-          <div class="session text-white o-hidden h-100" style="background:gray">
+          <div class="session text-white o-hidden h-100" v-bind:id="'section'+i" >
             <div class="card-body">
               <div class="breadcrumb-item">
                 <div class="float-left">{{section.sectionname}}</div>
@@ -113,6 +113,10 @@ export default {
 
     contentname: "",
     contentinfo: "",
+
+    //SectionList 스타일 지정용 변수
+    color : '#',
+    bgcolor :  ['007bff', '6610f2', '6f42c1', '28a745', '20c997', '17a2b8', '007bff', '6c757d', '17a2b8'],
 
     //삭제될 섹션 정보
     delSelSec: {}
@@ -202,16 +206,28 @@ export default {
     updateTitleName(titlename) {
       this.newTitlename = titlename;
       this.titlename = this.newTitlename;
+    },
+    
+    setColor(){
+      for(var i in this.sections) {
+        this.color += this.bgcolor[i % 9]
+        document.getElementById('section'+i).style.backgroundColor = this.color
+        this.color = "#"
+      }
     }
   },
-
   //화면 갱신시 Title의 이름을 변경
   beforeUpdate() {
     if (this.newTitlename == "") {
       this.getTitle()
+     
     } else {
       this.newTitlename = "";
     }
+  },
+
+  updated() {
+     this.setColor()
   },
 
   components: {
