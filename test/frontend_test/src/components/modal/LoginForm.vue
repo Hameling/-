@@ -46,7 +46,7 @@
 
       <div class="text-center">
         <a class="d-block small mt-3" style="color:blue; text-decoration: underline;" @click="moveRegister">Register an Account</a>
-        <!-- <a class="d-block small" href="forgot-password.html">Forgot Password?</a> -->
+        <!-- <a class="d-block small mt-3" style="color:blue; text-decoration: underline;" @click="forgotPassword">Forgot Password?</a> -->
       </div>
     </div>
   </b-modal>
@@ -57,10 +57,12 @@ export default {
   name: "login",
   data: () => ({
     id: "",
-    pwd: ""
+    pwd: "",
   }),
   methods: {
     async onSubmit(id, pwd) {
+      if(this.doubleSubmitCheck()) return;
+
       await this.$store
         .dispatch("LOGIN", { id, pwd })
         .then(() => {

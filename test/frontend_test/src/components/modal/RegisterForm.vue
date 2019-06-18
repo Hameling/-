@@ -123,6 +123,7 @@ export default {
         this.pwd = "";
         this.pwdconfirm = "";
       } else {
+        if(this.doubleSubmitCheck()) return;
         this.$http
           .post("http://211.109.53.216:20000/member/create-member/", {
             memberid: uid,
