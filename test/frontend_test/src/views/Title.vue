@@ -19,13 +19,11 @@ import { bus } from "@/eventbus";
 export default {
   name: "Title",
   props: ["select_item"],
-  data: function() {
-    return {
-      selectedid: "",
+  data:() => ({
+          selectedid: "",
       sections: [],
-      enrollMember: []
-    };
-  },
+      enrollMember: [],
+  }),
   methods: {
     getAllElement() {
       if (sessionStorage.getItem("accessToken") != null) {

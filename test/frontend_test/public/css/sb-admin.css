@@ -10824,16 +10824,17 @@ body.sidebar-toggled footer.sticky-footer {
 }
 
 .comment-box{
-  float: left;
   width: 100%;
-  height: 50px;
+  max-height: 764px;
+  min-height: 420px;
   box-sizing: border-box;
   border-bottom-left-radius: 0.25rem;
   border-bottom-right-radius: 0.25rem;
-  padding: 0px 0px 0px 0px;
+  padding-top: 20px;
   border-left: 1px solid #ced4da;
   border-right: 1px solid #ced4da;
   border-bottom: 1px solid #ced4da;
+  background-color: #b2c7d9;
 }
 
 .box{
@@ -10869,7 +10870,23 @@ body.sidebar-toggled footer.sticky-footer {
 
 .file-box{
   width: 100%;
-  height: 300px;
+  height: 60px;
+  padding: 10px;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+}
+
+.file-box-dragdrop{
+  width: 100%;
+  height: 100px;
+  padding: 10px;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+}
+
+.list-box {
+  width: 100%;
+  height: 200px;
   padding: 10px;
   border: 1px solid #ced4da;
   border-radius: 0.25rem;
@@ -11052,9 +11069,10 @@ body.sidebar-toggled footer.sticky-footer {
 
 .schedule-box{
   width: 100%;
-  height: 100px;
+  height: 200px;
   border: 1px solid #ced4da;
   border-radius: 0.25rem;
+  padding-top: 5px;
 }
 
 .border-header{
@@ -11435,4 +11453,152 @@ body.sidebar-toggled footer.sticky-footer {
 
 .content-title-position{
   vertical-align: middle;
+}
+
+.section-bg{
+  --blue: #007bff;
+  --indigo: #6610f2;
+  --purple: #6f42c1;
+  --green: #28a745;
+  --teal: #20c997;
+  --cyan: #17a2b8;
+  --primary: #007bff;
+  --secondary: #6c757d;
+  --info: #17a2b8;
+}
+
+.my-comment-border{
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  border-radius: 0.25rem;
+  border: 2px solid #ffeb33;
+  margin-right: 15px;
+  margin-left: 15px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-right: 15px;
+  text-align: right;
+  background-color: #ffeb33;
+}
+
+.other-comment-border{
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  border-radius: 0.25rem;
+  border: 2px solid #ffffff;
+  margin-right: 15px;
+  margin-left: 15px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 15px;
+  text-align: left;
+  background-color: #ffffff;
+}
+
+.schedule-title{
+  text-align: center;
+  padding-bottom: 10px;
+  }
+
+.dropbox {
+  color: #fff;
+  background-color: #007bff;
+  border-color: #007bff;
+  border-radius: 0.25rem;
+  width: 100%;
+  height: 100%;
+  position: relative; 
+  margin: 0 auto;
+  display: inline-block;
+  font-weight: 400; 
+  text-align: center;
+  vertical-align: middle;
+  padding-top: 5px;
+  
+} 
+
+.dropbox:hover {
+  color: #212529;
+  text-decoration: none;
+}
+
+.dropbox:focus, .dropbox.focus {
+  outline: 0;
+  -webkit-box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.dropbox > h2{
+  position: absolute;
+  top: 50px;
+  left: 0;
+  z-index: 2;
+}
+
+.input-file{
+  position: absolute;
+  opacity: 0;
+  width:100%;
+  height:100%;
+  top:0;
+  left:0;
+  z-index: 3;
+  text-align: center;
+  vertical-align: middle;
+}
+
+
+/* Scroll Bar Style*/
+
+.scrollbar {
+	margin-left: 30px;
+	float: left;
+	height: 300px;
+	width: 65px;
+	background: #F5F5F5;
+	overflow-y: scroll;
+	margin-bottom: 25px;
+}
+
+#scrollbar-style::-webkit-scrollbar-track {
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	background-color: #F5F5F5;
+}
+
+#scrollbar-style::-webkit-scrollbar {
+	width: 12px;
+	background-color: #F5F5F5;
+}
+
+#scrollbar-style::-webkit-scrollbar-thumb {
+	border-radius: 10px;
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+	background-color: #343a40;
+}
+
+.comment-delbtn-ok {
+  margin-right: 5px;
+  width: 45%;
+  height: 35px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.comment-delbtn-no {
+  margin-left: 5px;
+  width: 45%;
+  height: 35px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.other-comment-box {
+  margin-left: 15px;
+  width: auto;
+  height: auto;
+  padding-left: 10px;
+  text-align: left;
+  vertical-align: middle;
+  background-color: white;
+  border-radius: 2rem;
 }

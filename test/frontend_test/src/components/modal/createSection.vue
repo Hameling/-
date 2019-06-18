@@ -34,6 +34,7 @@ export default {
       this.$emit("get-section");
     },
     createSection() {
+      if(this.doubleSubmitCheck()) return;
       if (sessionStorage.getItem("accessToken") != null) {
         this.$http
           .post("http://211.109.53.216:20000/section/create-section/", {
@@ -61,6 +62,7 @@ export default {
     resetModal() {
       this.sectionname = "";
       this.nameState = null;
+      this.doubleSubmitFlag = false;
     },
     handleOk(bvModalEvt) {
       bvModalEvt.preventDefault();

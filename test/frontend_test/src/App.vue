@@ -22,20 +22,20 @@
       <!-- Sidebar -->
       <!--세션이 있을때-->
       <ul class="sidebar navbar-nav" v-show="session_checked">
-        <li class="nav-item active">
-          <div class="nav-link" @click="moveWorkspace">
-            <i class="fas fa-fw fa-tachometer-alt"></i>
-            <span>Personal Workspace</span>
-          </div>
-        </li>
-
         <center>
-          <ol class="nav-title">
-            <li>
-              <span style="color: white;">TITLE LIST</span>
-            </li>
-          </ol>
-        </center>
+          <li class="nav-item active">
+            <div class="nav-link" @click="moveWorkspace">
+              <i class="far fa-address-book" style="padding-right: 5px;"></i>
+              
+                <span>Personal Workspace</span>
+              
+            </div>
+          </li>
+        </center>  
+
+        <div>
+          <br>
+        </div>
 
         <!--프로젝트 생성 및 목록 코드는 이 밑에 작성-->
 

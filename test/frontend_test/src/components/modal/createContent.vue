@@ -15,11 +15,11 @@
         label-for="name-input"
         invalid-feedback="Content Name is required"
       >
-        <b-form-input id="name-input" v-model="contentname" :state="nameState" required></b-form-input>
+        <b-form-input id="name-input" v-model="contentname" :state="nameState"  v-on:keyup.enter="handleOk" required></b-form-input>
       </b-form-group>
 
-      <b-form-group label="Content Description(Optional)" label-for="info-input">
-        <b-form-input id="info-input" v-model="contentinfo"></b-form-input>
+      <b-form-group label="Content Description(Option)" label-for="info-input">
+        <b-form-input id="info-input" v-model="contentinfo"  v-on:keyup.enter="handleOk"></b-form-input>
       </b-form-group>
     </form>
   </b-modal>
@@ -38,6 +38,7 @@ export default {
       this.$emit("get-element");
     },
     createContent() {
+      if(this.doubleSubmitCheck()) return;
       if (sessionStorage.getItem("accessToken") != null) {
         this.$http
           .post("http://211.109.53.216:20000/content/create-content/", {
@@ -69,6 +70,7 @@ export default {
       this.contentname = "";
       this.contentinfo = "";
       this.nameState = null;
+      this.doubleSubmitFlag = false;
     },
     handleOk(bvModalEvt) {
       bvModalEvt.preventDefault();

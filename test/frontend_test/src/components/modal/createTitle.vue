@@ -15,11 +15,17 @@
         label-for="name-input"
         invalid-feedback="Title Name is required"
       >
-        <b-form-input id="name-input" v-model="titlename" :state="nameState" required></b-form-input>
+        <b-form-input
+          id="name-input"
+          v-model="titlename"
+          :state="nameState"
+          v-on:keyup.enter="handleOk"
+          required
+        ></b-form-input>
       </b-form-group>
 
-      <b-form-group label="Title Description(Optional)" label-for="info-input">
-        <b-form-input id="info-input" v-model="titleinfo"></b-form-input>
+      <b-form-group label="Title Description(Option)" label-for="info-input">
+        <b-form-input id="info-input" v-model="titleinfo" v-on:keyup.enter="handleOk"></b-form-input>
       </b-form-group>
     </form>
   </b-modal>
@@ -40,6 +46,7 @@ export default {
     },
 
     createProject() {
+      if(this.doubleSubmitCheck()) return;
       if (sessionStorage.getItem("accessToken") != null) {
         this.$http
           .post("http://211.109.53.216:20000/title/create-title/", {
@@ -69,10 +76,11 @@ export default {
       this.titlename = "";
       this.titleinfo = "";
       this.nameState = null;
+      this.doubleSubmitFlag = false;
     },
-    handleOk(bvModalEvt) {
+    async handleOk(bvModalEvt) {
       bvModalEvt.preventDefault();
-      this.handleSubmit();
+      await this.handleSubmit();
     },
     handleSubmit() {
       // Exit when the form isn't valid

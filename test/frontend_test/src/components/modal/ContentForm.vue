@@ -2,7 +2,7 @@
   <b-modal
     id="contentForm"
     size="xl"
-    scrollable
+    scrollable 
     hide-footer
     hide-header
     centered
@@ -24,10 +24,10 @@
       <div class="content-card-header content-title-position"> <strong> Content </strong>
         <button class="button-close" block @click="$bvModal.hide('contentForm')"> Close</button>
       </div>
-      <div class="card-body content-max-width">
+      <div class="card-body content-max-width" style="background-color: #f7f7f7;">
         <div class="row">
           <div class="col-md-8" id="leftcontent">
-            <section class="box">
+            <section class="box" style="background-color: white;">
               <div v-if="nameState" class="form-label-group">
                 <input
                   type="text"
@@ -54,7 +54,7 @@
               <br>
             </div>
 
-            <section class="box">
+            <section class="box" style="background-color: white;">
               <div v-if="subjectState" class="form-label-group">
                 <input
                   type="text"
@@ -100,7 +100,7 @@
                 >
                 <label for="NewComment">New Comment</label>
 
-                <div class="comment-box inner-comment" style="overflow:auto">
+                <div class="comment-box inner-comment" style="overflow:auto" id="scrollbar-style">
                   <CommentList
                     v-bind:comments="comments"
                     v-on:del-comment="delComment"
@@ -113,7 +113,7 @@
           <!-- Assign 영역 -->
           <div class="col-md-4" id="rightcontent">
             <section>
-              <div class="box" v-if="enrollMember">
+              <div class="box" v-if="enrollMember" style="background-color: white;">
                 <div id="myDIV" class="header">
                   <a>Assigned Area</a>
                 </div>
@@ -134,13 +134,15 @@
 
               
             </section>
+
             <div>
               <br>
             </div>
+
             <!-- Schedule 영역 -->
             <createScehdule v-on:get-scehdule="getScehdule"/>
             <section>
-              <div class="box">
+              <div class="box" style="background-color: white;">
                 <button
                   class="btn btn-primary btn-block"
                   @click="$bvModal.show('create-scehdule')"
@@ -151,11 +153,13 @@
                 <br>
               </div>
 
-              <div class="schedule-box" style="overflow:auto">
-                <div id="myDIV" class="header">
-                  <a>Schedule</a>
+              <div class="schedule-box" style="overflow:auto; background-color: white;" id="scrollbar-style">
+                <div id="myDIV" class="header schedule-title">
+                  <strong>
+                    <a>Schedule</a>
+                  </strong>
                 </div>
-                <ScehduleList v-bind:scehdules="scehdules" v-on:del-scehdule="delSchedule"/>
+                <ScehduleList style="padding-top: 5px;" v-bind:scehdules="scehdules" v-on:del-scehdule="delSchedule"/>
               </div>
             </section>
 
@@ -166,7 +170,7 @@
 
 
             <section>
-              <div id="myDIV" class="header">
+              <div id="myDIV" class="header" style="background-color: white;">
                 <input
                   type="text"
                   id="myInput"
@@ -176,7 +180,7 @@
                   v-on:keyup.enter="addCheckList(ckl_content)"
                 >
                 <!--<button id="cklAdd" v-on:click="addCheckList(ckl_content)">Add</button>-->
-                <div class="file-box" style="overflow:auto">
+                <div class="list-box" style="overflow:auto" id="scrollbar-style">
                   <Checklist v-bind:checklists="checklists" v-on:get-checklist="getCheckLists" v-on:del-checklist="delCheckList"></Checklist>
                 </div>
               </div>
@@ -187,19 +191,22 @@
 
             <!-- 파일 업로드 및 다운로드 영역 -->
             <section>
-              <div class="file-box">
-                <div class="form-label-group">
-                  <input
+              <div class="file-box" style="background-color: white;">
+                <div class="dropbox">
+                  <input 
+                    class="input-file" 
                     type="file"
                     id="File"
-                    class="dropbox"
                     placeholder="File"
                     required="required"
                     @change="upload($event.target.name, $event.target.files)"
                     @drop="upload($event.target.name, $event.target.files)"
-                  >
-                  <a>Drag & Drop</a>
+                    >
+                  <a>FileSelect / Drag & Drop</a>
                 </div>
+              </div>
+              <div class="list-box" style="background-color: white;"> 
+                <FileList v-bind:files="fileNames" v-on:down-file="download" v-on:del-file="delFile"/>
               </div>
             </section>
             <div>
@@ -230,6 +237,7 @@ import "vue-multiselect/dist/vue-multiselect.min.css";
 import Checklist from "@/components/CheckList";
 import CommentList from "@/components/CommentList";
 import ScehduleList from "@/components/ScehduleList";
+import FileList from "@/components/FileList";
 import createScehdule from "@/components/modal/createScehdule";
 export default {
   name: "contentForm",
@@ -249,6 +257,9 @@ export default {
     //Assign 이용을 위한 변수
     selected: null,
     selected_tmp: null,
+
+    //File명 저장 변수
+    fileNames :[],
 
     //input <-> Label을 위한 변수
     nameState: false,
@@ -412,6 +423,7 @@ export default {
       }
     },
     addComment(cmt_content) {
+      if(this.doubleSubmitCheck()) return;
       if (sessionStorage.getItem("accessToken") != null) {
         if (cmt_content.length > 0) {
           this.$http
@@ -433,6 +445,7 @@ export default {
         this.session_checked = false;
         this.$router.push("/");
       }
+      this.resetSubmitFlag()
     },
     delComment(comment_id) {
       if (sessionStorage.getItem("accessToken") != null) {
@@ -474,6 +487,7 @@ export default {
       }
     },
     addCheckList(ckl_content) {
+      if(this.doubleSubmitCheck()) return;
       if (sessionStorage.getItem("accessToken") != null) {
         if (ckl_content.length > 0) {
           this.$http
@@ -494,6 +508,7 @@ export default {
         this.session_checked = false;
         this.$router.push("/");
       }
+      this.resetSubmitFlag()
     },
     delCheckList(checklist_id) {
       if (sessionStorage.getItem("accessToken") != null) {
@@ -555,7 +570,7 @@ export default {
       }
     },
 
-    //값 수정을 위한 함수
+    //값 수정을 위한 메소드 시작
     setNameState() {
       this.nameState = !this.nameState;
     },
@@ -618,7 +633,76 @@ export default {
         this.session_checked = false;
         this.$router.push("/");
       }
-    }
+    },
+
+    //파일 다운로드/업로드 영역
+    forceFileDownload(response){
+      const url = window.URL.createObjectURL(new Blob([response.data]))
+      const link = document.createElement('a')
+      link.href = url
+      link.setAttribute('download', this.filename) //or any other extension
+      document.body.appendChild(link)
+      link.click()
+    },
+    upload(name, files) {
+      const formData = new FormData();
+      formData.append(name, files[0], files[0].name);
+      formData.append("contentid", sessionStorage.contentid);
+      formData.append("token", sessionStorage.accessToken);
+      this.$http.post("http://211.109.53.216:20000/file/create-file/", formData)
+      .then(res => {
+        this.getFile()
+      });
+    },
+    download(filename) {
+      const formData = new FormData();
+      formData.append("filename", filename);
+      formData.append("contentid", sessionStorage.contentid);
+      formData.append("token", sessionStorage.accessToken);
+      this.$http.post("http://211.109.53.216:20000/file/down-file/", formData)
+      .then(res => {
+        this.forceFileDownload(res)
+      });
+    },
+
+    getFile(){
+      if (sessionStorage.getItem("accessToken") != null) {
+        this.$http
+          .post("http://211.109.53.216:20000/file/search-file/", {
+            contentid: sessionStorage.contentid,
+            token: sessionStorage.accessToken
+          })
+          .then(res => {
+            if (this.checkToken(res.data)) {
+              this.fileNames = res.data
+            }
+          });
+      } else {
+        alert("잘못된 접근입니다.");
+        this.session_checked = false;
+        this.$router.push("/");
+      }
+    },
+
+    delFile(){
+      if (sessionStorage.getItem("accessToken") != null) {
+        this.$http
+          .post("http://211.109.53.216:20000/file/delete-file/", {
+            contentid: sessionStorage.contentid,
+            token: sessionStorage.accessToken
+          })
+          .then(res => {
+            if (this.checkToken(res.data)) {
+              this.getFile()
+            }
+          });
+      } else {
+        alert("잘못된 접근입니다.");
+        this.session_checked = false;
+        this.$router.push("/");
+      }
+    },
+
   },
   mounted() {},
 
@@ -626,6 +710,7 @@ export default {
     CommentList: CommentList,
     Checklist: Checklist,
     ScehduleList: ScehduleList,
+    FileList : FileList,
     createScehdule: createScehdule,
     Multiselect
   }
