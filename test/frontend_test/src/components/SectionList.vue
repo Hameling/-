@@ -222,4 +222,10 @@ export default {
     TitleSetting: TitleSetting
   }
 };
+/*
+var color='#';
+var bgcolor= ['007bff', '6610f2', '6f42c1', '28a745', '20c997', '17a2b8', '007bff', '6c757d', '17a2b8'];
+color += bgcolor[Math.floor(Math.random() *bgcolor.length)];
+document.getElementById('sectionbg').style.background = color;
+*/
 </script>
