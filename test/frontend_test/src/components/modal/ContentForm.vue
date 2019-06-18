@@ -2,7 +2,7 @@
   <b-modal
     id="contentForm"
     size="xl"
-    scrollable
+    scrollable 
     hide-footer
     hide-header
     centered
@@ -100,7 +100,7 @@
                 >
                 <label for="NewComment">New Comment</label>
 
-                <div class="comment-box inner-comment" style="overflow:auto">
+                <div class="comment-box inner-comment" style="overflow:auto" id="scrollbar-style">
                   <CommentList
                     v-bind:comments="comments"
                     v-on:del-comment="delComment"
@@ -134,9 +134,11 @@
 
               
             </section>
+            
             <div>
               <br>
             </div>
+
             <!-- Schedule 영역 -->
             <createScehdule v-on:get-scehdule="getScehdule"/>
             <section>
