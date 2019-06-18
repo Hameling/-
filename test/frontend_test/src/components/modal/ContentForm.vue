@@ -2,7 +2,7 @@
   <b-modal
     id="contentForm"
     size="xl"
-    scrollable
+    scrollable 
     hide-footer
     hide-header
     centered
@@ -24,10 +24,10 @@
       <div class="content-card-header content-title-position"> <strong> Content </strong>
         <button class="button-close" block @click="$bvModal.hide('contentForm')"> Close</button>
       </div>
-      <div class="card-body content-max-width">
+      <div class="card-body content-max-width" style="background-color: #f7f7f7;">
         <div class="row">
           <div class="col-md-8" id="leftcontent">
-            <section class="box">
+            <section class="box" style="background-color: white;">
               <div v-if="nameState" class="form-label-group">
                 <input
                   type="text"
@@ -54,7 +54,7 @@
               <br>
             </div>
 
-            <section class="box">
+            <section class="box" style="background-color: white;">
               <div v-if="subjectState" class="form-label-group">
                 <input
                   type="text"
@@ -100,7 +100,7 @@
                 >
                 <label for="NewComment">New Comment</label>
 
-                <div class="comment-box inner-comment" style="overflow:auto">
+                <div class="comment-box inner-comment" style="overflow:auto" id="scrollbar-style">
                   <CommentList
                     v-bind:comments="comments"
                     v-on:del-comment="delComment"
@@ -113,7 +113,7 @@
           <!-- Assign 영역 -->
           <div class="col-md-4" id="rightcontent">
             <section>
-              <div class="box" v-if="enrollMember">
+              <div class="box" v-if="enrollMember" style="background-color: white;">
                 <div id="myDIV" class="header">
                   <a>Assigned Area</a>
                 </div>
@@ -134,13 +134,15 @@
 
               
             </section>
+
             <div>
               <br>
             </div>
+
             <!-- Schedule 영역 -->
             <createScehdule v-on:get-scehdule="getScehdule"/>
             <section>
-              <div class="box">
+              <div class="box" style="background-color: white;">
                 <button
                   class="btn btn-primary btn-block"
                   @click="$bvModal.show('create-scehdule')"
@@ -151,11 +153,13 @@
                 <br>
               </div>
 
-              <div class="schedule-box" style="overflow:auto">
-                <div id="myDIV" class="header">
-                  <a>Schedule</a>
+              <div class="schedule-box" style="overflow:auto; background-color: white;" id="scrollbar-style">
+                <div id="myDIV" class="header schedule-title">
+                  <strong>
+                    <a>Schedule</a>
+                  </strong>
                 </div>
-                <ScehduleList v-bind:scehdules="scehdules" v-on:del-scehdule="delSchedule"/>
+                <ScehduleList style="padding-top: 5px;" v-bind:scehdules="scehdules" v-on:del-scehdule="delSchedule"/>
               </div>
             </section>
 
@@ -166,7 +170,7 @@
 
 
             <section>
-              <div id="myDIV" class="header">
+              <div id="myDIV" class="header" style="background-color: white;">
                 <input
                   type="text"
                   id="myInput"
@@ -176,7 +180,7 @@
                   v-on:keyup.enter="addCheckList(ckl_content)"
                 >
                 <!--<button id="cklAdd" v-on:click="addCheckList(ckl_content)">Add</button>-->
-                <div class="file-box" style="overflow:auto">
+                <div class="list-box" style="overflow:auto" id="scrollbar-style">
                   <Checklist v-bind:checklists="checklists" v-on:get-checklist="getCheckLists" v-on:del-checklist="delCheckList"></Checklist>
                 </div>
               </div>
@@ -187,19 +191,21 @@
 
             <!-- 파일 업로드 및 다운로드 영역 -->
             <section>
-              <div class="file-box">
-                <div class="form-label-group">
-                  <input
+              <div class="file-box" style="background-color: white;">
+                <div class="dropbox">
+                  <input 
+                    class="input-file" 
                     type="file"
                     id="File"
-                    class="dropbox"
                     placeholder="File"
                     required="required"
                     @change="upload($event.target.name, $event.target.files)"
                     @drop="upload($event.target.name, $event.target.files)"
-                  >
-                  <a>Drag & Drop</a>
+                    >
+                  <a>FileSelect / Drag & Drop</a>
                 </div>
+              </div>
+              <div class="list-box" style="background-color: white;">              
               </div>
             </section>
             <div>

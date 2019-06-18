@@ -1,5 +1,5 @@
 <template>
-  <div class="row inner-row">
+  <div class="row inner-row" id="scrollbar-style">
     <!--Section Modal 선언부 -->
 
     <!--Content Modal 선언부 -->
