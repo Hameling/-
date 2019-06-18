@@ -1,0 +1,6 @@
+1 - New
+2- ~ing
+3 - Completed
+4 - Delayed
+5 - Canceled
+6 - Need Confirm
