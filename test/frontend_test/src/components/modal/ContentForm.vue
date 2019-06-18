@@ -134,7 +134,7 @@
 
               
             </section>
-            
+
             <div>
               <br>
             </div>
@@ -153,7 +153,7 @@
                 <br>
               </div>
 
-              <div class="schedule-box" style="overflow:auto; background-color: white;">
+              <div class="schedule-box" style="overflow:auto; background-color: white;" id="scrollbar-style">
                 <div id="myDIV" class="header schedule-title">
                   <strong>
                     <a>Schedule</a>
@@ -180,7 +180,7 @@
                   v-on:keyup.enter="addCheckList(ckl_content)"
                 >
                 <!--<button id="cklAdd" v-on:click="addCheckList(ckl_content)">Add</button>-->
-                <div class="list-box" style="overflow:auto">
+                <div class="list-box" style="overflow:auto" id="scrollbar-style">
                   <Checklist v-bind:checklists="checklists" v-on:get-checklist="getCheckLists" v-on:del-checklist="delCheckList"></Checklist>
                 </div>
               </div>
