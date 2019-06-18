@@ -5,13 +5,12 @@
       <li v-if="comment.memberid == memberid" class="my-comment-border" v-bind:id="'mycomment'+i" >
         {{comment.memberid}} : {{comment.comcomment}} [{{formattingTime(comment.commenttime)}}]
         <!-- popover 시작부분 -->
-        <b-popover v-bind:target="'mycomment'+i">
+        <b-popover v-bind:target="'mycomment'+i" v-bind:ref="'popover'+i">
           <div>
             <p>Comment를 삭제하시겠습니까?</p>
-            <!-- 디자인 수정요망 -->
             <div class="wrap">
-              <b-button class="comment-delbtn-ok" variant="primary" v-on:click="delComment(comment.comnumber)">Ok</b-button>
-              <b-button class="comment-delbtn-no" variant="danger">Cancel</b-button>
+              <b-button class="comment-delbtn-ok" variant="primary" v-on:click="delComment(comment.comnumber, i)">Ok</b-button>
+              <b-button class="comment-delbtn-no" variant="danger" v-on:click="closePop(i)">Cancel</b-button>
             </div>
           </div>
         </b-popover>
@@ -30,16 +29,23 @@ export default {
   name: "CommentList",
   props: ["comments"],
   data: () => ({
-    memberid: sessionStorage.uid
+    memberid: sessionStorage.uid,
+
   }),
   methods: {
-    delComment(comment) {
+    delComment(comment, index) {
       this.$emit("del-comment", comment);
+      this.closePop(index)
     },
+    closePop(index){
+        this.$refs["popover" + index][0].$emit('close')
+    },
+
     formattingTime(time) {
       var tmp = time.substring(0, time.length - 3);
       return tmp;
-    }
-  }
+    },
+  },
+
 };
 </script>
