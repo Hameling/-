@@ -210,7 +210,7 @@ export default {
     
     setColor(){
       for(var i in this.sections) {
-        this.color += this.bgcolor[i % 9]
+        this.color += this.bgcolor[i % this.bgcolor.length]
         document.getElementById('section'+i).style.backgroundColor = this.color
         this.color = "#"
       }
