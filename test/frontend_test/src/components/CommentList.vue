@@ -2,12 +2,12 @@
   <div>
     <ul v-for="(comment, i) in comments" :key="i" class="list-unstyled">
       <!-- 내가 쓴 코멘트 일때 -->
-      <li v-if="comment.memberid == memberid" style="background: #d1d3d4; text-align: right;">
+      <li v-if="comment.memberid == memberid" class="my-comment-border">
         {{comment.memberid}} : {{comment.comcomment}} [{{formattingTime(comment.commenttime)}}]
         <span v-on:click="delComment(comment.comnumber)" class="close" aria-hidden="true">&times;</span>
       </li>
       <!-- 다른 사람이 쓴 코멘트 일때 -->
-      <li v-else style="background: rgba(158, 170, 177, 0.9); text-align: left;">
+      <li v-else class="other-comment-border">
         {{comment.memberid}} : {{comment.comcomment}} [{{formattingTime(comment.commenttime)}}]
       </li>
     </ul>

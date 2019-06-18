@@ -10830,10 +10830,11 @@ body.sidebar-toggled footer.sticky-footer {
   box-sizing: border-box;
   border-bottom-left-radius: 0.25rem;
   border-bottom-right-radius: 0.25rem;
-  padding: 0px 0px 0px 0px;
+  padding-top: 20px;
   border-left: 1px solid #ced4da;
   border-right: 1px solid #ced4da;
   border-bottom: 1px solid #ced4da;
+  background-color: #b2c7d9;
 }
 
 .box{
@@ -11449,6 +11450,30 @@ body.sidebar-toggled footer.sticky-footer {
   --info: #17a2b8;
 }
 
-.bg{
-  
+.my-comment-border{
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  border-radius: 0.25rem;
+  border: 2px solid #ffeb33;
+  margin-right: 15px;
+  margin-left: 15px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-right: 15px;
+  text-align: right;
+  background-color: #ffeb33;
+}
+
+.other-comment-border{
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  border-radius: 0.25rem;
+  border: 2px solid #ffffff;
+  margin-right: 15px;
+  margin-left: 15px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 15px;
+  text-align: left;
+  background-color: #ffffff;
 }
