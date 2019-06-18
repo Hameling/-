@@ -206,7 +206,7 @@
                 </div>
               </div>
               <div class="list-box" style="background-color: white;"> 
-                <FileList v-bind:files="fileNames" v-on:down-file="download" v-on:del-file="delFile">
+                <FileList v-bind:files="fileNames" v-on:down-file="download" v-on:del-file="delFile"/>
               </div>
             </section>
             <div>
