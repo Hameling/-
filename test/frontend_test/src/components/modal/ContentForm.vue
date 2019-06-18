@@ -412,6 +412,7 @@ export default {
       }
     },
     addComment(cmt_content) {
+      if(this.doubleSubmitCheck()) return;
       if (sessionStorage.getItem("accessToken") != null) {
         if (cmt_content.length > 0) {
           this.$http
@@ -433,6 +434,7 @@ export default {
         this.session_checked = false;
         this.$router.push("/");
       }
+      this.resetSubmitFlag()
     },
     delComment(comment_id) {
       if (sessionStorage.getItem("accessToken") != null) {
@@ -474,6 +476,7 @@ export default {
       }
     },
     addCheckList(ckl_content) {
+      if(this.doubleSubmitCheck()) return;
       if (sessionStorage.getItem("accessToken") != null) {
         if (ckl_content.length > 0) {
           this.$http
@@ -494,6 +497,7 @@ export default {
         this.session_checked = false;
         this.$router.push("/");
       }
+      this.resetSubmitFlag()
     },
     delCheckList(checklist_id) {
       if (sessionStorage.getItem("accessToken") != null) {

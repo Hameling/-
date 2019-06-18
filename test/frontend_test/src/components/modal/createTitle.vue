@@ -46,6 +46,7 @@ export default {
     },
 
     createProject() {
+      if(this.doubleSubmitCheck()) return;
       if (sessionStorage.getItem("accessToken") != null) {
         this.$http
           .post("http://211.109.53.216:20000/title/create-title/", {
@@ -75,6 +76,7 @@ export default {
       this.titlename = "";
       this.titleinfo = "";
       this.nameState = null;
+      this.doubleSubmitFlag = false;
     },
     async handleOk(bvModalEvt) {
       bvModalEvt.preventDefault();

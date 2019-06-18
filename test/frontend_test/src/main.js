@@ -25,21 +25,38 @@ moment.tz.setDefault('Asia/Seoul')
 
 
 Vue.mixin({
+  data: () => ({
+    doubleSubmitFlag: false
+  }),
   methods: {
     async checkToken(data) {
-      if(data != undefined){
-      if (data.hasOwnProperty("token")) {
-        if (data.token === "expire") {
-          //modal
-          alert("세션이 만료되었습니다.")
-          await this.$store.dispatch("LOGOUT")
-          this.$router.push("/");
-          location.reload()
-          return false
+      if (data != undefined) {
+        if (data.hasOwnProperty("token")) {
+          if (data.token === "expire") {
+            //modal
+            alert("세션이 만료되었습니다.")
+            await this.$store.dispatch("LOGOUT")
+            this.$router.push("/");
+            location.reload()
+            return false
+          }
         }
-      }}
+      }
       return true
+    },
+    doubleSubmitCheck() {
+      if (this.doubleSubmitFlag) {
+        return this.doubleSubmitFlag;
+      } else {
+        this.doubleSubmitFlag = true;
+        return false;
+      }
+    },
+    resetSubmitFlag() {
+      if(this.doubleSubmitFlag)
+        this.doubleSubmitFlag = false
     }
+
   },
 })
 
