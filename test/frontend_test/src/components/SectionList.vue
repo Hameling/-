@@ -4,9 +4,14 @@
 
     <!--Content Modal 선언부 -->
     <createContent v-on:get-element="getSection"/>
-    <createSection v-bind:select_item="select_item" v-on:get-section="getSection"/>
+    <createSection v-on:get-section="getSection"/>
     <ContentForm v-bind:enrollMember="this.enrollMember" v-on:get-section="getSection"/>
-    <TitleSetting v-bind:enrollMember="this.enrollMember" v-on:get-enroll="getEnrollMemeber" v-on:go-home="goHome" v-on:updateTitle="updateTitleName"/>
+    <TitleSetting
+      v-bind:enrollMember="this.enrollMember"
+      v-on:get-enroll="getEnrollMemeber"
+      v-on:go-home="goHome"
+      v-on:updateTitle="updateTitleName"
+    />
 
     <b-modal id="SecDelCheck" title="SectionDeleteCheck" hide-footer hide-header centered>
       <div class="d-block text-center">
@@ -31,15 +36,15 @@
             </a>
           </li>
         </ol>
-      
-      <!--
+
+        <!--
         <ol class="breadcrumb">
           <li class="breadcrumb-item">
             <a @click="createSec">Create New Section</a>
           </li>
         </ol>
-      -->
-      <!--
+        -->
+        <!--
         <div>
           <div class="section-card o-hidden h-100">
             <div class="card-body">
@@ -49,11 +54,11 @@
             </div>
           </div>
         </div>
-      -->
+        -->
 
         <div class="button-section">
           <div class="eff-section"></div>
-            <a @click="createSec"> Create New Section </a>
+          <a @click="createSec">Create New Section</a>
         </div>
       </section>
     </div>
@@ -67,7 +72,7 @@
                 <div class="float-left">{{section.sectionname}}</div>
                 <span @click="delSectionCheck(section)" class="float-right">
                   <!--아이콘이 겹칩니다.
-                    <i class="far fa-edit close-right"></i> --> 
+                  <i class="far fa-edit close-right"></i>-->
                   <button class="times-icon button-icon" style="color: white">&times;</button>
                 </span>
               </div>
@@ -101,11 +106,11 @@ import TitleSetting from "@/components/modal/TitleSetting";
 import { bus } from "@/eventbus";
 export default {
   name: "Section",
-  props: ["sections", "enrollMember", "select_item"],
+  props: ["sections", "enrollMember"],
   data: () => ({
     titlename: "",
-    newTitlename : "",
-    
+    newTitlename: "",
+
     contentname: "",
     contentinfo: "",
 
@@ -113,19 +118,43 @@ export default {
     delSelSec: {}
   }),
   methods: {
+    //선택된 Title의 정보를 반환받는 메소드
+     getTitle() {
+      if (sessionStorage.getItem("accessToken") != null) {
+        this.$http
+          .post("http://211.109.53.216:20000/title/search-title/", {
+            titleid: sessionStorage.titleid,
+            token: sessionStorage.accessToken
+          })
+          .then(res => {
+            if (this.checkToken(res.data[0])) {
+              this.updateTitleName(res.data[0].titlename)
+            }
+          });
+      } else {
+        alert("잘못된 접근입니다.");
+        this.session_checked = false;
+        this.$router.push("/");
+      }
+    },
+
+    //Title.vue에 Section 정보를 요청하는 메소드
     getSection() {
       this.$emit("get-element");
     },
 
+    //Section 생성을 위한 modal 호출
     createSec() {
       this.$bvModal.show("create-section");
     },
 
+    //Section 삭제시 경고창
     delSectionCheck(section) {
       this.delSelSec = section;
       this.$bvModal.show("SecDelCheck");
     },
 
+    //Section 삭제를 위한 메소드
     delSection(sectionid) {
       if (sessionStorage.getItem("accessToken") != null) {
         this.$http
@@ -152,32 +181,39 @@ export default {
         this.$router.push("/");
       }
     },
+
+    //Content 생성을 위한 메소드
     createCont(sectionid) {
       this.$store.commit("selectedSection", sectionid);
       this.$bvModal.show("create-content");
     },
 
-    getEnrollMemeber(){
-      this.$emit("get-enroll")
+    //Title.vue에 Enroll 정보를 요청하는 메소드
+    getEnrollMemeber() {
+      this.$emit("get-enroll");
     },
 
-    goHome(){
+    //workspace 화면으로 이동
+    goHome() {
       this.$router.replace("/workspace");
     },
-    updateTitleName(titlename){
-      this.newTitlename = titlename 
-      this.titlename = this.newTitlename
+
+    //Title이름을 갱신하기위한 메소드
+    updateTitleName(titlename) {
+      this.newTitlename = titlename;
+      this.titlename = this.newTitlename;
     }
   },
+
+  //화면 갱신시 Title의 이름을 변경
   beforeUpdate() {
-    if(this.newTitlename == "") {
-      this.titlename = this.select_item.titlename
-    }
-    else {
-        this.newTitlename = ""
+    if (this.newTitlename == "") {
+      this.getTitle()
+    } else {
+      this.newTitlename = "";
     }
   },
-  
+
   components: {
     ContentList: ContentList,
     createContent: createContent,

@@ -10,11 +10,13 @@ export default new Vuex.Store({
     accessToken: null,
     titleid : "",
     sectionid : "",
-    contentid : ""
+    contentid : "",
+    titleList : [],
   },
   getters:{
     getUID: state => state.uid,
     getToken : state => state.accessToken,
+    getTitleList : state => state.titleList,
   },
   mutations: {
     LOGIN(state, { id, accessToken }) {
@@ -29,6 +31,9 @@ export default new Vuex.Store({
 
       delete sessionStorage.uid
       delete sessionStorage.accessToken
+      delete sessionStorage.titleid
+      delete sessionStorage.sectionid
+      delete sessionStorage.contendid
     },
     selectedTitle(state, titleid){
       state.titleid = titleid
@@ -41,6 +46,9 @@ export default new Vuex.Store({
     selectedContent(state, contentid){
       state.contentid = contentid
       sessionStorage.contentid = contentid
+    },
+    updateTitleList(state, titleList){
+      state.titleList = titleList
     }
   },
   actions: {

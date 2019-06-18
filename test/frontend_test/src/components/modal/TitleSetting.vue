@@ -137,6 +137,7 @@ export default {
   props: ["select_item", "enrollMember"],
 
   methods: {
+    //최초 modal 표시시
     getElement() {
       this.selected = [];
       this.getTitle();
@@ -232,6 +233,25 @@ export default {
           .then(res => {
             if (this.checkToken(res.data)) {
               this.getTitle();
+              this.getBaseData()
+            }
+          });
+      } else {
+        alert("잘못된 접근입니다.");
+        this.session_checked = false;
+        this.$router.push("/");
+      }
+    },
+
+     getBaseData() {
+      if (sessionStorage.getItem("accessToken") != null) {
+        this.$http
+          .post("http://211.109.53.216:20000/member/search-member/", {
+            token: sessionStorage.accessToken
+          })
+          .then(res => {
+            if (this.checkToken(res.data[0])) {
+              this.$store.commit("updateTitleList", res.data[0].enrollTitle)
             }
           });
       } else {

@@ -8,6 +8,6 @@
 
 <script>
 export default {
-    name:"Empty_Page"
+    name:"Main_Page"
 }
 </script>

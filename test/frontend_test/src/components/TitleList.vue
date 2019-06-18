@@ -19,12 +19,12 @@ export default {
   props: ["titles"],
   methods: {
     selectItem(title) {
+      this.$store.commit("selectedTitle", title.titleid); 
       this.$router.replace({
         name: "title",
-        params: { titleid: title.titleid, select_item: title }
+        params: { titleid: title.titleid}
       });
-      bus.$emit("reloadItem", title.titleid);
-      //this.$store.commit("selectedTitle", title.titleid);
+      //bus.$emit("reloadItem", title.titleid);
     },
   }
 };
