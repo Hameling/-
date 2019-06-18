@@ -11591,3 +11591,14 @@ body.sidebar-toggled footer.sticky-footer {
   text-align: center;
   vertical-align: middle;
 }
+
+.other-comment-box {
+  margin-left: 15px;
+  width: auto;
+  height: auto;
+  padding-left: 10px;
+  text-align: left;
+  vertical-align: middle;
+  background-color: white;
+  border-radius: 2rem;
+}
