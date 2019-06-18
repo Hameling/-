@@ -74,6 +74,7 @@ export default {
         .catch(msg => {
           if (msg == "Not Matched") {
             this.pwd = "";
+            this.doubleSubmitFlag = false;
             alert("아이디 혹은 비밀번호가 잘못되었습니다 ");
           }
         });

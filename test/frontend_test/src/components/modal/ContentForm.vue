@@ -646,7 +646,7 @@ export default {
     },
     upload(name, files) {
       const formData = new FormData();
-      formData.append(name, files[0], files[0].name);
+      formData.append("filename", files[0], files[0].name);
       formData.append("contentid", sessionStorage.contentid);
       formData.append("token", sessionStorage.accessToken);
       this.$http.post("http://211.109.53.216:20000/file/create-file/", formData)
