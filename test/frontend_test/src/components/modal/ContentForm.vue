@@ -205,7 +205,8 @@
                   <a>FileSelect / Drag & Drop</a>
                 </div>
               </div>
-              <div class="list-box" style="background-color: white;">              
+              <div class="list-box" style="background-color: white;"> 
+                <FileList v-bind:files="fileNames" v-on:down-file="download" v-on:del-file="delFile">
               </div>
             </section>
             <div>
@@ -236,6 +237,7 @@ import "vue-multiselect/dist/vue-multiselect.min.css";
 import Checklist from "@/components/CheckList";
 import CommentList from "@/components/CommentList";
 import ScehduleList from "@/components/ScehduleList";
+import FileList from "@/components/FileList";
 import createScehdule from "@/components/modal/createScehdule";
 export default {
   name: "contentForm",
@@ -652,9 +654,9 @@ export default {
         this.getFile()
       });
     },
-    download() {
+    download(filename) {
       const formData = new FormData();
-      formData.append("filename", this.filename);
+      formData.append("filename", filename);
       formData.append("contentid", sessionStorage.contentid);
       formData.append("token", sessionStorage.accessToken);
       this.$http.post("http://211.109.53.216:20000/file/down-file/", formData)
@@ -708,6 +710,7 @@ export default {
     CommentList: CommentList,
     Checklist: Checklist,
     ScehduleList: ScehduleList,
+    FileList : FileList,
     createScehdule: createScehdule,
     Multiselect
   }
