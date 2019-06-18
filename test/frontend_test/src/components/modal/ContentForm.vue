@@ -190,19 +190,20 @@
             <!-- 파일 업로드 및 다운로드 영역 -->
             <section>
               <div class="file-box" style="background-color: white;">
-                  <div class="dropbox">
-                    <input 
-                      class="input-file" 
-                      type="file"
-                      id="File"
-                      placeholder="File"
-                      required="required"
-                      @change="upload($event.target.name, $event.target.files)"
-                      @drop="upload($event.target.name, $event.target.files)"
-                      >
-                    <a>FileSelect / Drag & Drop</a>
-                  </div>
-              
+                <div class="dropbox">
+                  <input 
+                    class="input-file" 
+                    type="file"
+                    id="File"
+                    placeholder="File"
+                    required="required"
+                    @change="upload($event.target.name, $event.target.files)"
+                    @drop="upload($event.target.name, $event.target.files)"
+                    >
+                  <a>FileSelect / Drag & Drop</a>
+                </div>
+              </div>
+              <div class="list-box" style="background-color: white;">              
               </div>
             </section>
             <div>
