@@ -11,4 +11,5 @@ def file_movedir(filename,dir_name):
     if not os.path.isdir(dir_path+"/"+dir_name):
             os.mkdir(dir_path+"/"+dir_name)
 
+    #shutil.move("D:/final/backend/media/" +filename, dir_path + "/" + dir_name + "/" + filename)
     shutil.move("/home/ubuntu/www/backend/media/" +filename, dir_path + "/" + dir_name + "/" + filename)
