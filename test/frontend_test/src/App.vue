@@ -22,12 +22,16 @@
       <!-- Sidebar -->
       <!--세션이 있을때-->
       <ul class="sidebar navbar-nav" v-show="session_checked">
-        <li class="nav-item active">
-          <div class="nav-link" @click="moveWorkspace">
-            <i class="fas fa-fw fa-tachometer-alt"></i>
-            <span>Personal Workspace</span>
-          </div>
-        </li>
+        <center>
+          <li class="nav-item active">
+            <div class="nav-link" @click="moveWorkspace">
+              <i class="far fa-address-book" style="padding-right: 5px;"></i>
+              
+                <span>Personal Workspace</span>
+              
+            </div>
+          </li>
+        </center>  
 
         <div>
           <br>

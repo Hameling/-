@@ -20,6 +20,7 @@
         v-else
         class="other-comment-border"
       >{{comment.memberid}} : {{comment.comcomment}} [{{formattingTime(comment.commenttime)}}]</li>
+      
     </ul>
   </div>
 </template> 
