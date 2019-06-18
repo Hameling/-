@@ -29,13 +29,9 @@
           </div>
         </li>
 
-        <center>
-          <ol class="nav-title">
-            <li>
-              <span style="color: white;">TITLE LIST</span>
-            </li>
-          </ol>
-        </center>
+        <div>
+          <br>
+        </div>
 
         <!--프로젝트 생성 및 목록 코드는 이 밑에 작성-->
 
