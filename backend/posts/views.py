@@ -725,7 +725,22 @@ class FileDownload(APIView):
             
     
 
-#class FileSearch(APIView):
+class FileSearch(APIView):
+    parser_classes = (JSONParser,)
+
+    def post(self, request, format=None):
+        input_token = str(request.data["token"])
+        input_contentid = request.data["contentid"]
+        if token.exist_token(input_token) :
+            if token.compare_token(input_token):
+                file_list = searchfunc.file_search(input_contentid)
+                token.extend_token(input_token)
+                return HttpResponse(file_list, content_type="application/json")
+            else:
+                return HttpResponse(token.expire_token(), content_type="application/json")
+        else:
+            return HttpResponse(token.expire_token(), content_type="application/json")
+
 
 
 #class FileDelete(APIView):

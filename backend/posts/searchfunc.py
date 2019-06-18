@@ -1,7 +1,7 @@
 import json
 
 from posts import regex,token
-from .models import Assign,Title,Section,Permission,Member,Enroll,Content,Checklist,Comment,Calender
+from .models import Assign,Title,Section,Permission,Member,Enroll,Content,Checklist,Comment,Calender,File
 
 def assign_searchmember(get_memberid):
     data = list(Assign.objects.all().filter(memberid = get_memberid))
@@ -321,3 +321,17 @@ def searchcomment(input_contentid):
         comment_list.append(json_tmp)
     comment_list=json.dumps(comment_list)
     return comment_list
+
+def file_search(input_contentid):
+    file_list = []
+    data = list(File.objects.all().filter(contentid = input_contentid))
+    str_data = str(data)
+    power_list = regex.parse_file(str_data)
+    print(power_list)
+    for i in power_list:
+        json_tmp = {}
+        json_tmp['fileid'] = i[0]
+        json_tmp['contentid'] = i[1]
+        file_list.append(json_tmp)
+    file_list=json.dumps(file_list)
+    return file_list
