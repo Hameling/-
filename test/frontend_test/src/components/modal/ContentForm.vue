@@ -256,6 +256,9 @@ export default {
     selected: null,
     selected_tmp: null,
 
+    //File명 저장 변수
+    fileNames :[],
+
     //input <-> Label을 위한 변수
     nameState: false,
     subjectState: false
@@ -565,7 +568,7 @@ export default {
       }
     },
 
-    //값 수정을 위한 함수
+    //값 수정을 위한 메소드 시작
     setNameState() {
       this.nameState = !this.nameState;
     },
@@ -628,7 +631,76 @@ export default {
         this.session_checked = false;
         this.$router.push("/");
       }
-    }
+    },
+
+    //파일 다운로드/업로드 영역
+    forceFileDownload(response){
+      const url = window.URL.createObjectURL(new Blob([response.data]))
+      const link = document.createElement('a')
+      link.href = url
+      link.setAttribute('download', this.filename) //or any other extension
+      document.body.appendChild(link)
+      link.click()
+    },
+    upload(name, files) {
+      const formData = new FormData();
+      formData.append(name, files[0], files[0].name);
+      formData.append("contentid", sessionStorage.contentid);
+      formData.append("token", sessionStorage.accessToken);
+      this.$http.post("http://211.109.53.216:20000/file/create-file/", formData)
+      .then(res => {
+        this.getFile()
+      });
+    },
+    download() {
+      const formData = new FormData();
+      formData.append("filename", this.filename);
+      formData.append("contentid", sessionStorage.contentid);
+      formData.append("token", sessionStorage.accessToken);
+      this.$http.post("http://211.109.53.216:20000/file/down-file/", formData)
+      .then(res => {
+        this.forceFileDownload(res)
+      });
+    },
+
+    getFile(){
+      if (sessionStorage.getItem("accessToken") != null) {
+        this.$http
+          .post("http://211.109.53.216:20000/file/search-file/", {
+            contentid: sessionStorage.contentid,
+            token: sessionStorage.accessToken
+          })
+          .then(res => {
+            if (this.checkToken(res.data)) {
+              this.fileNames = res.data
+            }
+          });
+      } else {
+        alert("잘못된 접근입니다.");
+        this.session_checked = false;
+        this.$router.push("/");
+      }
+    },
+
+    delFile(){
+      if (sessionStorage.getItem("accessToken") != null) {
+        this.$http
+          .post("http://211.109.53.216:20000/file/delete-file/", {
+            contentid: sessionStorage.contentid,
+            token: sessionStorage.accessToken
+          })
+          .then(res => {
+            if (this.checkToken(res.data)) {
+              this.getFile()
+            }
+          });
+      } else {
+        alert("잘못된 접근입니다.");
+        this.session_checked = false;
+        this.$router.push("/");
+      }
+    },
+
   },
   mounted() {},
 
