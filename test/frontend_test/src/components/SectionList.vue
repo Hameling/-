@@ -56,9 +56,9 @@
         </div>
         -->
 
-        <div class="button-section">
+        <div class="button-section"  @click="createSec">
           <div class="eff-section"></div>
-          <a @click="createSec">Create New Section</a>
+          <a>Create New Section</a>
         </div>
       </section>
     </div>
