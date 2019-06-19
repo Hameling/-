@@ -669,7 +669,7 @@ class FileCreate(APIView):
                         File.objects.create(contentid = content, filename = filename, filerealname = str(filename))
 
                         #media 폴더에서 다른 폴더로 이동
-                        filemove.file_movedir(str(filename),input_contentid)
+                        #filemove.file_movedir(str(filename),input_contentid)
                 
                         file_tmp = {}
                         file_tmp['upload'] = "success"
