@@ -47,7 +47,7 @@
         </center>
 
         <center>
-          <div class="border-title height-max inner-col">
+          <div class="border-title max-height inner-col">
             <TitleList v-bind:titles="titleList"/>
           </div>
           <span class="float-right">
