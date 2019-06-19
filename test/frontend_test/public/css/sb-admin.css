@@ -11578,6 +11578,7 @@ body.sidebar-toggled footer.sticky-footer {
 
 .comment-delbtn-ok {
   margin-right: 5px;
+  margin-left: 5px;
   width: 45%;
   height: 35px;
   text-align: center;

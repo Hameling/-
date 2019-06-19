@@ -2,7 +2,7 @@
   <div>
     <ul v-for="(comment, i) in comments" :key="i" class="list-unstyled">
       <!-- 내가 쓴 코멘트 일때 -->
-      <li v-if="comment.memberid == memberid" class="my-comment-border" v-bind:id="'mycomment'+i" >
+      <li v-if="comment.memberid == memberid" class="my-comment-border" v-bind:id="'mycomment'+i">
         {{comment.memberid}} : {{comment.comcomment}} [{{formattingTime(comment.commenttime)}}]
         <!-- popover 시작부분 -->
         <b-popover v-bind:target="'mycomment'+i" v-bind:ref="'popover'+i">
