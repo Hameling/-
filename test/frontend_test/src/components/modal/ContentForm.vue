@@ -269,7 +269,7 @@ export default {
     getContent() {
       if (sessionStorage.getItem("accessToken") != null) {
         this.$http
-          .post("http://211.109.53.216:20000/content/search-content/", {
+          .post("http://110.11.72.247:20000/content/search-content/", {
             contentid: sessionStorage.contentid,
             token: sessionStorage.accessToken
           })
@@ -294,7 +294,7 @@ export default {
     getAssign() {
       if (sessionStorage.getItem("accessToken") != null) {
         this.$http
-          .post("http://211.109.53.216:20000/assign/search-assigncontent/", {
+          .post("http://110.11.72.247:20000/assign/search-assigncontent/", {
             contentid: sessionStorage.contentid,
             token: sessionStorage.accessToken
           })
@@ -327,7 +327,7 @@ export default {
       if (title == null) {
         if (sessionStorage.getItem("accessToken") != null) {
           this.$http
-            .post("http://211.109.53.216:20000/assign/delete-assign/", {
+            .post("http://110.11.72.247:20000/assign/delete-assign/", {
               contentid: sessionStorage.contentid,
               token: sessionStorage.accessToken,
               memberid: this.selected_tmp.memberid
@@ -348,7 +348,7 @@ export default {
         if (this.selected_tmp != null) {
           if (sessionStorage.getItem("accessToken") != null) {
             this.$http
-              .post("http://211.109.53.216:20000/assign/delete-assign/", {
+              .post("http://110.11.72.247:20000/assign/delete-assign/", {
                 contentid: sessionStorage.contentid,
                 token: sessionStorage.accessToken,
                 memberid: this.selected_tmp.memberid
@@ -365,7 +365,7 @@ export default {
           }
           if (sessionStorage.getItem("accessToken") != null) {
             this.$http
-              .post("http://211.109.53.216:20000/assign/create-assign/", {
+              .post("http://110.11.72.247:20000/assign/create-assign/", {
                 contentid: sessionStorage.contentid,
                 token: sessionStorage.accessToken,
                 memberid: title.memberid
@@ -384,7 +384,7 @@ export default {
           //초기값이 null인경우
           if (sessionStorage.getItem("accessToken") != null) {
             this.$http
-              .post("http://211.109.53.216:20000/assign/create-assign/", {
+              .post("http://110.11.72.247:20000/assign/create-assign/", {
                 contentid: sessionStorage.contentid,
                 token: sessionStorage.accessToken,
                 memberid: title.memberid
@@ -407,7 +407,7 @@ export default {
     getComments() {
       if (sessionStorage.getItem("accessToken") != null) {
         this.$http
-          .post("http://211.109.53.216:20000/comment/checkcomment/", {
+          .post("http://110.11.72.247:20000/comment/checkcomment/", {
             contentid: sessionStorage.contentid,
             token: sessionStorage.accessToken
           })
@@ -427,7 +427,7 @@ export default {
       if (sessionStorage.getItem("accessToken") != null) {
         if (cmt_content.length > 0) {
           this.$http
-            .post("http://211.109.53.216:20000/comment/create-comment/", {
+            .post("http://110.11.72.247:20000/comment/create-comment/", {
               comcomment: cmt_content,
               memberid: sessionStorage.uid,
               contentid: sessionStorage.contentid,
@@ -450,7 +450,7 @@ export default {
     delComment(comment_id) {
       if (sessionStorage.getItem("accessToken") != null) {
         this.$http
-          .post("http://211.109.53.216:20000/comment/delete-comment/", {
+          .post("http://110.11.72.247:20000/comment/delete-comment/", {
             comnumber: comment_id,
             memberid: sessionStorage.uid,
             token: sessionStorage.accessToken
@@ -471,7 +471,7 @@ export default {
     getCheckLists() {
       if (sessionStorage.getItem("accessToken") != null) {
         this.$http
-          .post("http://211.109.53.216:20000/checklist/search-checklist/", {
+          .post("http://110.11.72.247:20000/checklist/search-checklist/", {
             contentid: sessionStorage.contentid,
             token: sessionStorage.accessToken
           })
@@ -491,7 +491,7 @@ export default {
       if (sessionStorage.getItem("accessToken") != null) {
         if (ckl_content.length > 0) {
           this.$http
-            .post("http://211.109.53.216:20000/checklist/create-checklist/", {
+            .post("http://110.11.72.247:20000/checklist/create-checklist/", {
               contentid: sessionStorage.contentid,
               listname: ckl_content,
               token: sessionStorage.accessToken
@@ -513,7 +513,7 @@ export default {
     delCheckList(checklist_id) {
       if (sessionStorage.getItem("accessToken") != null) {
         this.$http
-          .post("http://211.109.53.216:20000/checklist/delete-checklist/", {
+          .post("http://110.11.72.247:20000/checklist/delete-checklist/", {
             listnumber: checklist_id,
             token: sessionStorage.accessToken
           })
@@ -533,7 +533,7 @@ export default {
     getScehdule() {
       if (sessionStorage.getItem("accessToken") != null) {
         this.$http
-          .post("http://211.109.53.216:20000/calender/search-calender/", {
+          .post("http://110.11.72.247:20000/calender/search-calender/", {
             contentid: sessionStorage.contentid,
             token: sessionStorage.accessToken
           })
@@ -553,7 +553,7 @@ export default {
     delSchedule(scehdule_id) {
       if (sessionStorage.getItem("accessToken") != null) {
         this.$http
-          .post("http://211.109.53.216:20000/calender/delete-calender/", {
+          .post("http://110.11.72.247:20000/calender/delete-calender/", {
             contentid: sessionStorage.contentid,
             token: sessionStorage.accessToken,
             indexnumber: scehdule_id
@@ -591,7 +591,7 @@ export default {
     updateContent() {
       if (sessionStorage.getItem("accessToken") != null) {
         this.$http
-          .post("http://211.109.53.216:20000/content/update-content/", {
+          .post("http://110.11.72.247:20000/content/update-content/", {
             contentid: sessionStorage.contentid,
             token: sessionStorage.accessToken,
             contentname: this.contentname,
@@ -617,7 +617,7 @@ export default {
     delContent(){
       if (sessionStorage.getItem("accessToken") != null) {
         this.$http
-          .post("http://211.109.53.216:20000/content/delete-content/", {
+          .post("http://110.11.72.247:20000/content/delete-content/", {
             contentid: sessionStorage.contentid,
             token: sessionStorage.accessToken
           })
@@ -649,7 +649,7 @@ export default {
       formData.append("filename", files[0], files[0].name);
       formData.append("contentid", sessionStorage.contentid);
       formData.append("token", sessionStorage.accessToken);
-      this.$http.post("http://211.109.53.216:20000/file/create-file/", formData)
+      this.$http.post("http://110.11.72.247:20000/file/create-file/", formData)
       .then(res => {
         this.getFile()
       });
@@ -659,7 +659,7 @@ export default {
       formData.append("filename", filename);
       formData.append("contentid", sessionStorage.contentid);
       formData.append("token", sessionStorage.accessToken);
-      this.$http.post("http://211.109.53.216:20000/file/down-file/", formData)
+      this.$http.post("http://110.11.72.247:20000/file/down-file/", formData)
       .then(res => {
         this.forceFileDownload(res)
       });
@@ -668,7 +668,7 @@ export default {
     getFile(){
       if (sessionStorage.getItem("accessToken") != null) {
         this.$http
-          .post("http://211.109.53.216:20000/file/search-file/", {
+          .post("http://110.11.72.247:20000/file/search-file/", {
             contentid: sessionStorage.contentid,
             token: sessionStorage.accessToken
           })
@@ -687,7 +687,7 @@ export default {
     delFile(){
       if (sessionStorage.getItem("accessToken") != null) {
         this.$http
-          .post("http://211.109.53.216:20000/file/delete-file/", {
+          .post("http://110.11.72.247:20000/file/delete-file/", {
             contentid: sessionStorage.contentid,
             token: sessionStorage.accessToken
           })

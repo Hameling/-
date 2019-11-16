@@ -19,6 +19,7 @@ git push origin master -> 오리진 마스터로 푸쉬, 깃허브 아이디와 
 
 
 #django 프로젝트
+python3 manage.py runserver
 
 #npm 프로젝트
 vue init webpack [프로젝트 이름] -> 해당 이름으로 프로젝트 설정, 보통 나머지 전부 디폴트에 라우터 설정만 

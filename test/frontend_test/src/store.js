@@ -54,7 +54,7 @@ export default new Vuex.Store({
   actions: {
     LOGIN({ commit }, { id, pwd }) {
       return new Promise((resolve, reject) => {
-        axios.post('http://211.109.53.216:20000/session/create-session/', {
+        axios.post('http://110.11.72.247:20000/session/create-session/', {
           memberid: id, memberpwd: pwd
         }).then(res => {
           if (res.data[0].token == "Not Matched") {

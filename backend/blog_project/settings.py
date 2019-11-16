@@ -25,7 +25,7 @@ SECRET_KEY = '377_gc6r7)*$a!ej$4&t@tdw51-tb@9z42m(%o4312w&j&n47o'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['211.109.53.216','192.168.0.3','127.0.0.1','61.100.207.22','localhost']
+ALLOWED_HOSTS = ['110.11.72.247','192.168.0.3','127.0.0.1','61.100.207.22','localhost']
 
 
 # Application definition
@@ -94,7 +94,7 @@ DATABASES = {
          'NAME': 'test2',
          'USER': 'test',
          'PASSWORD': 'xlaaudanjwh4',
-         'HOST': '211.109.53.216',
+         'HOST': '110.11.72.247',
          'PORT':'3306',
      }
  }

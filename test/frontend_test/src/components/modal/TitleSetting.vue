@@ -148,7 +148,7 @@ export default {
     getEnrollMember() {
       if (sessionStorage.getItem("accessToken") != null) {
         this.$http
-          .post("http://211.109.53.216:20000/enroll/search-enrolltitle/", {
+          .post("http://110.11.72.247:20000/enroll/search-enrolltitle/", {
             titleid: sessionStorage.titleid,
             token: sessionStorage.accessToken
           })
@@ -167,7 +167,7 @@ export default {
     getAllMember() {
       if (sessionStorage.getItem("accessToken") != null) {
         this.$http
-          .post("http://211.109.53.216:20000/member/search-allmember/", {
+          .post("http://110.11.72.247:20000/member/search-allmember/", {
             titleid: sessionStorage.titleid,
             token: sessionStorage.accessToken
           })
@@ -186,7 +186,7 @@ export default {
     getTitle() {
       if (sessionStorage.getItem("accessToken") != null) {
         this.$http
-          .post("http://211.109.53.216:20000/title/search-title/", {
+          .post("http://110.11.72.247:20000/title/search-title/", {
             titleid: sessionStorage.titleid,
             token: sessionStorage.accessToken
           })
@@ -224,7 +224,7 @@ export default {
     updateTitle() {
       if (sessionStorage.getItem("accessToken") != null) {
         this.$http
-          .post("http://211.109.53.216:20000/title/update-title/", {
+          .post("http://110.11.72.247:20000/title/update-title/", {
             titleid: sessionStorage.titleid,
             token: sessionStorage.accessToken,
             titlename: this.titlename,
@@ -246,7 +246,7 @@ export default {
      getBaseData() {
       if (sessionStorage.getItem("accessToken") != null) {
         this.$http
-          .post("http://211.109.53.216:20000/member/search-member/", {
+          .post("http://110.11.72.247:20000/member/search-member/", {
             token: sessionStorage.accessToken
           })
           .then(res => {
@@ -272,7 +272,7 @@ export default {
         for (var i in this.selected) {
           if (sessionStorage.getItem("accessToken") != null) {
             await this.$http
-              .post("http://211.109.53.216:20000/enroll/join-enroll/", {
+              .post("http://110.11.72.247:20000/enroll/join-enroll/", {
                 titleid: sessionStorage.titleid,
                 token: sessionStorage.accessToken,
                 memberid: this.selected[i].memberid
@@ -302,7 +302,7 @@ export default {
       console.log("탈출 코드");
       if (sessionStorage.getItem("accessToken") != null) {
         this.$http
-          .post("http://211.109.53.216:20000/enroll/delete-enroll/", {
+          .post("http://110.11.72.247:20000/enroll/delete-enroll/", {
             titleid: sessionStorage.titleid,
             token: sessionStorage.accessToken
           })
@@ -322,7 +322,7 @@ export default {
     delTitle() {
       if (sessionStorage.getItem("accessToken") != null) {
         this.$http
-          .post("http://211.109.53.216:20000/title/delete-title/", {
+          .post("http://110.11.72.247:20000/title/delete-title/", {
             titleid: sessionStorage.titleid,
             token: sessionStorage.accessToken
           })

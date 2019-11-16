@@ -80,7 +80,7 @@ export default {
     getBaseData() {
       if (sessionStorage.getItem("accessToken") != null) {
         this.$http
-          .post("http://211.109.53.216:20000/member/search-member/", {
+          .post("http://110.11.72.247:20000/member/search-member/", {
             token: sessionStorage.accessToken
           })
           .then(res => {

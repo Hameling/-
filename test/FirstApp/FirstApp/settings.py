@@ -25,7 +25,7 @@ SECRET_KEY = 'gj&%1kiim^7bihoy0+=&@+oyj3hkjp*34%@k=0d37*-%^_rr6_'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['211.109.53.216','192.168.0.3','127.0.0.1','localhost']
+ALLOWED_HOSTS = ['110.11.72.247','192.168.0.3','127.0.0.1','localhost']
 
 
 # Application definition
@@ -79,7 +79,7 @@ WSGI_APPLICATION = 'FirstApp.wsgi.application'
 #         'NAME': 'test',
 #         'USER': 'test',
 #         'PASSWORD': 'xlaaudanjwh4',
-#         'HOST': '211.109.53.216' ,
+#         'HOST': '110.11.72.247' ,
 #         'PORT': '3306',
 #     }
 # }

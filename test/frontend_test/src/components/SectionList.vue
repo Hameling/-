@@ -126,7 +126,7 @@ export default {
      getTitle() {
       if (sessionStorage.getItem("accessToken") != null) {
         this.$http
-          .post("http://211.109.53.216:20000/title/search-title/", {
+          .post("http://110.11.72.247:20000/title/search-title/", {
             titleid: sessionStorage.titleid,
             token: sessionStorage.accessToken
           })
@@ -162,7 +162,7 @@ export default {
     delSection(sectionid) {
       if (sessionStorage.getItem("accessToken") != null) {
         this.$http
-          .post("http://211.109.53.216:20000/section/delete-section/", {
+          .post("http://110.11.72.247:20000/section/delete-section/", {
             sectionid: sectionid,
             token: sessionStorage.accessToken
           })

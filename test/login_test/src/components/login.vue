@@ -51,7 +51,7 @@
 
       methods: {
         getEmail(){
-          this.$http.get('http://211.109.53.216/member/')
+          this.$http.get('http://110.11.72.247/member/')
           .then((res)=> {
             //this.emails = res.data
             alert(res.data)
@@ -59,7 +59,7 @@
         },
         addEmail(email, pwd){
           if(email){
-            this.$http.post('http://211.109.53.216/member/create-member/', {
+            this.$http.post('http://110.11.72.247/member/create-member/', {
               memberid:"data", membername:"hameli", memberpwd:pwd, memberemail:email
             }).then((res)=>{
               this.email = ""
